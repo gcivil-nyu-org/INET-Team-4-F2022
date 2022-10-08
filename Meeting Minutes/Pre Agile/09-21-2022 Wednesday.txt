@@ -1,0 +1,22 @@
+# Wednesday September 21st
+
+Agenda:
+
+- Come up with plan for project proposal template
+- Come up with plan for spring demo next week
+- finalize daily scrum time
+- Admin for daily scrum document
+- Potential name change
+
+Discussion
+
+- Team Project Proposal is largely filled out
+- Team members to add additional info about features, mvp, mlp by tomorrow prior to a final discussion
+- Kil-hwan wants had designed a logo for the app
+- Team members to individually update daily scrum document
+- Daily Scrum Schedule to be finalized tomorrow. Multiple options suggested
+
+Action items
+
+- All members to update the daily scrum document (pinned to team slack channel)
+- All members to update the team project proposal (pinned to team slack channel)

@@ -1,0 +1,26 @@
+Scrum 4: Thursday September 29th, 2022
+
+Start: 4:35pm
+
+End: 5:06 pm
+
+Agenda:
+
+- High Level Context Diagram Presentation
+- Name Change
+- Review Demo 1 Feedback
+
+Discussion:
+
+- HLCD consists of User, Admin, NYC Data,
+- Admin functions as a moderator.
+- Admin to be a real person or bot?
+- HLCD structure finalized
+- Demo 1 feedback review
+
+Action Items:
+
+- Each team member to add Epics to Zenhub
+- Team members may contribute additional content to the HLCD
+- [Each team member to thing about which Epic we should tackle first and potential stories for that Epic](https://github.com/gcivil-nyu-org/inet-team-4-f2022)
+- [Populate Daily Report](https://docs.google.com/spreadsheets/d/1QWSscpCzxHC-0l-R3B4AEFNxVYZDP6SSfEBkm-xxBXE/edit#gid=0)

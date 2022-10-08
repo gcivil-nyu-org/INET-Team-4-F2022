@@ -1,0 +1,21 @@
+Scrum 9: Thursday October 6th, 2022
+
+Start: 4:35 pm
+
+End:  4:52 pm
+
+Agenda:
+
+- Diagrams
+- Presentation Structure
+
+Discussion Notes:
+
+- Will and Billy created sequence diagrams
+- Kil-Hwan created login diagrams
+- Will to upload all diagrams to Github
+
+Action Items:
+
+- Finalize document and backlog for next week in tomorrows scrum
+- [Populate Daily Scrum Report](https://docs.google.com/spreadsheets/d/1QWSscpCzxHC-0l-R3B4AEFNxVYZDP6SSfEBkm-xxBXE/edit#gid=0)

@@ -1,0 +1,30 @@
+Scrum 5: Friday September 30th, 2022
+
+Start: 4:35pm
+
+End: 
+
+Agenda:
+
+- High Level Context Diagram Presentation
+- Epic Discussion
+- User Story for Epic 1 Discussion
+
+Discussion Notes:
+
+- What can we improve for our sprint Demo based on the feedback reviews?
+    - People wanted to see a UI
+    - How do you managed the anonymity?
+    - How do we effectively manage content moderation?
+    - Lets address the feedback from last session
+    - 
+- 
+- 
+- 
+- 
+
+Action Items:
+
+- 
+- [Each team member to thing about which Epic we should tackle first and potential stories for that Epic](https://github.com/gcivil-nyu-org/inet-team-4-f2022)
+- [Populate Daily Scrum Report](https://docs.google.com/spreadsheets/d/1QWSscpCzxHC-0l-R3B4AEFNxVYZDP6SSfEBkm-xxBXE/edit#gid=0)

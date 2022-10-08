@@ -1,0 +1,19 @@
+# Monday September 19th, 2022
+
+Team 4
+
+Attendance: All member present
+
+Delayed: No-One
+
+Agenda:
+
+1. Respond to Professor Civil’s comment “This sounds interesting. Can you think about adding NYC related features?” On proposal 1 and “Could you please see how you can tie this project to NYC?”
+2. When2meet daily standup poll is open
+3. Potentially meet socially tomorrow, Tuesday the 20th
+
+Discussion
+
+1. We are letting go of the Convene application idea. 
+    1. We are looking to add an “NYC” related feature to BeHonest. Does it have to use NYC OpenData - Unlikely. 
+    2. Potential Feature: App to suggest articles for users to comment on.

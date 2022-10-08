@@ -1,0 +1,24 @@
+Scrum 8: Wednesday October 4th, 2022
+
+Start: 5:00 pm
+
+End: 5:26 pm
+
+Agenda:
+
+- 
+
+Discussion Notes:
+
+- Weekly deliverables
+- High Level Diagrams
+- Scoping stories
+- First Epic
+
+Action Items:
+
+- Kil-Hwan to work on login page sequence diagram
+- Fayed to work on Deployment Diagram
+- Billy and William to work on converting Billy’s sequence diagrams to digital UML
+- Presentation structure to be discussed tomorrow
+- [Populate Daily Scrum Report](https://docs.google.com/spreadsheets/d/1QWSscpCzxHC-0l-R3B4AEFNxVYZDP6SSfEBkm-xxBXE/edit#gid=0)

@@ -1,0 +1,19 @@
+# Sprint Planning
+
+Sprint Planning 1: Tuesday September 27th, 2022, Wednesday September 28th, 2022
+
+Agenda:
+
+- Discuss Context Diagrams
+
+Discussion:
+
+- Kil-Hwan created a high level context diagram
+- What is an Epic?
+- What is a user Story?
+
+Action Items:
+
+- Kil-Hwan owner of the High level context diagram, to be submitted Sunday
+- Individual Homework Assignment assignment comes out tonight
+- Each member to sketch a rough high level context diagram which will be used to build a draft tomorrow during standup
