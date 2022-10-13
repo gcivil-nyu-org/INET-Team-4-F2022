@@ -1,0 +1,10 @@
+Agenda
+Start: 9:00 am
+End:
+
+1. Elect Scrum Master: William
+2. Designate member to be on point for development: Billy
+3. Sprint Planning: 
+
+Epic: Sign in
+
