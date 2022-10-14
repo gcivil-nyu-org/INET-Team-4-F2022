@@ -14,8 +14,6 @@ Discussion Notes:
 - Connect '/register' to our backend
 - Create user model in database
 
-test 
-
 Action Items:
 
 - 
