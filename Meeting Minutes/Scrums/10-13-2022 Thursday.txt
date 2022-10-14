@@ -1,0 +1,21 @@
+Thursday October 13th, 2022
+
+Start: 4:35 pm
+
+End:   pm
+
+Agenda:
+- 
+
+Discussion Notes:
+- Harsh got the django skeleton working
+- Sign-up skeleton is up as well
+- What's next?
+- Connect '/register' to our backend
+- Create user model in database
+
+
+Action Items:
+
+- 
+- [Populate Daily Scrum Report](https://docs.google.com/spreadsheets/d/1QWSscpCzxHC-0l-R3B4AEFNxVYZDP6SSfEBkm-xxBXE/edit#gid=0)

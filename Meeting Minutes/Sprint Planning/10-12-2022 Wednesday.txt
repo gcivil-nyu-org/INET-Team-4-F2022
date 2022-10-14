@@ -2,9 +2,21 @@ Agenda
 Start: 9:00 am
 End:
 
+Agenda
 1. Elect Scrum Master: William
 2. Designate member to be on point for development: Billy
-3. Sprint Planning: 
+3. Sprint Planning
 
-Epic: Sign in
+Discussion:
+
+1. Commited to Sprint Goal
+2. Defining Done
+3. Understanding the dev workflow
+4. 
+
+Sprint Goal: Registration page
+
+Action Items (Ordered):
+1. Harsh to push skeleton Django framework to shared Repo by EOD (adding a /register page)
+2. 
 
