@@ -3,7 +3,7 @@ from .forms import NewUserForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from blog.views import PostDetail, PostList
+from post.views import PostDetail, PostList
 # Main views
 def homepage(request):
     return render(request=request, template_name='main/home.html')
