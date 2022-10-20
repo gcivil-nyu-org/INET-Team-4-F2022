@@ -4,17 +4,33 @@
         .card{
             box-shadow: 0 16px 48px #E3E7EB;
         }
-       
+
 </style>
 
 <!-- Sidebar Widgets Column -->
 <div class="col-md-4 float-right ">
 <div class="card my-4">
-        <h5 class="card-header">About Us</h5>
+        <h5 class="card-header">New post</h5>
     <div class="card-body">
-        <p class="card-text"> This awesome blog is made on the top of our Favourite full stack Framework 'Django', follow up the tutorial to learn how we made it..!</p>
-        <a href="#"
-           class="btn btn-danger">Know more!</a>
+        {% if new_comment %}
+        <div class="alert alert-success" role="alert">
+          new post submitted
+        </div>
+            <h3>another post?</h3>
+        <form method="post" style="margin-top: 1.3em;">
+          {{ comment_form.as_p }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+        </form>
+        {% else %}
+        <h3>new post</h3>
+        <form method="post" style="margin-top: 1.3em;">
+          {{ comment_form.as_p }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+        </form>
+        {% endif %}
+
     </div>
 </div>
 </div>
