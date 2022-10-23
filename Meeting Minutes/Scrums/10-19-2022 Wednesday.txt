@@ -1,0 +1,7 @@
+Wenkai has completed his assigned user story
+
+Action items
+- Redirect successful login attempt to blog page
+- Fayed to review Wenkai's PR
+- How do we anonymize posting?
+- Create a posting feature (endpoint, '/post'?)
