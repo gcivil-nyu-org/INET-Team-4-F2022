@@ -7,7 +7,6 @@ from .models import Post
 
 def post_list(request):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
-    post = get_object_or_404(Post)
 
     new_comment = None
     # Comment posted
@@ -17,13 +16,13 @@ def post_list(request):
             # Create Comment object but don't save to database yet
             new_comment = comment_form.save(commit=False)
             # Assign the current post to the comment
-            new_comment.post = post
+            new_comment.post = queryset
             # Save the comment to the database
             new_comment.save()
     else:
         comment_form = PostForm()
 
-    return render(request, 'index.html', {'post_list': queryset,  "post": post,
+    return render(request, 'index.html', {'post_list': queryset,  "post": queryset,
             "new_comment": new_comment,
             "comment_form": comment_form,})
 
