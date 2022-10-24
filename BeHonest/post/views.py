@@ -7,7 +7,7 @@ from .models import Post
 
 def post_list(request):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
-    post = get_object_or_404(Post,pk=1)
+    post = get_object_or_404(Post)
 
     new_comment = None
     # Comment posted
