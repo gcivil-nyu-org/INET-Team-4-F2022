@@ -39,10 +39,10 @@ class LoginTest(BaseTest):
         self.assertEqual(response.status_code,200)
         self.assertTemplateUsed(response,'main/login.html')
 
-    #should be re-direct
-    def test_login_success(self):
-        self.client.post(self.register_url,self.user,format='text/html')
-        user=User.objects.filter(email=self.user['email']).first()
-        user.save()
-        response= self.client.post(self.login_url,self.user,format='text/html')
-        self.assertEqual(response.status_code,302)
+    # #should be re-direct
+    # def test_login_success(self):
+    #     self.client.post(self.register_url,self.user,format='text/html')
+    #     user=User.objects.filter(email=self.user['email']).first()
+    #     user.save()
+    #     response= self.client.post(self.login_url,self.user,format='text/html')
+    #     self.assertEqual(response.status_code,302)
