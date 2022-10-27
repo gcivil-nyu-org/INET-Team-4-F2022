@@ -5,9 +5,9 @@ from django import forms
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('name', 'email', 'body')
+        fields = ('content',)
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('author','title', 'content','slug','status')
+        fields = ('title','content')
