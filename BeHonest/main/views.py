@@ -6,8 +6,11 @@ from django.contrib.auth.forms import AuthenticationForm
 
 
 # Main views
+
+
 def homepage(request):
     return render(request=request, template_name="main/home.html")
+
 
 
 def register_request(request):
