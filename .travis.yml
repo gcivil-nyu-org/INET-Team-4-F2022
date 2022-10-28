@@ -1,0 +1,35 @@
+language: python
+python:  
+  - "3.7"
+env:
+  - DJANGO=2.2
+
+install:
+  - pip install black
+  - pip install importlib-metadata
+  - pip install coverage
+  - pip install flake8
+  - pip install Django==2.2
+  - pip install pytz==2022.4
+  - pip install sqlparse==0.4.3
+  - pip install coveralls
+
+# command to run tests
+script:
+  - black --check ./
+  - flake8 ./
+  - coverage run mysite/manage.py test
+
+after_success:
+ coveralls
+
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: $ACCESSKEYID
+  secret_access_key: $SECRETACCESSKEY
+  region: "us-west-2"  
+  app: "django-tutorial"
+  env: "django-env"
+  bucket_name: "elasticbeanstalk-us-west-2-651033129971"
+  on:
+    branch: master
