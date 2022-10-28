@@ -96,4 +96,4 @@ class LogoutTest(BaseTest):
     def test_logout_url(self):
         response = self.client.get(self.logout_url)
         self.assertEqual(response.status_code, 302)
-    
+
