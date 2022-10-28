@@ -8,14 +8,10 @@ from .models import Post
 def post_list(request):
     print(request.user.id)
     queryset = Post.objects.order_by('-created_on')
-    #post = get_object_or_404(Post,pk=1)
-    for post in queryset:
-        print(post.id)
 
     new_comment = None
     # Comment posted
     if request.method == "POST":
-        print("post")
         comment_form = PostForm(data=request.POST)
         if comment_form.is_valid():
             # Create Comment object but don't save to database yet
@@ -23,7 +19,6 @@ def post_list(request):
             new_comment.author = request.user
             new_comment.save()
             # Assign the current post to the comment
-            print(post)
             new_comment.post = post
             # Save the comment to the database
             new_comment.save()
