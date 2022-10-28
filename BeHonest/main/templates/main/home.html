@@ -10,18 +10,21 @@
         <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
             {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="home">Home</a>
+              </li>
+            <li class="nav-item">
+            <a class="nav-link" href="logout">Logout</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="home">Welcome, {{user.username}}</a>
+            </li>
             
-            <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Welcome, {{user.username}}</a>
-            </li>
     
             {% else %}
     
             <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
+            <a class="nav-link" href="login">Login why</a>
             </li>
     
             {% endif %}
@@ -29,5 +32,6 @@
         </div>
     <!--CTA-->
     <h1>BeHonest Homepage</h1>
+    
     
   {% endblock %}

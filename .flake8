@@ -1,0 +1,4 @@
+[flake8]
+per-file-ignores =
+    BeHonest/*: E501
+max-line-length = 100
