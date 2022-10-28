@@ -1,35 +1,41 @@
 from django.shortcuts import get_object_or_404, render
-from django.views import generic
 
 from .forms import CommentForm, PostForm
 from .models import Post
 
 
 def post_list(request):
-    queryset = Post.objects.filter(status=1).order_by('-created_on')
 
-    new_comment = None
+    new_post = None
     # Comment posted
     if request.method == "POST":
-        comment_form = PostForm(data=request.POST)
-        if comment_form.is_valid():
+        post_form = PostForm(data=request.POST)
+        if post_form.is_valid():
             # Create Comment object but don't save to database yet
-            new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
-            new_comment.post = queryset
+            new_post = post_form.save(False)
+            new_post.author = request.user
             # Save the comment to the database
-            new_comment.save()
+            new_post.save()
     else:
-        comment_form = PostForm()
+        post_form = PostForm()
 
-    return render(request, 'index.html', {'post_list': queryset,  "post": queryset,
-            "new_comment": new_comment,
-            "comment_form": comment_form,})
+    refresh_queryset = Post.objects.order_by("-created_on")
+
+    return render(
+        request,
+        "index.html",
+        {
+            "post_list": refresh_queryset,
+            "post": refresh_queryset,
+            "new_comment": new_post,
+            "comment_form": post_form,
+        },
+    )
 
 
-def post_detail(request, slug):
+def post_detail(request, id):
     template_name = "post_detail.html"
-    post = get_object_or_404(Post, slug=slug)
+    post = get_object_or_404(Post, id=id)
     comments = post.comments.filter(active=True).order_by("-created_on")
     new_comment = None
     # Comment posted

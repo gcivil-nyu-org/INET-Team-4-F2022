@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('post', '0002_comment'),
+        ("post", "0002_comment"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='post',
-            name='updated_on',
+            model_name="post",
+            name="updated_on",
         ),
         migrations.AlterField(
-            model_name='comment',
-            name='active',
+            model_name="comment",
+            name="active",
             field=models.BooleanField(default=True),
         ),
     ]

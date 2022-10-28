@@ -42,59 +42,68 @@
               padding-top: 10px;
     }
     </style>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow" id="mainNav">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'post:base' %}">Behonest</a>
-        <button
-          class="navbar-toggler navbar-toggler-right"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarResponsive"
-          aria-controls="navbarResponsive"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-
-            <li class="nav-item text-black">
-              <a
-                class="nav-link text-black font-weight-bold"
-                href="#"
-                >About</a
-              >
-            </li>
-            <li class="nav-item text-black">
-              <a
-                class="nav-link text-black font-weight-bold"
-                href="#"
-                >Policy</a
-              >
-            </li>
-            <li class="nav-item text-black">
-              <a
-                class="nav-link text-black font-weight-bold"
-                href="#"
-                >Contact</a
-              >
-            </li>
-          </ul>
+    {% if user.is_authenticated %}
+      <!-- <h1>Working</h1> -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light shadow" id="mainNav">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'post:base' %}">Behonest</a>
+          <!-- <button
+            class="navbar-toggler navbar-toggler-right"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarResponsive"
+            aria-controls="navbarResponsive"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button> -->
+          
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+  
+              <li class="nav-item text-black">
+                <a
+                  class="nav-link text-black font-weight-bold"
+                  href="#"
+                  >About</a
+                >
+              </li>
+              <li class="nav-item text-black">
+                <a
+                  class="nav-link text-black font-weight-bold"
+                  href="#"
+                  >Policy</a
+                >
+              </li>
+              <li class="nav-item text-black">
+                <a
+                  class="nav-link text-black font-weight-bold"
+                  href="#"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+  
+  
         </div>
-
-
       </div>
+      </nav>
+  
+  
+              {% block content %}
+            <!-- Content Goes here -->
+              {% endblock content %} 
+    {% else %}
+    <!-- <h1>Working-not</h1> -->
+    <!-- <p class="text-center">Don't have an account? <a href="register">Create an account</a>.</p> -->
+    
+      <p class="text-center">Don't have an account? <a href="register">Create an account</a>.</p>
     </div>
-    </nav>
-
-
-            {% block content %}
-          <!-- Content Goes here -->
-            {% endblock content %}
+    {% endif %}
+    <!-- Navigation -->
+    
 
     <!-- Footer -->
     <footer class="py-3 bg-grey">
