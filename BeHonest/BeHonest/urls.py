@@ -16,8 +16,27 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('login/', include('main.urls')),
+#     path('register/', include('main.urls')),
+#     path('', include('post.urls')),
+# ]
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('login/', include('post.urls')),
+#     path('register/', include('main.urls')),
+#     path('logout/', include('main.urls')),
+#     path('', include('main.urls')),
+# ]
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('login/', include('main.urls')),
-    path('', include('post.urls')),
+    path("admin/", admin.site.urls),
+    # path('login/', include('main.urls')),
+    # path('register/', include('main.urls')),
+    # path('logout/', include('main.urls')),
+    path("", include("main.urls")),
+    path("home/", include("post.urls")),
 ]
+# path("home/", views.post_list, name='base'),
