@@ -5,6 +5,7 @@ env:
   - DJANGO=2.2
 
 install:
+  - pip install importlib-metadata
   - pip install -r BeHonest/requirements.txt
 
 script:
