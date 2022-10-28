@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from django.views import generic
+# from django.views import generic
 
 from .forms import CommentForm, PostForm
 from .models import Post
@@ -19,7 +19,7 @@ def post_list(request):
             new_comment.author = request.user
             new_comment.save()
             # Assign the current post to the comment
-            new_comment.post = post
+            new_comment.post = queryset
             # Save the comment to the database
             new_comment.save()
     else:

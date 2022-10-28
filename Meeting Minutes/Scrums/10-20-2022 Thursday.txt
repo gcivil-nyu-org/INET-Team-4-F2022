@@ -1,0 +1,7 @@
+Action items
+- Redirect successful login attempt to blog page
+- How to anonymize posting is on the development roadmap
+- Create a posting feature endpoint
+- Integrate login / feed / posting so that you can only post after you are logged in and your posts are appropriatley tagged with your credentials
+- Adding friends is on the dev roadmap
+- Article feed is on the roadmap

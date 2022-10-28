@@ -3,10 +3,13 @@ from .forms import NewUserForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from post.views import post_detail, post_list
+# from post.views import post_detail, post_list
 # Main views
+
+
 def homepage(request):
     return render(request=request, template_name='main/home.html')
+
 
 def register_request(request):
     if request.method == "POST":
@@ -14,11 +17,12 @@ def register_request(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, "Registration successful." )
+            messages.success(request, "Registration successful.")
             return redirect("main:homepage")
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
-    return render (request=request, template_name="main/register.html", context={"register_form":form})
+    return render(request=request, template_name="main/register.html", context={"register_form": form})
+
 
 def login_request(request):
     if request.method == "POST":
@@ -32,9 +36,9 @@ def login_request(request):
                 messages.info(request, f"You are now logged in as {username}.")
                 return redirect("main:homepage")
             else:
-                messages.error(request,"Invalid username or password.")
+                messages.error(request, "Invalid username or password.")
         else:
-            messages.error(request,"Invalid username or password.")
+            messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
 
     return render(request=request, template_name="main/login.html", context={"login_form":form})
