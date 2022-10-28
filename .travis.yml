@@ -18,7 +18,7 @@ install:
 script:
   - black --check ./
   - flake8 ./
-  - coverage run mysite/manage.py test
+  - coverage run BeHonest/manage.py test
 
 after_success:
  coveralls
