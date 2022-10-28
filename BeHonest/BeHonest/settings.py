@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import os
+# import os
 from django.contrib.messages import constants as messages
 from pathlib import Path
 
