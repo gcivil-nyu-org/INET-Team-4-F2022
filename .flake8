@@ -1,4 +1,4 @@
 [flake8]
 per-file-ignores =
-    ratenyu/*: E501
+    BeHonest/*: E501
 max-line-length = 100
