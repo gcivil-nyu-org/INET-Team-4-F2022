@@ -41,10 +41,10 @@
                     {% for post in post_list %}
                 <div class="card mb-4" >
                   <div class="card-body">
-                    <h2 class="card-title">{{ post.name }}</h2>
-                    <p class="card-text text-muted h6">{{ post.body }} | {{ post.created_on}} </p>
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="card-text text-muted h6">{{ post.created_on}} </p>
                     <p class="card-text">{{post.content|slice:":200" }}</p>
-                      <a href="{% url 'post:post_detail' post.slug  %}" class="btn btn-primary">Read More &rarr;</a>
+                      <a href="{% url 'post:post_detail' post.id  %}" class="btn btn-primary">Read More &rarr;</a>
                   </div>
 
                 </div>
