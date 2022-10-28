@@ -8,6 +8,23 @@
         <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
         <p class="card-text ">{{ post.content | safe }}</p>
       </div>
+      <br/><br/>
+    
+      <hr>
+    <br/>
+    <form action="{% url 'post:like_post' post.pk %}" method="POST">
+      {% csrf_token %}
+      
+      {% if post.liked %}
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button> 
+
+      {% else %}
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
+
+      {% endif %}
+      - {{ post.total_likes }} Likes
+    </form>
+
     </div>
 
 
