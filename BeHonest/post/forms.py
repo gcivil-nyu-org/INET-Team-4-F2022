@@ -5,9 +5,10 @@ from django import forms
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('content',)
+        fields = ("content",)
+
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title','content')
+        fields = ("title", "content")
