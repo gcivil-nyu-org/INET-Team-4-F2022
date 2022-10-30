@@ -33,3 +33,6 @@ deploy:
   bucket_name: "elasticbeanstalk-us-west-2-651033129971"
   on:
     branch: develop
+
+notifications:
+  slack: gcivil-nyu:BvfUSMwffovAEeY7xlpxd0Qz
