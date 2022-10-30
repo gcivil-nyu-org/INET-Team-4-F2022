@@ -1,12 +1,14 @@
 from django.urls import path
 from . import views
+from post.views import post_list
 
-app_name = "main"   
+app_name = "main"
 
 
 urlpatterns = [
-    path("", views.homepage, name="homepage"),
+    path("home", post_list, name="base"),
     path("register", views.register_request, name="register"),
-    path("login", views.login_request, name="login"),
-    path("logout", views.logout_request, name= "logout"),
+    path("login/", views.login_request, name="login"),
+    path("logout", views.logout_request, name="logout"),
+    path("", views.homepage, name="homepage"),
 ]
