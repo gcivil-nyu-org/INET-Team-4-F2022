@@ -6,17 +6,19 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from post.forms import PostForm, CommentForm
 
-#test that app config name matches and is found
+
+# test that app config name matches and is found
 class ReportsConfigTest(TestCase):
     def test_apps(self):
         self.assertEqual(BlogConfig.name, "post")
         self.assertEqual(apps.get_app_config("post").name, "post")
 
+
 class BaseTest(TestCase):
     def setUp(self):
         self.post = Post(title="test")
-        self.user = User.objects.create(username = "test_user")
-        self.comment = Comment(content = "testing", author = self.user)
+        self.user = User.objects.create(username="test_user")
+        self.comment = Comment(content="testing", author=self.user)
 
         self.post_url = reverse("post:base")
 
@@ -38,6 +40,7 @@ class BaseTest(TestCase):
 
         return super().setUp()
 
+
 class Post_Tests(BaseTest):
     def test_string_representation(self):
         self.assertEqual(str(self.post), self.post.title)
@@ -55,11 +58,14 @@ class Post_Tests(BaseTest):
         form_data = self.invalid_post
         form = PostForm(data=form_data)
         self.assertFalse(form.is_valid())
-        
+
 
 class Comment_Tests(BaseTest):
     def test_string_representation(self):
-        self.assertEqual(str(self.comment), "Comment {} by {}".format(self.comment.content, self.comment.author))
+        self.assertEqual(
+            str(self.comment),
+            "Comment {} by {}".format(self.comment.content, self.comment.author),
+        )
 
     def test_comment_form_valid(self):
         form_data = self.valid_comment

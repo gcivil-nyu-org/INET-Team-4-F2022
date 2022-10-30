@@ -89,7 +89,6 @@ class LoginTest(BaseTest):
         messages = list(response.context["messages"])
         self.assertEqual(str(messages[0]), "Registration successful.")
 
-
     def test_login_fail(self):
         self.client.post(self.register_url, self.invalid_user, format="text/html")
         user = User.objects.filter(username=self.invalid_user["username"]).first()
