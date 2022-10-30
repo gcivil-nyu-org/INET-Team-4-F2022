@@ -18,6 +18,7 @@ install:
 script:
   - black  ./
   - flake8 ./
+  - cd BeHonest
   - coverage run --source=main,post manage.py test
 
 after_success:
