@@ -8,13 +8,13 @@ from .models import Post
 
 def like_post(request, pk):
     post = get_object_or_404(Post, id= request.POST.get('post_id'))
-    liked = False
+    #liked = False
     if post.likes.filter(id = request.user.id).exists():
         post.likes.remove(request.user)
-        liked = False
+        #liked = False
     else:
         post.likes.add(request.user)
-        liked = True
+        #liked = True
     
     return HttpResponseRedirect(reverse('post:post_detail', args=[str(pk)]))
 #request.POST.get('post_id'))
@@ -53,7 +53,7 @@ def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
     comments = post.comments.filter(active=True).order_by("-created_on")
     new_comment = None
-    total_likes = post.total_likes()
+    #total_likes = post.total_likes()
     
     post.liked = False
     if post.likes.filter(id = request.user.id).exists():
