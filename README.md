@@ -1,4 +1,4 @@
-# Team Project repo
+# Team Project Repo
 BeHonest: A social media platform empowering sincere discussion...
 
 [![Build Status](https://app.travis-ci.com/Fayed-Gaya/BeHonest.svg?branch=main)](https://app.travis-ci.com/Fayed-Gaya/BeHonest)
