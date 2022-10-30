@@ -21,7 +21,7 @@ class BaseTest(TestCase):
 
         # some test users
         self.user = {
-            "username": "testuser3",
+            "username": "Testuser_3",
             "email": "testemail@gmail.com",
             "password1": "UncxYv234zzy",
             "password2": "UncxYv234zzy",
@@ -57,6 +57,9 @@ class RegisterTest(BaseTest):
         form_data = self.user
         form = NewUserForm(data=form_data)
         self.assertTrue(form.is_valid())
+        self.client.post(self.register_url, self.user, format="text/html")
+        user = User.objects.filter(username=self.user["username"]).first()
+        user.save()
 
     def test_register_form_invalid(self):
         form_data = self.invalid_user
@@ -76,13 +79,27 @@ class LoginTest(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "main/login.html")
 
-    # should be re-direct in future
-    def test_login_success_url(self):
+    # tested registration message as well here
+    def test_login_success(self):
         self.client.post(self.register_url, self.user, format="text/html")
         user = User.objects.filter(username=self.user["username"]).first()
         user.save()
         response = self.client.post(self.login_url, self.user, format="text/html")
         self.assertEqual(response.status_code, 200)
+        messages = list(response.context["messages"])
+        self.assertEqual(str(messages[0]), "Registration successful.")
+
+    def test_login_fail(self):
+        self.client.post(self.register_url, self.invalid_user, format="text/html")
+        user = User.objects.filter(username=self.invalid_user["username"]).first()
+        self.assertEqual(user, None)
+        response = self.client.post(
+            self.login_url, self.invalid_user, format="text/html"
+        )
+        self.assertEqual(response.status_code, 200)
+        messages = list(response.context["messages"])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), "Invalid username or password.")
 
     def test_client_login(self):
         user = User.objects.create(username="testuser")
