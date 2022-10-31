@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+ {% block content %}
+
+ {% for title, desc, i, urls in mylist %}
+
+ <div class="card mb-4" >
+    <div class="card-body">
+      <h2 class="card-title">{{ title}}</h2>
+      <br>
+     <img src="{{ i }}" alt="">
+
+      <p class="card-text">{{desc|slice:":200" }}</p>
+      <a href= "{{ urls }}">Read More</a>
+    </div>
+
+  </div>
+
+                    {% endfor %}
+
+{%endblock%}

@@ -14,6 +14,7 @@ install:
   - pip install pytz==2022.4
   - pip install sqlparse==0.4.3
   - pip install coveralls
+  - pip install newsapi-python
 
 script:
   - black  ./
@@ -26,14 +27,14 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  access_key_id: $ACCESSKEYIDPROD
-  secret_access_key: $SECRETACCESSKEYPROD
+  access_key_id: $ACCESSKEYIDDEV
+  secret_access_key: $SECRETACCESSKEYDEV
   region: "us-west-2"  
-  app: "BeHonest-production"
-  env: "BeHonest-production-env"
+  app: "django-tutorial"
+  env: "django-env"
   bucket_name: "elasticbeanstalk-us-west-2-651033129971"
   on:
-    branch: main
+    branch: develop
 
 notifications:
   slack: gcivil-nyu:BvfUSMwffovAEeY7xlpxd0Qz
