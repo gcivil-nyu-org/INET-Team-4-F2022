@@ -1,10 +1,16 @@
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.contrib.auth import logout
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 
 from .forms import CommentForm, PostForm
 from .models import Post
 
+def logout_request(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect("main:homepage")
 
 def like_post(request, pk):
     post = get_object_or_404(Post, id= request.POST.get('post_id'))
