@@ -9,7 +9,7 @@ class Post(models.Model):
     )
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User, related_name = 'post_post')
+    likes = models.ManyToManyField(User, related_name='post_post')
 
     class Meta:
         ordering = ["-created_on"]
@@ -19,6 +19,7 @@ class Post(models.Model):
 
     def total_likes(self):
         return self.likes.count()
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
