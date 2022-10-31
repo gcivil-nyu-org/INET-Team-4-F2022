@@ -9,7 +9,7 @@ class Post(models.Model):
     )
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User, related_name='post_post')
+    likes = models.ManyToManyField(User, related_name="post_post")
 
     class Meta:
         ordering = ["-created_on"]
