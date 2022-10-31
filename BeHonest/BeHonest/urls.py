@@ -36,7 +36,7 @@ urlpatterns = [
     # path('login/', include('main.urls')),
     # path('register/', include('main.urls')),
     # path('logout/', include('main.urls')),
-    path('news/', include('news.urls')),
+    path("news/", include("news.urls")),
     path("", include("main.urls")),
     path("home/", include("post.urls")),
 ]
