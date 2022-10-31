@@ -7,12 +7,12 @@ from django.contrib.auth.models import User
 from post.forms import PostForm, CommentForm
 
 
-# bandaid fix to re-use
-class LogoutTest(TestCase):
-    def test_logout_url(self):
-        self.logout_url = reverse("post:logout")
-        response = self.client.get(self.logout_url)
-        self.assertEqual(response.status_code, 302)
+# bandaid fix to re-use don't need anymore
+# class LogoutTest(TestCase):
+#     def test_logout_url(self):
+#         self.logout_url = reverse("post:logout")
+#         response = self.client.get(self.logout_url)
+#         self.assertEqual(response.status_code, 302)
 
 
 # test that app config name matches and is found
