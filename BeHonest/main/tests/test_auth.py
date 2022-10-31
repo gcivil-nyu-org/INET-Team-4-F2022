@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
 from main.forms import NewUserForm
+from django.contrib.auth.forms import AuthenticationForm
 
 # class for base tests to generate users, etc. for tests below
 # called once before each case is run good place to store testing data
@@ -79,7 +80,7 @@ class LoginTest(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "main/login.html")
 
-    # tested registration message as well here
+    # tested registration message as well here also needed response 2 for homepage
     def test_login_success(self):
         self.client.post(self.register_url, self.user, format="text/html")
         user = User.objects.filter(username=self.user["username"]).first()
