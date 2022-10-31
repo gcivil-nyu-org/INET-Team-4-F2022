@@ -18,18 +18,22 @@ install:
 script:
   - black  ./
   - flake8 ./
-  - coverage run BeHonest/manage.py test
+  - cd BeHonest
+  - coverage run --source=main,post manage.py test
 
 after_success:
  coveralls
 
 deploy:
   provider: elasticbeanstalk
-  access_key_id: $ACCESSKEYID
-  secret_access_key: $SECRETACCESSKEY
+  access_key_id: $ACCESSKEYIDDEV
+  secret_access_key: $SECRETACCESSKEYDEV
   region: "us-west-2"  
   app: "django-tutorial"
   env: "django-env"
   bucket_name: "elasticbeanstalk-us-west-2-651033129971"
   on:
-    branch: master
+    branch: develop
+
+notifications:
+  slack: gcivil-nyu:BvfUSMwffovAEeY7xlpxd0Qz
