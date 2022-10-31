@@ -1,15 +1,27 @@
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
 from django.contrib.auth import logout
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from .forms import CommentForm, PostForm
 from .models import Post
 
 
-# needed to add this function here to go back to blank main page
 def logout_request(request):
+
     logout(request)
     messages.info(request, "You have successfully logged out.")
     return redirect("main:homepage")
+
+
+def like_post(request, pk):
+
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('post:post_detail', args=[str(pk)]))
 
 
 def post_list(request):
@@ -26,9 +38,7 @@ def post_list(request):
             new_post.save()
     else:
         post_form = PostForm()
-
     refresh_queryset = Post.objects.order_by("-created_on")
-
     return render(
         request,
         "index.html",
@@ -46,6 +56,10 @@ def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
     comments = post.comments.filter(active=True).order_by("-created_on")
     new_comment = None
+    post.liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.liked = True
+
     # Comment posted
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
