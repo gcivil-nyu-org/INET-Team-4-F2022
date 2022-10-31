@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 
 # Main views
 
-#bandaid function for homepage
+# bandaid function for homepage
 def homepage(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
