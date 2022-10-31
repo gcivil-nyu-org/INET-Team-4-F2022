@@ -4,7 +4,7 @@ from post.views import post_list
 
 app_name = "main"
 
-
+# slashes after login and register are needed
 urlpatterns = [
     path("home", post_list, name="base"),
     path("register/", views.register_request, name="register"),
