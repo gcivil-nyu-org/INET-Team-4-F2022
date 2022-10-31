@@ -1,7 +1,15 @@
-from django.shortcuts import get_object_or_404, render
-
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth import logout
+from django.contrib import messages
 from .forms import CommentForm, PostForm
 from .models import Post
+
+
+# needed to add this function here to go back to blank main page
+def logout_request(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect("main:homepage")
 
 
 def post_list(request):
