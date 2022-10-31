@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import requests
 from newsapi import NewsApiClient
 # Create your views here.
 
