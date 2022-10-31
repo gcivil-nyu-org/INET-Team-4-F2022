@@ -14,7 +14,6 @@ install:
   - pip install pytz==2022.4
   - pip install sqlparse==0.4.3
   - pip install coveralls
-  - pip install newsapi
 
 script:
   - black  ./
