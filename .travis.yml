@@ -26,14 +26,14 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  access_key_id: $ACCESSKEYIDDEV
-  secret_access_key: $SECRETACCESSKEYDEV
+  access_key_id: $ACCESSKEYIDPROD
+  secret_access_key: $SECRETACCESSKEYPROD
   region: "us-west-2"  
-  app: "django-tutorial"
-  env: "django-env"
+  app: "BeHonest-production"
+  env: "BeHonest-production-env"
   bucket_name: "elasticbeanstalk-us-west-2-651033129971"
   on:
-    branch: develop
+    branch: main
 
 notifications:
   slack: gcivil-nyu:BvfUSMwffovAEeY7xlpxd0Qz
