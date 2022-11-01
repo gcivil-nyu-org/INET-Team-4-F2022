@@ -79,7 +79,7 @@ class LoginTest(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "main/login.html")
 
-    # tested registration message as well here
+    # tested registration message as well here also needed response 2 for homepage
     def test_login_success(self):
         self.client.post(self.register_url, self.user, format="text/html")
         user = User.objects.filter(username=self.user["username"]).first()

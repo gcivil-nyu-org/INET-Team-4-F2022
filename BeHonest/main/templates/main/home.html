@@ -1,37 +1,36 @@
 {% extends 'main/header.html' %}
-
-  {% block content %} 
-  <!--Navbar-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="False" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-            {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="home">Home</a>
-              </li>
-            <li class="nav-item">
-            <a class="nav-link" href="logout">Logout</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="home">Welcome, {{user.username}}</a>
-            </li>
-            
-    
-            {% else %}
-    
-            <li class="nav-item">
-            <a class="nav-link" href="login">Login why</a>
-            </li>
-    
-            {% endif %}
-        </ul>
-        </div>
+  {% block content %}   
+  <style>
+    .jumbotron {
+      background: linear-gradient(to right, rgba(38, 35, 35, 0.35), rgba(65, 17, 17, 0.134)), url("https://images.pexels.com/photos/450597/pexels-photo-450597.jpeg?cs=srgb&dl=pexels-lex-photography-450597.jpg&fm=jpg");
+      background-position: center;
+      background-size: cover;
+    }
+  </style>
     <!--CTA-->
-    <h1>BeHonest Homepage</h1>
+    <header class="jumbotron jumbotron-fluid">
+      <div class="container-fluid text-center"> 
+         <h1 class="display-3 text-white">Welcome to BeHonest</h1>
+         <p class="lead pb-4 text-white">NY's newest and greatest Social Media Application</p>
+      </div>
+    </header>
+    <!-- This below is a bandaid fix -->
+    {% load crispy_forms_tags %}
+    {% if user.is_authenticated %}
+      <h2>You're Logged in, Landing Page Still under works click back on BeHonest icon to go got posts</h2>
+    {% else %}
+      <!--Login--> 
+      <div class="container py-5">
+        <h1>Login</h1>
+        <form method="POST">
+          {% csrf_token %}
+          {{ login_form|crispy }}
+          <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+        <p class="text-left">Don't have an account? <a href="/register">Create an account</a>.</p>
+      </div>
+    {% endif %}
     
     
   {% endblock %}
+  

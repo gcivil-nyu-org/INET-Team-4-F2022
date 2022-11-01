@@ -1,8 +1,8 @@
 branch-defaults:
   default:
-    environment: django-env
+    environment: BeHonest-production-env
 global:
-  application_name: django-tutorial
+  application_name: BeHonest-production
   branch: null
   default_ec2_keyname: null
   default_platform: Python 3.7
