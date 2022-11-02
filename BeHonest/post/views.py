@@ -17,10 +17,24 @@ def like_post(request, pk):
     post = get_object_or_404(Post, id=request.POST.get("post_id"))
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
+    elif post.dislikes.filter(id=request.user.id).exists():
+        post.dislikes.remove(request.user)
+        post.likes.add(request.user)
     else:
         post.likes.add(request.user)
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
+def dislike_post(request, pk):
+
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        post.dislikes.add(request.user)
+    elif post.dislikes.filter(id=request.user.id).exists():
+        post.dislikes.remove(request.user)
+    else:
+        post.dislikes.add(request.user)
+    return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
 def post_list(request):
 
@@ -55,9 +69,11 @@ def post_detail(request, id):
     comments = post.comments.filter(active=True).order_by("-created_on")
     new_comment = None
     post.liked = False
+    post.disliked = False
     if post.likes.filter(id=request.user.id).exists():
         post.liked = True
-
+    if post.dislikes.filter(id=request.user.id).exists():
+        post.disliked = True
     # Comment posted
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)

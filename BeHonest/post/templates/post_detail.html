@@ -25,6 +25,19 @@
       - {{ post.total_likes }} Likes
     </form>
 
+    <form action="{% url 'post:dislike_post' post.pk %}" method="POST">
+      {% csrf_token %}
+      
+      {% if post.disliked %}
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undislike</button> 
+
+      {% else %}
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Dislike</button>
+
+      {% endif %}
+      - {{ post.total_dislikes }} Dislikes
+    </form>
+
     </div>
 
 
