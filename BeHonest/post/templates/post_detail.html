@@ -24,7 +24,9 @@
       {% endif %}
       - {{ post.total_likes }} Likes
     </form>
-
+    
+    <br/>
+    
     <form action="{% url 'post:dislike_post' post.pk %}" method="POST">
       {% csrf_token %}
       

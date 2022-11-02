@@ -24,6 +24,7 @@ def like_post(request, pk):
         post.likes.add(request.user)
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
+
 def dislike_post(request, pk):
 
     post = get_object_or_404(Post, id=request.POST.get("post_id"))
@@ -35,6 +36,7 @@ def dislike_post(request, pk):
     else:
         post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
+
 
 def post_list(request):
 
