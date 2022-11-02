@@ -37,4 +37,4 @@ deploy:
     branch: main
 
 notifications:
-  slack: gcivil-nyu:BvfUSMwffovAEeY7xlpxd0Qz
+  slack: gcivil-nyu:Hlh3yiC4qXUKTVMZDwsN6FJc
