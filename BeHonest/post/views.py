@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from .forms import CommentForm, PostForm, NewsForm
 from .models import Post
-from news.models import News, newsComment
+from news.models import News
 
 
 # needed to add this function here to go back to blank main page
