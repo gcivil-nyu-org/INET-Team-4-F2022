@@ -25,6 +25,7 @@
             <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to Behonest </h3>
             <p class="text-light">anonymous posts ..! &nbsp
             </p>
+
           </div>
         </div>
       </div>
@@ -35,8 +36,10 @@
 <div class="container">
   <div class="row">
     <!-- Blog Entries Column -->
+
     <div class="col-md-8 mt-3 left">
       {% for post in post_list %}
+
         <div class="card mb-4" >
           <div class="card-body">
             <h2 class="card-title">{{ post.title }}</h2>

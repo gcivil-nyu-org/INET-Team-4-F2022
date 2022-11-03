@@ -35,3 +35,20 @@ class Comment(models.Model):
 
     def __str__(self):
         return "Comment {} by {}".format(self.content, self.author)
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    profileimg = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
+    location = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+class FollowersCount(models.Model):
+    follower = models.CharField(max_length=100)
+    user = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.user
+

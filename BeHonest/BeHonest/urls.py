@@ -39,5 +39,6 @@ urlpatterns = [
     path("news/", include("news.urls")),
     path("", include("main.urls")),
     path("home/", include("post.urls")),
+    path('friendship/', include('friendship.urls')),
 ]
 # path("home/", views.post_list, name='base'),

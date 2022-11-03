@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from .forms import CommentForm, PostForm
-from .models import Post
-
+from .models import Post, Profile, FollowersCount
+from django.contrib.auth.models import User, auth
 
 # needed to add this function here to go back to blank main page
 # def logout_request(request):
@@ -82,3 +82,24 @@ def post_detail(request, id):
             "comment_form": comment_form,
         },
     )
+
+
+def profile(request, pk):
+    user_object = User.objects.get(username=pk)
+    user_profile = Profile.objects.get(user=user_object)
+
+    follower = request.user.username
+    user = pk
+
+    if FollowersCount.objects.filter(follower=follower, user=user).first():
+        button_text = 'Unfollow'
+    else:
+        button_text = 'Follow'
+
+
+    context = {
+        'user_object': user_object,
+        'user_profile': user_profile,
+        'button_text': button_text,
+    }
+    return render(request, 'profile.html', context)

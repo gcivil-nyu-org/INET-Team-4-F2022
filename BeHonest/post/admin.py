@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, Profile, FollowersCount
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -19,3 +19,6 @@ class CommentAdmin(admin.ModelAdmin):
 
     def approve_comments(self, request, queryset):
         queryset.update(active=True)
+
+admin.site.register(Profile)
+admin.site.register(FollowersCount)

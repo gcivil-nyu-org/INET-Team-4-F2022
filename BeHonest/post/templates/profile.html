@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static%}
+{% block content %}
+
+<title>Profile - {{user_profile.user.username}}</title>
+<figure>
+									<img src="{% static 'profile_images/blank-profile-picture.png' %}" style="width:50px;height:50px; alt="">
+									<!-- <form class="edit-phto">
+										<i class="fa fa-camera-retro"></i>
+										<label class="fileContainer">
+											<a href="#account-settings">Upload Profile Photo</a>
+										</label>
+									</form> -->
+								</figure>
+
+<section>
+			<div class="bio">
+					{{user_profile.bio}}
+			</div>
+	<label for=""> Location</label>
+	<div class="bio">
+					{{user_profile.location}}
+			</div>
+
+		</section>
+
+{%endblock%}
+
