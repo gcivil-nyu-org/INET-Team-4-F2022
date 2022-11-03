@@ -1,17 +1,17 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import News, newsComment
 
 
-class PostAdmin(admin.ModelAdmin):
-    list_display = ("title", "created_on")
-    search_fields = ["title", "content"]
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ("title","desc", "img", "url")
+    search_fields = ["title","desc", "img", "url"]
 
 
-admin.site.register(Post, PostAdmin)
+admin.site.register(News, NewsAdmin)
 
 
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
+@admin.register(newsComment)
+class newsCommentAdmin(admin.ModelAdmin):
     list_display = ("content", "post", "created_on", "active")
     list_filter = ("active", "created_on")
     search_fields = ("user", "content")
