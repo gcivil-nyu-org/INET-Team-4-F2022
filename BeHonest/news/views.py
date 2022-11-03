@@ -8,7 +8,6 @@ from .models import News
 
 def index(request):
     api = NewsApiClient(api_key="084b04d11f594e6a90cb0e4f8b0fab81")
-    all_news = {}
     crypto_news = api.get_everything(q="NYC weather")
     a = crypto_news["articles"]
     title = []
