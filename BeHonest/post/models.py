@@ -10,6 +10,7 @@ class Post(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name="post_post")
+    dislikes = models.ManyToManyField(User, related_name="blog_post")
 
     class Meta:
         ordering = ["-created_on"]
@@ -19,6 +20,9 @@ class Post(models.Model):
 
     def total_likes(self):
         return self.likes.count()
+
+    def total_dislikes(self):
+        return self.dislikes.count()
 
 
 class Comment(models.Model):

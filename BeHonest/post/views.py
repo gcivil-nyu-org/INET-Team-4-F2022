@@ -1,10 +1,9 @@
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm
 from .models import Post
-from main.views import login
 
 
 def like_post(request, pk):
@@ -12,8 +11,24 @@ def like_post(request, pk):
     post = get_object_or_404(Post, id=request.POST.get("post_id"))
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
+    elif post.dislikes.filter(id=request.user.id).exists():
+        post.dislikes.remove(request.user)
+        post.likes.add(request.user)
     else:
         post.likes.add(request.user)
+    return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
+
+
+def dislike_post(request, pk):
+
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        post.dislikes.add(request.user)
+    elif post.dislikes.filter(id=request.user.id).exists():
+        post.dislikes.remove(request.user)
+    else:
+        post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
 
@@ -43,15 +58,18 @@ def post_list(request):
             },
         )
 
+
 def post_detail(request, id):
     template_name = "post_detail.html"
     post = get_object_or_404(Post, id=id)
     comments = post.comments.filter(active=True).order_by("-created_on")
     new_comment = None
     post.liked = False
+    post.disliked = False
     if post.likes.filter(id=request.user.id).exists():
         post.liked = True
-
+    if post.dislikes.filter(id=request.user.id).exists():
+        post.disliked = True
     # Comment posted
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
@@ -77,6 +95,7 @@ def post_detail(request, id):
         },
     )
 
+
 # def profile_view(request):
 #     template_name = "profile.html"
 #     context = {
@@ -84,20 +103,21 @@ def post_detail(request, id):
 #     }
 #     return render(request, template_name, context)
 
+
 def profile(request, pk):
     user_object = User.objects.get(username=pk)
     # user_profile = Profile.objects.get(user=user_object)
 
     # follower = request.user.username
-    user = pk
+    # user = pk
 
     # if FollowersCount.objects.filter(follower=follower, user=user).first():
     #     button_text = 'Unfollow'
     # else:
     #     button_text = 'Follow'
     context = {
-        'user_object': user_object,
+        "user_object": user_object,
         # 'user_profile': user_profile,
         # 'button_text': button_text,
     }
-    return render(request, 'profile.html', context)
+    return render(request, "profile.html", context)
