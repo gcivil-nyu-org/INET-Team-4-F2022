@@ -1,4 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2> Welcome to {{ user.username }}'s profile page</h2>
+    <div class = "container"
+        <div class = "card">
+            {% for post in posts %}
+                <div class="card-header">
+                    <h4>{{ post.title }}</p>
+                </div>
+                <div class="card-body">
+                    <blockquote class = "blockquote mb-0">
+                        <p>{{ post.content }}</p>
+                        <footer class="blockquote-footer">{{post.created_on}}<cite title="Source Title">{{post.author.username}}</cite></footer>
+                    </blockquote>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

@@ -96,28 +96,11 @@ def post_detail(request, id):
     )
 
 
-# def profile_view(request):
-#     template_name = "profile.html"
-#     context = {
-#         "user": request.user
-#     }
-#     return render(request, template_name, context)
-
-
 def profile(request, pk):
-    user_object = User.objects.get(username=pk)
-    # user_profile = Profile.objects.get(user=user_object)
-
-    # follower = request.user.username
-    # user = pk
-
-    # if FollowersCount.objects.filter(follower=follower, user=user).first():
-    #     button_text = 'Unfollow'
-    # else:
-    #     button_text = 'Follow'
+    user = User.objects.get(username=pk)
+    logged_in_user_posts = Post.objects.filter(author=user)
     context = {
-        "user_object": user_object,
-        # 'user_profile': user_profile,
-        # 'button_text': button_text,
+        "user": user,
+        "posts": logged_in_user_posts,
     }
     return render(request, "profile.html", context)
