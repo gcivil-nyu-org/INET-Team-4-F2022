@@ -1,15 +1,10 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm
 from .models import Post
-
-
-# needed to add this function here to go back to blank main page
-# def logout_request(request):
-#     logout(request)
-#     messages.info(request, "You have successfully logged out.")
-#     return redirect("main:homepage")
+from main.views import login
 
 
 def like_post(request, pk):
@@ -23,31 +18,30 @@ def like_post(request, pk):
 
 
 def post_list(request):
-
-    new_post = None
-    # Comment posted
-    if request.method == "POST":
-        post_form = PostForm(data=request.POST)
-        if post_form.is_valid():
-            # Create Comment object but don't save to database yet
-            new_post = post_form.save(False)
-            new_post.author = request.user
-            # Save the comment to the database
-            new_post.save()
-    else:
-        post_form = PostForm()
-    refresh_queryset = Post.objects.order_by("-created_on")
-    return render(
-        request,
-        "index.html",
-        {
-            "post_list": refresh_queryset,
-            "post": refresh_queryset,
-            "new_comment": new_post,
-            "comment_form": post_form,
-        },
-    )
-
+    if request.user is not None:
+        new_post = None
+        # Comment posted
+        if request.method == "POST":
+            post_form = PostForm(data=request.POST)
+            if post_form.is_valid():
+                # Create Comment object but don't save to database yet
+                new_post = post_form.save(False)
+                new_post.author = request.user
+                # Save the comment to the database
+                new_post.save()
+        else:
+            post_form = PostForm()
+        refresh_queryset = Post.objects.order_by("-created_on")
+        return render(
+            request,
+            "index.html",
+            {
+                "post_list": refresh_queryset,
+                "post": refresh_queryset,
+                "new_comment": new_post,
+                "comment_form": post_form,
+            },
+        )
 
 def post_detail(request, id):
     template_name = "post_detail.html"
@@ -82,3 +76,28 @@ def post_detail(request, id):
             "comment_form": comment_form,
         },
     )
+
+# def profile_view(request):
+#     template_name = "profile.html"
+#     context = {
+#         "user": request.user
+#     }
+#     return render(request, template_name, context)
+
+def profile(request, pk):
+    user_object = User.objects.get(username=pk)
+    # user_profile = Profile.objects.get(user=user_object)
+
+    # follower = request.user.username
+    user = pk
+
+    # if FollowersCount.objects.filter(follower=follower, user=user).first():
+    #     button_text = 'Unfollow'
+    # else:
+    #     button_text = 'Follow'
+    context = {
+        'user_object': user_object,
+        # 'user_profile': user_profile,
+        # 'button_text': button_text,
+    }
+    return render(request, 'profile.html', context)
