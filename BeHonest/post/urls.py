@@ -8,4 +8,6 @@ urlpatterns = [
     path("news/<int:id>/", views.news_detail, name="news_detail"),
     # path("logout/", views.logout_request, name="logout"),
     path("like/<int:pk>", views.like_post, name="like_post"),
+    path("profile/<str:pk>", views.profile, name="profile"),
+    path("dislike/<int:pk>", views.dislike_post, name="dislike_post"),
 ]
