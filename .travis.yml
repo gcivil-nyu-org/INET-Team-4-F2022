@@ -15,7 +15,7 @@ install:
   - pip install sqlparse==0.4.3
   - pip install coveralls
   - pip install newsapi-python
-  - pip uninstall six
+  - pip uninstall -y six
   - pip install six==1.16.0
 
 script:
