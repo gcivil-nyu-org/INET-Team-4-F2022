@@ -87,7 +87,7 @@ class LoginTest(BaseTest):
         response = self.client.post(self.login_url, self.user, format="text/html")
         self.assertEqual(response.status_code, 200)
         messages = list(response.context["messages"])
-        self.assertEqual(str(messages[0]), "Registration successful.")
+        self.assertEqual(str(messages[0:4]), "Dear ")
 
     def test_login_fail(self):
         self.client.post(self.register_url, self.invalid_user, format="text/html")
