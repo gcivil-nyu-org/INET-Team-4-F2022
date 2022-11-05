@@ -1,7 +1,8 @@
 [flake8]
+# Ignore 100+ lines in certain files
 per-file-ignores =
     BeHonest/*: E501
 max-line-length = 100
 
 # Ignore bare except statements
-flake8 --ignore=E77 
+flake8 --ignore=E722
