@@ -11,5 +11,5 @@ urlpatterns = [
     path("login/", views.login_request, name="login"),
     path("logout", views.logout_request, name="logout"),
     path("", views.homepage, name="homepage"),
-    path('activate/<uidb64>/<token>', views.activate, name='activate')
+    path("activate/<uidb64>/<token>", views.activate, name="activate"),
 ]
