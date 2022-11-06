@@ -168,15 +168,7 @@ def password_reset_request(request):
                 email = EmailMessage(subject, message, to=[associated_user.email])
                 if email.send():
                     messages.success(request,
-                        """
-                        <h2>Password reset sent</h2><hr>
-                        <p>
-                            We've emailed you instructions for setting your password, if an account exists with the email you entered. 
-                            You should receive them shortly.<br>If you don't receive an email, please make sure you've entered the address 
-                            you registered with, and check your spam folder.
-                        </p>
-                        """
-                    )
+                        "Password reset email sent.")
                 else:
                     messages.error(request, "Problem sending reset password email, <b>SERVER PROBLEM</b>")
 
