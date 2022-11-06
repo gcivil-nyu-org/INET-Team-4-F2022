@@ -12,6 +12,7 @@ from django.core.mail import EmailMessage
 from .tokens import account_activation_token
 
 
+# Function added to the url for Email confirmation
 def activate(request, uidb64, token):
     User = get_user_model()
     try:
