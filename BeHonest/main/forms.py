@@ -22,7 +22,7 @@ class NewUserForm(UserCreationForm):
             user.save()
         return user
 
-
+# Form to accept New Password
 class SetPasswordForm(SetPasswordForm):
     class Meta:
         model = User
