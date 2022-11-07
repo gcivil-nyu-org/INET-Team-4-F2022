@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 from post.views import post_list
 
-
 app_name = "main"
 
 # slashes after login and register are needed
@@ -13,7 +12,7 @@ urlpatterns = [
     path("logout", views.logout_request, name="logout"),
     path("", views.homepage, name="homepage"),
     path("activate/<uidb64>/<token>", views.activate, name="activate"),
-    # new
+    # Forget Password urls
     path("password_reset", views.password_reset_request, name="password_reset"),
     path(
         "reset/<uidb64>/<token>",
