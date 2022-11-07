@@ -22,10 +22,12 @@ class NewUserForm(UserCreationForm):
             user.save()
         return user
 
+
 class SetPasswordForm(SetPasswordForm):
     class Meta:
         model = User
-        fields = ['new_password1', 'new_password2']
+        fields = ["new_password1", "new_password2"]
+
 
 class PasswordResetForm(PasswordResetForm):
     def __init__(self, *args, **kwargs):
