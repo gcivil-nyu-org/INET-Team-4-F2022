@@ -125,7 +125,7 @@ def post_detail(request, id):
     )
 
 
-def news_detail(request,id):
+def news_detail(request, id):
     """
 
     :param request:
@@ -137,7 +137,6 @@ def news_detail(request,id):
     post = get_object_or_404(News, id=id)
     comments = post.newscomment.filter(active=True).order_by("-created_on")
     new_comment = None
-
 
     # Comment posted
     if request.method == "POST":
@@ -162,6 +161,8 @@ def news_detail(request,id):
             "comment_form": comment_form,
         },
     )
+
+
 def profile(request, pk):
     user = User.objects.get(username=pk)
     logged_in_user_posts = Post.objects.filter(author=user)
