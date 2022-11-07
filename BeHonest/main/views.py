@@ -16,6 +16,7 @@ from django.db.models.query_utils import Q
 
 # Function added to the url for Email confirmation
 
+
 def activate(request, uidb64, token):
     User = get_user_model()
     try:
@@ -198,7 +199,7 @@ def passwordResetConfirm(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
-    except:
+    except User.DoesNotExist:
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
