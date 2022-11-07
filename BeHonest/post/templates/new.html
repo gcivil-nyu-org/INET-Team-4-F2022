@@ -12,6 +12,12 @@
 
       <p class="card-text">{{desc|slice:":200" }}</p>
       <a href= "{{ urls }}">Read More</a>
+      <form method="post" action="/home">
+        {% csrf_token %}
+        <input type="hidden" name="link" value="{{urls}}">
+        <button type="submit">make news article</button>
+
+      </form>
     </div>
 
   </div>
