@@ -36,12 +36,7 @@
 
       <p class="card-text">{{desc|slice:":200" }}</p>
       <a href= "{{ urls }}">Read More</a>
-      <form method="post" action="/home">
-        {% csrf_token %}
-        <input type="hidden" name="link" value="{{urls}}">
-        <button type="submit">make news article</button>
-
-      </form>
+      
     </div>
   </div>
 </header> {% endcomment %}
@@ -59,6 +54,7 @@
             <p class="card-text">{{post.desc|slice:":200" }}</p>
 
             <a href="{% url 'post:news_detail' post.id  %}" class="btn btn-primary">Read More &rarr;</a>
+            
           </div>
         </div>
       {% endfor %}
