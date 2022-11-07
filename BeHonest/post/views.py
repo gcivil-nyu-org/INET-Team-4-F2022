@@ -33,7 +33,27 @@ def dislike_post(request, pk):
 
 
 def post_list(request):
+
     if request.user is not None:
+        if request.method == "POST":
+            if "link" in request.POST:
+                post_form = PostForm()
+                new_post = None
+                new_post = post_form.save(False)
+                auto_populate = request.POST["link"]
+                refresh_queryset = Post.objects.order_by("-created_on")
+                return render(
+                    request,
+                    "index.html",
+                    {
+                        "post_list": refresh_queryset,
+                        "post": refresh_queryset,
+                        "new_comment": new_post,
+                        "comment_form": post_form,
+                        "auto_populate": auto_populate,
+                    },
+                )
+
         new_post = None
         # Comment posted
         if request.method == "POST":
@@ -46,6 +66,7 @@ def post_list(request):
                 new_post.save()
         else:
             post_form = PostForm()
+
         refresh_queryset = Post.objects.order_by("-created_on")
         return render(
             request,
