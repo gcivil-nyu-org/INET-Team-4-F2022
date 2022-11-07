@@ -51,17 +51,17 @@
         </a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            {% if user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link text-white" href="{% url 'main:logout' %}">Logout</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white" href="/home">{{user.username}}</a>
+                {% comment %} <a class="nav-link text-white" href="{% url 'post:profile/user.username' %}">{{user.username}}</a> {% endcomment %}
+                <a class="nav-link text-white" href="/home/profile/{{user.username}}">{{user.username}}</a>
               </li>
               <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
     
-                  <li class="nav-item text-black">
+                  {% comment %} <li class="nav-item text-black"> {% endcomment %}
                     <a
                       class="nav-link text-black font-weight-bold"
                       href="/news"
@@ -70,11 +70,6 @@
                   </li>
                 </ul>
               </div>
-            {% else %}
-              <li class="nav-item">
-                <a class="nav-link text-white" href="login">Login</a>
-              </li>
-            {% endif %}
           </ul>
         </div>
         </div>
@@ -91,6 +86,7 @@
 
       <p class="text-center">Don't have an account? <a href="register">Create an account</a>.</p>
     </div>
+
     {% endif %}
     <!-- Navigation -->
 

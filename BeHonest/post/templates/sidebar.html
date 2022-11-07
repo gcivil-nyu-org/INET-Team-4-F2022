@@ -10,9 +10,12 @@
 <!-- Sidebar Widgets Column -->
 <div class="col-md-4 float-right ">
 <div class="card my-4">
+       
+        <h1 style="display:none" id="autopopulate">{{auto_populate}}</h1>
+        
         <h5 class="card-header">New post</h5>
     <div class="card-body">
-        {% if new_comment %}
+        {% if new_comment and not auto_populate%}
         <div class="alert alert-success" role="alert">
           new post submitted
         </div>
@@ -34,5 +37,12 @@
     </div>
 </div>
 </div>
+<script>
+  const autopopulate = document.getElementById("autopopulate").innerHTML;
+  const title = document.getElementById("id_title");
+  title.value="";
+  const post_content = document.getElementById("id_content");
+  post_content.value = autopopulate;
+  </script>
 
 {% endblock sidebar %}

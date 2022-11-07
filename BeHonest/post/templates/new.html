@@ -28,6 +28,20 @@
           </div>
         </div>
       </div>
+ <div class="card mb-4" >
+    <div class="card-body">
+      <h2 class="card-title">{{ title}}</h2>
+      <br>
+     <img src="{{ i }}" alt="">
+
+      <p class="card-text">{{desc|slice:":200" }}</p>
+      <a href= "{{ urls }}">Read More</a>
+      <form method="post" action="/home">
+        {% csrf_token %}
+        <input type="hidden" name="link" value="{{urls}}">
+        <button type="submit">make news article</button>
+
+      </form>
     </div>
   </div>
 </header> {% endcomment %}
