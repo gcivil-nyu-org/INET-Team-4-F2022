@@ -11,7 +11,7 @@
     <link rel="stylesheet" href = {% static 'styles.css' %}>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Fredoka+One&family=Oswald&display=swap" rel="stylesheet"> 
   </head>
  <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow" id="mainNav">
@@ -34,7 +34,7 @@
               <a class="nav-link text-white" href="logout">Logout</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-white" href="home">Welcome, {{user.username}}</a>
+              <a class="nav-link text-white" href="home">{{user.username}}</a>
             </li>
           {% else %}
             <li class="nav-item">
