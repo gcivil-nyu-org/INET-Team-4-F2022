@@ -37,7 +37,6 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "BeHonestProd.eba-6psvckgt.us-west-2.elasticbeanstalk.com",
-    "BeHonestDev.eba-qic3ymrf.us-west-2.elasticbeanstalk.com",
     "django-env.eba-37ttvtk2.us-west-2.elasticbeanstalk.com",
     "behonest-production-env.eba-9rwzyrmn.us-west-2.elasticbeanstalk.com",
     "127.0.0.1",
