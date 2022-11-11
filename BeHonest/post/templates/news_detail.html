@@ -10,6 +10,12 @@
       </div>
       <br/><br/>
       <a href= "{{ post.url }}">Read More</a>
+      <form method="post" action="/home">
+        {% csrf_token %}
+        <input type="hidden" name="link" value="{{post.url}}">
+        <button type="submit">make news article</button>
+
+      </form>
       <hr>
     <br/>
     </div>
