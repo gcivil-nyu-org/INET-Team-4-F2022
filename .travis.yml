@@ -34,7 +34,7 @@ deploy:
   env: "BeHonestDev"
   bucket_name: "elasticbeanstalk-us-west-2-502730698175"
   on:
-    branch: main
+    branch: develop
 
 notifications:
   slack: gcivil-nyu:Hlh3yiC4qXUKTVMZDwsN6FJc
