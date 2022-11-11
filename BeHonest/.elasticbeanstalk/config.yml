@@ -1,6 +1,7 @@
 branch-defaults:
   default:
-    environment: BeHonest-production-env
+    environment: BeHonestProd
+    group_suffix: null
 global:
   application_name: BeHonest-production
   branch: null
