@@ -3,8 +3,8 @@ from .models import News, newsComment
 
 
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ("title","desc", "img", "url")
-    search_fields = ["title","desc", "img", "url"]
+    list_display = ("title", "desc", "img", "url")
+    search_fields = ["title", "desc", "img", "url"]
 
 
 admin.site.register(News, NewsAdmin)
