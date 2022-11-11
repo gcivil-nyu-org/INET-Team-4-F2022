@@ -5,10 +5,7 @@ from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm, NewsForm
 from .models import Post
 from news.models import News
-from datetime import datetime, timedelta
-import pytz
 
-utc=pytz.UTC
 
 def like_post(request, pk):
     post = get_object_or_404(Post, id=request.POST.get("post_id"))
