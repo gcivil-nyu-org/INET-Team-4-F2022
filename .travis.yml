@@ -40,7 +40,7 @@ deploy:
   env: "BeHonestProd"
   bucket_name: "elasticbeanstalk-us-west-2-502730698175"
   on:
-    branch: develop
+    branch: main
 
 
 notifications:
