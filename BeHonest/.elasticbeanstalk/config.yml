@@ -1,9 +1,9 @@
 branch-defaults:
-  default:
+  main:
     environment: BeHonestProd
     group_suffix: null
 global:
-  application_name: BeHonest-production
+  application_name: BeHonest_Production
   branch: null
   default_ec2_keyname: null
   default_platform: Python 3.7
@@ -14,5 +14,5 @@ global:
   platform_version: null
   profile: eb-cli
   repository: null
-  sc: null
+  sc: git
   workspace_type: Application
