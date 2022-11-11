@@ -2,11 +2,8 @@ branch-defaults:
   develop:
     environment: BeHonestDev
     group_suffix: null
-  main:
-    environment: BeHonestProd
-    group_suffix: null
 global:
-  application_name: BeHonest_Prod
+  application_name: BeHonest_Develop
   branch: null
   default_ec2_keyname: null
   default_platform: Python 3.7
