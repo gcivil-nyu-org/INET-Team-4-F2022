@@ -1,7 +1,4 @@
 branch-defaults:
-  develop:
-    environment: BeHonestDev
-    group_suffix: null
   main:
     environment: BeHonestProd
     group_suffix: null
