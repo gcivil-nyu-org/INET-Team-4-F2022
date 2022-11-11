@@ -30,8 +30,8 @@ deploy:
   access_key_id: $KP_ACESSKYIDPROD
   secret_access_key: $KP_SECRETACCESSKEYPROD
   region: "us-west-2"  
-  app: "BeHonest_Prod"
-  env: "BeHonestProd"
+  app: "BeHonest-production"
+  env: "BeHonest-production-env"
   bucket_name: "elasticbeanstalk-us-west-2-502730698175"
   on:
     branch: main
