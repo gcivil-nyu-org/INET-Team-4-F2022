@@ -1,0 +1,8 @@
+<!-- This is the email template which is sent to the user -->
+{% autoescape off %}
+Hi {{ user.username }},
+
+Please click on the link below to confirm your registration:
+
+{{ protocol }}://{{ domain }}{% url 'main:activate' uidb64=uid token=token %}
+{% endautoescape %}

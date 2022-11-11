@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime, timedelta
+import pytz
+utc=pytz.UTC
 
 
 class Post(models.Model):
@@ -23,6 +26,14 @@ class Post(models.Model):
 
     def total_dislikes(self):
         return self.dislikes.count()
+    
+    def newpost(self):
+        now = datetime.now()
+        now = utc.localize(now) 
+        if now-timedelta(hours=24) <= self.created_on:
+            return True
+        else:
+            return False
 
 
 class Comment(models.Model):
