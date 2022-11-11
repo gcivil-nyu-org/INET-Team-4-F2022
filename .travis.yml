@@ -19,6 +19,9 @@ install:
 before_script:
 - python BeHonest/manage.py migrate
 
+before_script:
+- python BeHonest/manage.py migrate
+
 script:
   - black  ./
   - flake8 ./
