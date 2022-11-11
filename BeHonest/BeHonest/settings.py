@@ -35,7 +35,6 @@ SECRET_KEY = "django-insecure-pn1li%*z&uc=jqd@!9u-brh^drik*z!r-^1sorspwn35-d4#ix
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost",
     "BeHonestProd.eba-6psvckgt.us-west-2.elasticbeanstalk.com",
     "django-env.eba-37ttvtk2.us-west-2.elasticbeanstalk.com",
     "behonest-production-env.eba-9rwzyrmn.us-west-2.elasticbeanstalk.com",
