@@ -33,8 +33,8 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  access_key_id: $KP_ACESSKYIDPROD
-  secret_access_key: $KP_SECRETACCESSKEYPROD
+  access_key_id: $KP_ACCESSKEYIDDEV
+  secret_access_key: $KP_SECRETACESSKEYDEV
   region: "us-west-2"  
   app: "BeHonest_Production"
   env: "BeHonestProd"
