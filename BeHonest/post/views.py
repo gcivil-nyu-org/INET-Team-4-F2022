@@ -3,10 +3,8 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm, NewsForm
-from .models import Post
 from news.models import News
 from post.models import Post
-from django.db.models.query_utils import Q
 
 
 def like_post(request, pk):
@@ -81,6 +79,7 @@ def post_list(request):
             },
         )
 
+
 def post_author(request):
 
     if request.user is not None:
@@ -127,6 +126,7 @@ def post_author(request):
                 "comment_form": post_form,
             },
         )
+
 
 def post_detail(request, id):
     """
