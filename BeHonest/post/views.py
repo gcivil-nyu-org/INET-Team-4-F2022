@@ -212,8 +212,10 @@ def news_detail(request, id):
 def profile(request, pk):
     user = User.objects.get(username=pk)
     logged_in_user_posts = Post.objects.filter(author=user)
+    # no_of_likes = Post.objects.filter(likes=user)
     context = {
         "user": user,
         "posts": logged_in_user_posts,
+        # "No of Likes": no_of_likes,
     }
     return render(request, "profile.html", context)
