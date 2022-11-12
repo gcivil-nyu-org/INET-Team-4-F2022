@@ -79,6 +79,52 @@ def post_list(request):
             },
         )
 
+def post_author(request):
+
+    if request.user is not None:
+        if request.method == "POST":
+            if "link" in request.POST:
+                post_form = PostForm()
+                new_post = None
+                new_post = post_form.save(False)
+                auto_populate = request.POST["link"]
+                refresh_queryset = Post.objects.order_by("-likes")
+                return render(
+                    request,
+                    "sort.html",
+                    {
+                        "post_author": refresh_queryset,
+                        "post": refresh_queryset,
+                        "new_comment": new_post,
+                        "comment_form": post_form,
+                        "auto_populate": auto_populate,
+                    },
+                )
+
+        new_post = None
+        # Comment posted
+        if request.method == "POST":
+            post_form = PostForm(data=request.POST)
+            if post_form.is_valid():
+                # Create Comment object but don't save to database yet
+                new_post = post_form.save(False)
+                new_post.author = request.user
+                # Save the comment to the database
+                new_post.save()
+        else:
+            post_form = PostForm()
+
+        refresh_queryset = Post.objects.order_by("-likes")
+        return render(
+            request,
+            "sort.html",
+            {
+                "post_author": refresh_queryset,
+                "post": refresh_queryset,
+                "new_comment": new_post,
+                "comment_form": post_form,
+            },
+        )
 
 def post_detail(request, id):
     """
