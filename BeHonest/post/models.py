@@ -11,9 +11,8 @@ class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name="post_post")
     dislikes = models.ManyToManyField(User, related_name="blog_post")
-
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["-title"]
 
     def __str__(self):
         return self.title
