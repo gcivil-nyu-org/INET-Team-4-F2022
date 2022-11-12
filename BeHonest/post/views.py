@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm, NewsForm
 from .models import Post
 from news.models import News
+from django.db.models.query_utils import Q
 
 
 def like_post(request, pk):
@@ -212,7 +213,7 @@ def news_detail(request, id):
 def profile(request, pk):
     user = User.objects.get(username=pk)
     logged_in_user_posts = Post.objects.filter(author=user)
-    # no_of_likes = Post.objects.filter(likes=user)
+    # no_of_likes = Post.objects.filter(Q(likes=total_likes))
     context = {
         "user": user,
         "posts": logged_in_user_posts,
