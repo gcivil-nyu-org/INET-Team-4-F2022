@@ -16,3 +16,15 @@ install:
   - pip install coveralls
   - pip install newsapi-python
   
+before_script:
+- python BeHonest/manage.py migrate
+
+before_script:
+- python BeHonest/manage.py migrate
+
+script:
+  - black  ./
+  - flake8 ./
+  - cd BeHonest
+  - coverage run --source=main,post manage.py test
+
