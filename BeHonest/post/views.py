@@ -79,6 +79,7 @@ def post_list(request):
             },
         )
 
+
 def post_author(request):
 
     if request.user is not None:
@@ -125,6 +126,7 @@ def post_author(request):
                 "comment_form": post_form,
             },
         )
+
 
 def post_detail(request, id):
     """
