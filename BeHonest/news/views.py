@@ -16,14 +16,14 @@ def index(request):
     for i in range(len(a)):
         f = a[i]
         desc = f["description"]
-        if News.objects.filter(desc = desc).exists():
+        if News.objects.filter(desc=desc).exists():
             continue
         else:
             news_data = News(
                 title=f["title"],
                 desc=f["description"],
                 img=f["urlToImage"],
-                url=f["url"]
+                url=f["url"],
             )
             title.append(f["title"])
 
@@ -41,7 +41,7 @@ def index(request):
             "post_list": refresh_queryset,
             "post": refresh_queryset,
             "new_comment": new_post,
-           },
+        },
     )
     #
     # mylist = zip(title, desc, img, url)

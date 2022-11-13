@@ -2,6 +2,7 @@ from .models import Comment, Post
 from django import forms
 from news.models import newsComment
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

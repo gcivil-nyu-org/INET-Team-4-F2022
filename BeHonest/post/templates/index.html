@@ -31,13 +31,17 @@
     </div>
   </div>
 </header> {% endcomment %}
-
+<div class="offset-md-7 mt-3 left">
+ <a class="btn btn-primary " href="{% url 'post:sort' %}">
+   byLike
+        </a>
+</div>
 <div class="container">
   <div class="row">
     <!-- Blog Entries Column -->
     <div class="col-md-8 mt-3 left">
       {% for post in post_list %}
-      {% if post.newpost %}
+      {% if post.checknew %}
         <div class="card mb-4" >
           <div class="card-body">
             <h2 class="card-title">{{ post.title }}</h2>
@@ -46,7 +50,7 @@
             <a href="{% url 'post:post_detail' post.id  %}" class="btn btn-primary">Read More &rarr;</a>
           </div>
         </div>
-      {% endif %}  
+      {% endif %} 
       {% endfor %}
     </div>
       {% block sidebar %}

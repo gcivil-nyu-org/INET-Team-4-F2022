@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
   <head>
     <title> Behonest</title>
@@ -8,46 +9,23 @@
       rel="stylesheet">
     <meta name="google" content="notranslate" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href = {% static 'styles.css' %}>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Fredoka+One&family=Oswald&display=swap" rel="stylesheet"> 
 
   </head>
 
   <body>
-    <style>
-      body {
-        font-family: "Roboto", sans-serif;
-        font-size: 17px;
-        background-color: #fdfdfd;
-      }
 
-    .shadow{
-           box-shadow: 0 4px 2px -2px rgba(0,0,0,0.1);
-       }
-      .btn-danger {
-        color: #fff;
-        background-color: #f00000;
-        border-color: #dc281e;
-      }
-
-     .masthead {
-              background:#3398E1;
-              height: auto;
-              padding-bottom: 15px;
-              box-shadow: 0 16px 48px #E3E7EB;
-              padding-top: 10px;
-    }
-    </style>
     {% if user.is_authenticated %}
     <!-- <h1>Working</h1> -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow" id="mainNav">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'post:base' %}">
-          <h2 class="h2">BeHonest</h2>
+          <img src="{% static 'img/Febee.png' %}" alt="Febee" class="logo">
+          BeHonest
         </a>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">

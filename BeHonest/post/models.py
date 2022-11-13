@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 import pytz
 utc = pytz.UTC
 
-
 class Post(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(
@@ -16,7 +15,7 @@ class Post(models.Model):
     dislikes = models.ManyToManyField(User, related_name="blog_post")
 
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["-title"]
 
     def __str__(self):
         return self.title
@@ -27,7 +26,7 @@ class Post(models.Model):
     def total_dislikes(self):
         return self.dislikes.count()
 
-    def newpost(self):
+    def checknew(self):
         now = datetime.now()
         now = utc.localize(now)
         if now-timedelta(hours=24) <= self.created_on:
