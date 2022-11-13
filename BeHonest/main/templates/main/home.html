@@ -1,40 +1,306 @@
 {% extends 'main/header.html' %}
-  {% block content %}   
-  <style>
-    .jumbotron {
-      background: linear-gradient(to right, rgba(38, 35, 35, 0.35), rgba(65, 17, 17, 0.134)), 
-      /* url("data:image/png;base64,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"); */
-      url("https://images.pexels.com/photos/450597/pexels-photo-450597.jpeg?cs=srgb&dl=pexels-lex-photography-450597.jpg&fm=jpg");
-      background-position: center;
-      background-size: cover;
-    }
-  </style>
-    <!--CTA-->
-    <header class="jumbotron jumbotron-fluid">
-      <div class="container-fluid text-center"> 
-         <h1 class="display-3 text-white">Welcome to BeHonest</h1>
-         <p class="lead pb-4 text-white">NY's newest and greatest Social Media Application</p>
-      </div>
-    </header>
+{% load static %}
+{% block content %}   
+<style>
+  .jumbotron {
+    background: linear-gradient(to right, rgba(38, 35, 35, 0.35), rgba(65, 17, 17, 0.134)), 
+    /* url("data:image/png;base64,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"); */
+    url("https://wallpapercave.com/uwp/uwp1548900.jpeg");
+    padding-top: 5%;
+    padding-bottom: 5%;
+    background-size: cover;
+    background-position: 3% 65%; 
+  }
 
-    <!-- This below is a bandaid fix -->
-    {% load crispy_forms_tags %}
-    {% if user.is_authenticated %}
-      <h2>You're Logged in, Landing Page Still under works click back on BeHonest icon to go got posts</h2>
-    {% else %}
-      <!--Login--> 
-      <div class="container py-5">
-        <h1>Login</h1>
-        <form method="POST">
-          {% csrf_token %}
-          {{ login_form|crispy }}
-          <button class="btn btn-primary" type="submit">Login</button>
+  /* Home Page Sign in form */
+  .container {
+    position: relative;
+    min-width: 100%;
+    background-color: #fff;
+    min-height: 94vh;
+    overflow: hidden;
+  }
+
+  .forms-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  .signin-signup {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 75%;
+    width: 70%;
+    transition: 1s 0.7s ease-in-out;
+    display: grid;
+    grid-template-columns: 1fr;
+    z-index: 5;
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0rem 7rem;
+    transition: all 0.2s 0.7s;
+    overflow: hidden;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  form.sign-in-form {
+    z-index: 2;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    color: #444;
+    margin-bottom: 10px;
+  }
+
+  .input-field {
+    max-width: 380px;
+    width: 100%;
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    height: 55px;
+    border-radius: 55px;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    padding: 0 0.4rem;
+    position: relative;
+  }
+
+  .btn {
+    width: 150px;
+    background-color: #101b2e;
+    border: none;
+    outline: none;
+    height: 49px;
+    border-radius: 49px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+
+  .btn:hover {
+    background-color: #4b4f56;
+  }
+
+  .panels-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .container:before {
+    content: "";
+    position: absolute;
+    height: 2000px;
+    width: 2000px;
+    top: -10%;
+    right: 48%;
+    transform: translateY(-50%);
+    background-image: linear-gradient(-45deg, #290202 0%, #620707 100%);
+    transition: 1.8s ease-in-out;
+    border-radius: 60%;
+    z-index: 6;
+  }
+
+  .image {
+    width: 100%;
+    transition: transform 1.1s ease-in-out;
+    transition-delay: 0.4s;
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-around;
+    text-align: center;
+    z-index: 6;
+  }
+
+  .left-panel {
+    pointer-events: all;
+    padding: 1rem 17% 2rem 12%;
+  }
+
+  .panel .content {
+    color: #fff;
+    transition: transform 0.9s ease-in-out;
+    transition-delay: 0.6s;
+  }
+
+  .panel h3 {
+    font-weight: 600;
+    line-height: 1;
+    font-size: 1.5rem;
+  }
+
+  .panel p {
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+  }
+
+  .btn.transparent {
+    margin: 0;
+    background: none;
+    border: 3px solid #fff;
+    width: 130px;
+    height: 41px;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 870px) {
+    .container {
+      min-height: 800px;
+      height: 100vh;
+    }
+    .signin-signup {
+      width: 100%;
+      top: 95%;
+      transform: translate(-50%, -100%);
+      transition: 1s 0.8s ease-in-out;
+    }
+
+    .signin-signup,
+    .container.sign-up-mode .signin-signup {
+      left: 50%;
+    }
+
+    .panels-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 2fr 1fr;
+    }
+
+    .panel {
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      padding: 2.5rem 8%;
+      grid-column: 1 / 2;
+    }
+
+    .left-panel {
+      grid-row: 1 / 2;
+    }
+
+    .image {
+      width: 200px;
+      transition: transform 0.9s ease-in-out;
+      transition-delay: 0.6s;
+    }
+
+    .panel .content {
+      padding-right: 15%;
+      transition: transform 0.9s ease-in-out;
+      transition-delay: 0.8s;
+    }
+
+    .panel h3 {
+      font-size: 1.2rem;
+    }
+
+    .panel p {
+      font-size: 0.7rem;
+      padding: 0.5rem 0;
+    }
+
+    .btn.transparent {
+      width: 110px;
+      height: 35px;
+      font-size: 0.7rem;
+    }
+
+    .container:before {
+      width: 1500px;
+      height: 1500px;
+      transform: translateX(-50%);
+      left: 30%;
+      bottom: 68%;
+      right: initial;
+      top: initial;
+      transition: 2s ease-in-out;
+    }
+  }
+
+  @media (max-width: 570px) {
+    form {
+      padding: 0 1.5rem;
+    }
+
+    .image {
+      display: none;
+    }
+    .panel .content {
+      padding: 0.5rem 1rem;
+    }
+    .container {
+      padding: 1.5rem;
+    }
+
+    .container:before {
+      bottom: 72%;
+      left: 50%;
+    }
+  }
+</style>
+  <!--CTA-->
+  {% load crispy_forms_tags %}
+  {% if user.is_authenticated %}
+    <h2>You're Logged in, Landing Page Still under works click back on BeHonest icon to go got posts</h2>
+  {% else %}
+
+
+  <div class="container">
+    <div class="forms-container">
+      <div class="signin-signup">
+        <form method = "post" class="sign-in-form">
+          <h2 class="title"><strong>Sign-In </strong>Here</h2>
+          <div class="form-group">
+            {% csrf_token %}
+            {{ login_form|crispy }}
+          </div>
+          <div class="form-group">
+            <button class="btn btn-success btn-block" type="submit">Login</button>
+            <a href="{% url 'main:password_reset' %}">Forgot password?</a>
+            <p class="text-left">Don't have an account? <a href="/register">Create an account</a>.</p>
+          </div>
         </form>
-        <a href="{% url 'main:password_reset' %}">Forgot password?</a>
-        <p class="text-left">Don't have an account? <a href="/register">Create an account</a>.</p>
       </div>
-    {% endif %}
-    
-    
-  {% endblock %}
+    </div>
+
+    <div class="panels-container">
+      <div class="panel left-panel">
+        <div class="content">
+          <h3>New here?</h3>
+          <p>
+            Welcome to BeHonest, we are INET-Team-4 and we're looking to provide you a new social media appication where you can share your thoughts under
+            the guise of anonymity. If you're not a user feel free to click the Sign-Up button below!!!
+          </p>
+          <a href="{% url 'main:register' %}" class = "btn transparent" id = "sign-up-btn">
+              Sign-Up
+          </a>
+        </div>
+        <img src="{% static 'img/home_page_icon.svg' %}" class="image" alt="draw_icon" />
+      </div>
+    </div>
+  </div>
+  {% endif %}
   
+{% endblock %}
