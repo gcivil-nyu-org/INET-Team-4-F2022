@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm
 from .models import Post
 
+from main.models import FriendRequest, Friend
+
 
 def like_post(request, pk):
 
@@ -119,9 +121,51 @@ def post_detail(request, id):
 
 def profile(request, pk):
     user = User.objects.get(username=pk)
+    authenticated_user = request.user
+
     logged_in_user_posts = Post.objects.filter(author=user)
+    try:
+        friend_requests = FriendRequest.objects.filter(receiver=user, status="pending")
+    except FriendRequest.DoesNotExist:
+        friend_requests = []
+
+    try:
+        friends = Friend.objects.get(primary=user, secondary=authenticated_user)
+        isFriend = True
+    except Friend.DoesNotExist:
+        isFriend = False
+
+    friend_requests = FriendRequest.objects.filter(
+        receiver=authenticated_user, status="pending"
+    )
+    already_sent = FriendRequest.objects.filter(
+        sender=authenticated_user, receiver=user, status="pending"
+    )
+    print(friend_requests)
+    if already_sent:
+        alreadySent = True
+
+    else:
+        alreadySent = False
+
+    try:
+
+        friends = Friend.objects.filter(primary=user)
+        print("got firneds")
+    except Friend.DoesNotExist:
+        print("here")
+        friends = []
+
+    print(alreadySent)
+
     context = {
         "user": user,
         "posts": logged_in_user_posts,
+        "friend_requests": friend_requests,
+        "authenticated_user": authenticated_user,
+        "friends": friends,
+        "isFriend": isFriend,
+        "alreadySent": alreadySent,
     }
+
     return render(request, "profile.html", context)

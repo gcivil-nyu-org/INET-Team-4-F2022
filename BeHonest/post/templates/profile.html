@@ -1,7 +1,57 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2> Welcome to {{ user.username }}'s profile page</h2>
-    <div class = "container"
+    {% if authenticated_user != user%}
+        {% if not isFriend and not alreadySent%}
+        <form method="POST" action="/send_friend_request">
+            {% csrf_token %}
+            <input type = "hidden" name="receiver" value="{{user.username}}">
+
+            <button type="submit">add friend</button>
+
+    
+        </form>
+        {% elif alreadySent and not isFriend%}
+            <h1>your friend request is pending</h1>
+        
+        {% endif %}
+    {% endif %}
+
+    {% if authenticated_user == user %}
+    <div class = "container">
+        <div class = "card">
+            <h1>friend reqs</h1>
+            {% for req in friend_requests %}
+            <form method="POST" action="/accept_friend_request">
+                {% csrf_token %}
+                <div class="card-header">
+                    <h4>{{ req.sender }}</p>
+                    <input type="hidden" name="sender" value="{{req.sender}}">
+                    <button>accept?</button>
+                </div>
+                
+                <br>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class = "container">
+        <div class = "card">
+            <h1>friends</h1>
+            {% for friend in friends %}
+          
+                    <h4>{{ friend.secondary }}</p>
+                   
+                
+                <br>
+        
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class = "container">
         <div class = "card">
             {% for post in posts %}
                 <div class="card-header">
