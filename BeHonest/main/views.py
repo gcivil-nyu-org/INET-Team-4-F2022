@@ -241,8 +241,8 @@ def AddFriend(request):
     new_friend_request.receiver = receiver
     new_friend_request.status = "pending"
     new_friend_request.save(True)
-
-    return redirect("main:homepage")
+    redirect_str = "/home/profile/" + request.POST["receiver"]
+    return redirect(redirect_str)
 
 
 def AcceptFriend(request):
@@ -271,5 +271,5 @@ def AcceptFriend(request):
         new_friend_secondary.primary = receiver
         new_friend_secondary.secondary = sender
         new_friend_secondary.save(True)
-
-    return redirect("main:homepage")
+    redirect_str = "/home/profile/" + str(request.user)
+    return redirect(redirect_str)
