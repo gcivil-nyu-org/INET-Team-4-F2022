@@ -13,7 +13,7 @@ class Post(models.Model):
     dislikes = models.ManyToManyField(User, related_name="blog_post")
 
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["-title"]
 
     def __str__(self):
         return self.title
