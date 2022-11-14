@@ -3,8 +3,8 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm, NewsForm
-from .models import Post
 from news.models import News
+from post.models import Post
 
 
 def like_post(request, pk):
@@ -214,8 +214,11 @@ def news_detail(request, id):
 def profile(request, pk):
     user = User.objects.get(username=pk)
     logged_in_user_posts = Post.objects.filter(author=user)
+    # no_of_likes = Post.objects.filter(Q(likes=total_likes))
+    # no_of_likes = Post.objects.filter(max(total_likes))
     context = {
         "user": user,
         "posts": logged_in_user_posts,
+        # "No of Likes": no_of_likes,
     }
     return render(request, "profile.html", context)

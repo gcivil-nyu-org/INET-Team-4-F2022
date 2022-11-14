@@ -1,15 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2 class = "display-4 text-center"> {{ user.username }}'s Post History</h2>
-    <div class = "container"
+    <div class = "container">
+        
+
+        {% if posts%}
+            <p>Number of Posts: {{ posts|length }}</p>
+            <p>Number of Friends: </p>
+        {%endif%}
+        
         <div class = "card">
+            
             {% for post in posts %}
+            <p>Likes: {{ post.total_likes }} Dislikes: {{ post.total_dislikes }}</p>
+            <!-- <p>DisLikes: {{ post.total_dislikes }}</p> -->
                 <div class="card-header">
                     <h4>{{ post.title }}</p>
                 </div>
                 <div class="card-body">
                     <blockquote class = "blockquote mb-0">
                         <p>{{ post.content }}</p>
+                        
                         <footer class="blockquote-footer">{{post.created_on}}<cite title="Source Title">{{post.author.username}}</cite></footer>
                     </blockquote>
                 </div>
@@ -17,4 +28,6 @@
             {% endfor %}
         </div>
     </div>
+    
+    
 {% endblock %}
