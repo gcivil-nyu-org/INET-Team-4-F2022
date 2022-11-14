@@ -17,9 +17,7 @@ install:
   - pip install newsapi-python
   
 before_script:
-- python BeHonest/manage.py migrate
-
-before_script:
+- python BeHonest/manage.py makemigrations
 - python BeHonest/manage.py migrate
 
 script:
