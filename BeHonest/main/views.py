@@ -13,6 +13,8 @@ from .tokens import account_activation_token
 from .forms import PasswordResetForm
 from .forms import SetPasswordForm
 from django.db.models.query_utils import Q
+from .forms import FriendRequestForm, FriendForm
+from .models import FriendRequest, Friend
 
 # Function added to the url for Email confirmation
 
@@ -222,4 +224,52 @@ def passwordResetConfirm(request, uidb64, token):
         messages.error(request, "Link is expired")
 
     messages.error(request, "Something went wrong, redirecting back to Homepage")
+    return redirect("main:homepage")
+
+
+def AddFriend(request):
+    print("receiver")
+    print(request.POST["receiver"])
+    print("user")
+    print(request.user)
+    User = get_user_model()
+    sender = User.objects.get(username=request.user)
+    receiver = User.objects.get(username=request.POST["receiver"])
+    friend_request_form = FriendRequestForm()
+    new_friend_request = friend_request_form.save(False)
+    new_friend_request.sender = sender
+    new_friend_request.receiver = receiver
+    new_friend_request.status = "pending"
+    new_friend_request.save(True)
+
+    return redirect("main:homepage")
+
+
+def AcceptFriend(request):
+    print(request.POST["sender"])
+    print(request.user)
+    User = get_user_model()
+    receiver = User.objects.get(username=request.user)
+    sender = User.objects.get(username=request.POST["sender"])
+    friend_request = FriendRequest.objects.get(sender=sender, receiver=receiver)
+    friend_request.status = "accepted"
+    friend_request.save()
+
+    try:
+        Friend.objects.get(primary=sender, secondary=receiver)
+
+    except Friend.DoesNotExist:
+        print("friend doesn not exist")
+        friend_form = FriendForm()
+        new_friend = friend_form.save(False)
+        new_friend.primary = sender
+        new_friend.secondary = receiver
+        new_friend.save(True)
+
+        friend_form_secondary = FriendForm()
+        new_friend_secondary = friend_form_secondary.save(False)
+        new_friend_secondary.primary = receiver
+        new_friend_secondary.secondary = sender
+        new_friend_secondary.save(True)
+
     return redirect("main:homepage")

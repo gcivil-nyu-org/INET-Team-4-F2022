@@ -1,15 +1,76 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2 class = "display-4 text-center"> {{ user.username }}'s Post History</h2>
-    <div class = "container"
+    {% if authenticated_user != user%}
+        {% if not isFriend and not alreadySent%}
+        <form method="POST" action="/send_friend_request">
+            {% csrf_token %}
+            <input type = "hidden" name="receiver" value="{{user.username}}">
+
+            <button type="submit">add friend</button>
+
+    
+        </form>
+        {% elif alreadySent and not isFriend%}
+            <h1>your friend request is pending</h1>
+        
+        {% endif %}
+    {% endif %}
+
+    {% if authenticated_user == user %}
+    <div class = "container">
         <div class = "card">
+            <h1>friend reqs</h1>
+            {% for req in friend_requests %}
+            <form method="POST" action="/accept_friend_request">
+                {% csrf_token %}
+                <div class="card-header">
+                    <h4>{{ req.sender }}</p>
+                    <input type="hidden" name="sender" value="{{req.sender}}">
+                    <button>accept?</button>
+                </div>
+                
+                <br>
+            </form>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class = "container">
+        <div class = "card">
+            <h1>friends</h1>
+            {% for friend in friends %}
+          
+                    <h4>{{ friend.secondary }}</p>
+                   
+                
+                <br>
+        
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class = "container">
+        
+
+        {% if posts%}
+            <p>Number of Posts: {{ posts|length }}</p>
+            <p>Number of Friends: </p>
+        {%endif%}
+
+        <div class = "card">
+            
             {% for post in posts %}
+            <p>Likes: {{ post.total_likes }} Dislikes: {{ post.total_dislikes }}</p>
+            <!-- <p>DisLikes: {{ post.total_dislikes }}</p> -->
                 <div class="card-header">
                     <h4>{{ post.title }}</p>
                 </div>
                 <div class="card-body">
                     <blockquote class = "blockquote mb-0">
                         <p>{{ post.content }}</p>
+                        
                         <footer class="blockquote-footer">{{post.created_on}}<cite title="Source Title">{{post.author.username}}</cite></footer>
                     </blockquote>
                 </div>
@@ -17,4 +78,6 @@
             {% endfor %}
         </div>
     </div>
+    
+    
 {% endblock %}

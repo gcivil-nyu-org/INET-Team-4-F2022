@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.forms import PasswordResetForm
+from .models import FriendRequest, Friend
 
 # Create your forms here.
 
@@ -35,3 +36,19 @@ class PasswordResetForm(PasswordResetForm):
         super(PasswordResetForm, self).__init__(*args, **kwargs)
 
     # captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+
+
+class FriendRequestForm(forms.ModelForm):
+    class Meta:
+        model = FriendRequest
+        fields = (
+            "sender",
+            "receiver",
+            "status",
+        )
+
+
+class FriendForm(forms.ModelForm):
+    class Meta:
+        model = Friend
+        fields = ("primary", "secondary")
