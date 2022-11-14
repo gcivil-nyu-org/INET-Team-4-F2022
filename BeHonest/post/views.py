@@ -3,8 +3,8 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm, NewsForm
-from .models import Post
 from news.models import News
+from post.models import Post
 
 from main.models import FriendRequest, Friend
 
