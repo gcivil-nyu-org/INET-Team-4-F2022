@@ -118,7 +118,7 @@ def post_author(request):
         else:
             post_form = PostForm()
 
-        rrefresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('count')
+        refresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('count')
         return render(
             request,
             "sort.html",
