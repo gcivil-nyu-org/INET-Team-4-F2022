@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm, NewsForm
 from news.models import News
 from post.models import Post
+from django.db.models import Count
 
 from main.models import FriendRequest, Friend
 
