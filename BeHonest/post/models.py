@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from datetime import datetime, timedelta
+import pytz
+utc = pytz.UTC
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -13,7 +15,7 @@ class Post(models.Model):
     dislikes = models.ManyToManyField(User, related_name="blog_post")
 
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["-title"]
 
     def __str__(self):
         return self.title
@@ -23,6 +25,14 @@ class Post(models.Model):
 
     def total_dislikes(self):
         return self.dislikes.count()
+
+    def checknew(self):
+        now = datetime.now()
+        now = utc.localize(now)
+        if now-timedelta(hours=24) <= self.created_on:
+            return True
+        else:
+            return False
 
 
 class Comment(models.Model):

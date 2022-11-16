@@ -16,6 +16,10 @@ install:
   - pip install coveralls
   - pip install newsapi-python
 
+before_script:
+  - python BeHonest/manage.py makemigrations
+  - python BeHonest/manage.py migrate
+
 script:
   - black  ./
   - flake8 ./
@@ -27,14 +31,15 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  access_key_id: $ACCESSKEYIDDEV
-  secret_access_key: $SECRETACCESSKEYDEV
+  access_key_id: $KP_ACCESSKEYIDDEV
+  secret_access_key: $KP_SECRETACESSKEYDEV
   region: "us-west-2"  
-  app: "django-tutorial"
-  env: "django-env"
-  bucket_name: "elasticbeanstalk-us-west-2-651033129971"
+  app: "BeHonest_Develop"
+  env: "BeHonestDev"
+  bucket_name: "elasticbeanstalk-us-west-2-502730698175"
   on:
     branch: develop
+
 
 notifications:
   slack: gcivil-nyu:Hlh3yiC4qXUKTVMZDwsN6FJc
