@@ -92,7 +92,9 @@ def post_author(request):
                 new_post = None
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
-                refresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('-count')
+                refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+                    "-count"
+                )
                 return render(
                     request,
                     "sort.html",
@@ -118,7 +120,9 @@ def post_author(request):
         else:
             post_form = PostForm()
 
-        refresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('-count')
+        refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+            "-count"
+        )
         return render(
             request,
             "sort.html",
