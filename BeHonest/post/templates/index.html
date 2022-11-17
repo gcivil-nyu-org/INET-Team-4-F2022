@@ -48,6 +48,7 @@
             <p class="card-text text-muted h6">{{ post.created_on}} </p>
             <p class="card-text">{{post.content|slice:":200" }}</p>
             <a href="{% url 'post:post_detail' post.id  %}" class="btn btn-primary">Read More &rarr;</a>
+            <a href="{% url 'post:delete_post' post.id %}">Delete</a>
           </div>
         </div>
       {% endif %} 
