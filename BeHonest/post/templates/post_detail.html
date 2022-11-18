@@ -40,6 +40,12 @@
       - {{ post.total_dislikes }} Dislikes
     </form>
 
+    <form action="{% url 'post:delete_post' post.pk %}" method="POST">
+      {% csrf_token %}
+      {% if request.user == post.author %}
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Delete</button>
+      {% endif %}
+    </form>
     </div>
 
 

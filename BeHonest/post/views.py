@@ -34,11 +34,13 @@ def dislike_post(request, pk):
         post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
-def delete_post(request, post_id = None):
-    #maybe parse request for username then only delete if username = post author
-    post_to_delete=Post.objects.get(id=post_id)
-    post_to_delete.delete()
-    return HttpResponseRedirect(reverse("post:base"))
+
+def delete_post(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+    #security check so only current user can delete posts
+    if request.user == post.author:
+        post.delete()
+        return HttpResponseRedirect(reverse("post:base"))
 
 
 def post_list(request):
