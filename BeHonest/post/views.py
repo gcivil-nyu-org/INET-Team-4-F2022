@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm, NewsForm
 from news.models import News
 from post.models import Post
+from django.db.models import Count
 
 from main.models import FriendRequest, Friend
 
@@ -32,6 +33,14 @@ def dislike_post(request, pk):
     else:
         post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
+
+
+def delete_post(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+    #security check so only current user can delete posts
+    if request.user == post.author:
+        post.delete()
+        return HttpResponseRedirect(reverse("post:base"))
 
 
 def post_list(request):
@@ -91,7 +100,7 @@ def post_author(request):
                 new_post = None
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
-                refresh_queryset = Post.objects.order_by("-likes")
+                refresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('-count')
                 return render(
                     request,
                     "sort.html",
@@ -117,7 +126,7 @@ def post_author(request):
         else:
             post_form = PostForm()
 
-        refresh_queryset = Post.objects.order_by("-likes")
+        refresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('-count')
         return render(
             request,
             "sort.html",
