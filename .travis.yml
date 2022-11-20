@@ -15,12 +15,10 @@ install:
   - pip install sqlparse==0.4.3
   - pip install coveralls
   - pip install newsapi-python
-  
-before_script:
-- python BeHonest/manage.py migrate
 
 before_script:
-- python BeHonest/manage.py migrate
+  - python BeHonest/manage.py makemigrations
+  - python BeHonest/manage.py migrate
 
 script:
   - black  ./

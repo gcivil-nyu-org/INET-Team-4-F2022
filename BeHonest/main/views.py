@@ -13,6 +13,8 @@ from .tokens import account_activation_token
 from .forms import PasswordResetForm
 from .forms import SetPasswordForm
 from django.db.models.query_utils import Q
+from .forms import FriendRequestForm, FriendForm
+from .models import FriendRequest, Friend
 
 # Function added to the url for Email confirmation
 
@@ -69,8 +71,10 @@ def activateEmail(request, user, to_email):
 
 # Main views
 
-# bandaid function for homepage
 def homepage(request):
+    #now if you're already authenticated you can't access base path
+    if request.user.is_authenticated:
+        return redirect("post:base")
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -79,7 +83,7 @@ def homepage(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
+                # messages.info(request, f"You are now logged in as {username}.")
                 # return redirect("main:homepage")
                 return redirect("post:base")
             else:
@@ -90,10 +94,11 @@ def homepage(request):
     return render(
         request=request, template_name="main/home.html", context={"login_form": form}
     )
-    # return render(request=request, template_name="main/home.html")
 
 
 def register_request(request):
+    if request.user.is_authenticated:
+        return redirect("post:base")
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -113,6 +118,8 @@ def register_request(request):
 
 
 def login_request(request):
+    if request.user.is_authenticated:
+        return redirect("post:base")
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -223,3 +230,51 @@ def passwordResetConfirm(request, uidb64, token):
 
     messages.error(request, "Something went wrong, redirecting back to Homepage")
     return redirect("main:homepage")
+
+
+def AddFriend(request):
+    print("receiver")
+    print(request.POST["receiver"])
+    print("user")
+    print(request.user)
+    User = get_user_model()
+    sender = User.objects.get(username=request.user)
+    receiver = User.objects.get(username=request.POST["receiver"])
+    friend_request_form = FriendRequestForm()
+    new_friend_request = friend_request_form.save(False)
+    new_friend_request.sender = sender
+    new_friend_request.receiver = receiver
+    new_friend_request.status = "pending"
+    new_friend_request.save(True)
+    redirect_str = "/home/profile/" + request.POST["receiver"]
+    return redirect(redirect_str)
+
+
+def AcceptFriend(request):
+    print(request.POST["sender"])
+    print(request.user)
+    User = get_user_model()
+    receiver = User.objects.get(username=request.user)
+    sender = User.objects.get(username=request.POST["sender"])
+    friend_request = FriendRequest.objects.get(sender=sender, receiver=receiver)
+    friend_request.status = "accepted"
+    friend_request.save()
+
+    try:
+        Friend.objects.get(primary=sender, secondary=receiver)
+
+    except Friend.DoesNotExist:
+        print("friend doesn not exist")
+        friend_form = FriendForm()
+        new_friend = friend_form.save(False)
+        new_friend.primary = sender
+        new_friend.secondary = receiver
+        new_friend.save(True)
+
+        friend_form_secondary = FriendForm()
+        new_friend_secondary = friend_form_secondary.save(False)
+        new_friend_secondary.primary = receiver
+        new_friend_secondary.secondary = sender
+        new_friend_secondary.save(True)
+    redirect_str = "/home/profile/" + str(request.user)
+    return redirect(redirect_str)

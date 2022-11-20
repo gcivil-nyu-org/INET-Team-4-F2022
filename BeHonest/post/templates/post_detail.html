@@ -17,10 +17,15 @@
       
       {% if post.liked %}
         <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button> 
+        {% comment %} <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">
+          <i class="fa-solid fa-thumbs-up"></i>
+        </button> {% endcomment %}
 
       {% else %}
         <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
-
+        {% comment %} <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">
+          <i class="fa-regular fa-thumbs-up"></i>
+        </button> {% endcomment %}
       {% endif %}
       - {{ post.total_likes }} Likes
     </form>
@@ -40,6 +45,12 @@
       - {{ post.total_dislikes }} Dislikes
     </form>
 
+    <form action="{% url 'post:delete_post' post.pk %}" method="POST">
+      {% csrf_token %}
+      {% if request.user == post.author %}
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Delete</button>
+      {% endif %}
+    </form>
     </div>
 
 

@@ -13,8 +13,8 @@
     <link rel="stylesheet" href = {% static 'styles.css' %}>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Fredoka+One&family=Oswald&display=swap" rel="stylesheet"> 
-
+    <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Fredoka+One&family=Oswald&display=swap" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
 
   <body>
@@ -33,12 +33,16 @@
                 <a class="nav-link text-white" href="{% url 'main:logout' %}">Logout</a>
               </li>
               <li class="nav-item">
-                {% comment %} <a class="nav-link text-white" href="{% url 'post:profile/user.username' %}">{{user.username}}</a> {% endcomment %}
+
+                {% if authenticated_user  == Null  %}
                 <a class="nav-link text-white" href="/home/profile/{{user.username}}">{{user.username}}</a>
+                {% else %}
+                <a class="nav-link text-white" href="/home/profile/{{authenticated_user.username}}">{{authenticated_user.username}}</a>
+                {% endif %}
               </li>
               <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-    
+
                   {% comment %} <li class="nav-item text-black"> {% endcomment %}
                     <a
                       class="nav-link text-black font-weight-bold"
@@ -55,9 +59,9 @@
     </nav>
 
 
-              {% block content %}
+    {% block content %}
             <!-- Content Goes here -->
-              {% endblock content %}
+    {% endblock content %}
     {% else %}
     <!-- <h1>Working-not</h1> -->
     <!-- <p class="text-center">Don't have an account? <a href="register">Create an account</a>.</p> -->

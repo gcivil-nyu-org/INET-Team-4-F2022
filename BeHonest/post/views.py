@@ -3,8 +3,12 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from .forms import CommentForm, PostForm, NewsForm
-from .models import Post
 from news.models import News
+from post.models import Post
+from django.db.models import Count
+from django.contrib.auth.decorators import login_required
+
+from main.models import FriendRequest, Friend
 
 
 def like_post(request, pk):
@@ -31,7 +35,15 @@ def dislike_post(request, pk):
         post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
+@login_required(login_url="/") #redirect when user is not logged in
+def delete_post(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+    #security check so only current user can delete posts
+    if request.user == post.author:
+        post.delete()
+        return HttpResponseRedirect(reverse("post:base"))
 
+@login_required(login_url="/") #redirect when user is not logged in
 def post_list(request):
 
     if request.user is not None:
@@ -79,7 +91,7 @@ def post_list(request):
             },
         )
 
-
+@login_required(login_url="/") #redirect when user is not logged in
 def post_author(request):
 
     if request.user is not None:
@@ -89,7 +101,7 @@ def post_author(request):
                 new_post = None
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
-                refresh_queryset = Post.objects.order_by("-likes")
+                refresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('-count')
                 return render(
                     request,
                     "sort.html",
@@ -115,7 +127,7 @@ def post_author(request):
         else:
             post_form = PostForm()
 
-        refresh_queryset = Post.objects.order_by("-likes")
+        refresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('-count')
         return render(
             request,
             "sort.html",
@@ -127,7 +139,7 @@ def post_author(request):
             },
         )
 
-
+@login_required(login_url="/") #redirect when user is not logged in
 def post_detail(request, id):
     """
 
@@ -213,9 +225,51 @@ def news_detail(request, id):
 
 def profile(request, pk):
     user = User.objects.get(username=pk)
+    authenticated_user = request.user
+
     logged_in_user_posts = Post.objects.filter(author=user)
+    try:
+        friend_requests = FriendRequest.objects.filter(receiver=user, status="pending")
+    except FriendRequest.DoesNotExist:
+        friend_requests = []
+
+    try:
+        friends = Friend.objects.get(primary=user, secondary=authenticated_user)
+        isFriend = True
+    except Friend.DoesNotExist:
+        isFriend = False
+
+    friend_requests = FriendRequest.objects.filter(
+        receiver=authenticated_user, status="pending"
+    )
+    already_sent = FriendRequest.objects.filter(
+        sender=authenticated_user, receiver=user, status="pending"
+    )
+    print(friend_requests)
+    if already_sent:
+        alreadySent = True
+
+    else:
+        alreadySent = False
+
+    try:
+
+        friends = Friend.objects.filter(primary=user)
+        print("got firneds")
+    except Friend.DoesNotExist:
+        print("here")
+        friends = []
+
+    print(alreadySent)
+
     context = {
         "user": user,
         "posts": logged_in_user_posts,
+        "friend_requests": friend_requests,
+        "authenticated_user": authenticated_user,
+        "friends": friends,
+        "isFriend": isFriend,
+        "alreadySent": alreadySent,
     }
+
     return render(request, "profile.html", context)
