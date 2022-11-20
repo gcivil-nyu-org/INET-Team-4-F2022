@@ -27,6 +27,15 @@
           <img src="{% static 'img/Febee.png' %}" alt="Febee" class="logo">
           BeHonest
         </a>
+
+        <form class="d-flex" method="POST" action="{% url 'post:search-results' %}" >
+          {% csrf_token %}
+          <input class="form-control me-2"
+          type = "search" placeholder="Search" aria-label="Search" name="searched">
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+
+        </form>
+        
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
               <li class="nav-item">
