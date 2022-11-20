@@ -6,6 +6,7 @@ from .forms import CommentForm, PostForm, NewsForm
 from news.models import News
 from post.models import Post
 from django.db.models import Count
+from django.contrib.auth.decorators import login_required
 
 from main.models import FriendRequest, Friend
 
@@ -34,7 +35,7 @@ def dislike_post(request, pk):
         post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
-
+@login_required(login_url="/") #redirect when user is not logged in
 def delete_post(request, pk):
     post = get_object_or_404(Post, id=request.POST.get("post_id"))
     #security check so only current user can delete posts
@@ -42,7 +43,7 @@ def delete_post(request, pk):
         post.delete()
         return HttpResponseRedirect(reverse("post:base"))
 
-
+@login_required(login_url="/") #redirect when user is not logged in
 def post_list(request):
 
     if request.user is not None:
@@ -90,7 +91,7 @@ def post_list(request):
             },
         )
 
-
+@login_required(login_url="/") #redirect when user is not logged in
 def post_author(request):
 
     if request.user is not None:
@@ -138,7 +139,7 @@ def post_author(request):
             },
         )
 
-
+@login_required(login_url="/") #redirect when user is not logged in
 def post_detail(request, id):
     """
 
