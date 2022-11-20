@@ -262,11 +262,6 @@
 </style>
   <!--CTA-->
   {% load crispy_forms_tags %}
-  {% if user.is_authenticated %}
-    <h2>You're Logged in, Landing Page Still under works click back on BeHonest icon to go got posts</h2>
-  {% else %}
-
-
   <div class="container">
     <div class="forms-container">
       <div class="signin-signup">
@@ -301,6 +296,4 @@
       </div>
     </div>
   </div>
-  {% endif %}
-  
 {% endblock %}

@@ -55,7 +55,7 @@ class Post_Tests(BaseTest):
 
     def test_post_url(self):
         response = self.client.get(self.post_url)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
 
     def test_post_form_valid(self):
         form_data = self.valid_post
