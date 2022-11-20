@@ -16,11 +16,16 @@
       {% csrf_token %}
       
       {% if post.liked %}
-        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button> 
+        {% comment %} <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button>  {% endcomment %}
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">
+          <i class="fa-solid fa-thumbs-up"></i>
+        </button>
 
       {% else %}
-        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
-
+        {% comment %} <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button> {% endcomment %}
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">
+          <i class="fa-regular fa-thumbs-up"></i>
+        </button>
       {% endif %}
       - {{ post.total_likes }} Likes
     </form>
@@ -43,7 +48,7 @@
     <form action="{% url 'post:delete_post' post.pk %}" method="POST">
       {% csrf_token %}
       {% if request.user == post.author %}
-        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Delete</button>
+        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm"><i class="fa-sharp fa-solid fa-trash"></i></button>
       {% endif %}
     </form>
     </div>
