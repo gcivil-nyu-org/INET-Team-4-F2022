@@ -71,8 +71,10 @@ def activateEmail(request, user, to_email):
 
 # Main views
 
-# bandaid function for homepage
 def homepage(request):
+    #now if you're already authenticated you can't access base path
+    if request.user.is_authenticated:
+        return redirect("post:base")
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -81,7 +83,7 @@ def homepage(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
+                # messages.info(request, f"You are now logged in as {username}.")
                 # return redirect("main:homepage")
                 return redirect("post:base")
             else:
@@ -92,10 +94,11 @@ def homepage(request):
     return render(
         request=request, template_name="main/home.html", context={"login_form": form}
     )
-    # return render(request=request, template_name="main/home.html")
 
 
 def register_request(request):
+    if request.user.is_authenticated:
+        return redirect("post:base")
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -115,6 +118,8 @@ def register_request(request):
 
 
 def login_request(request):
+    if request.user.is_authenticated:
+        return redirect("post:base")
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+ {% block content %}
+<style>
+
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+
+    .head_text{
+    color: white;
+  }
+    .card{
+    box-shadow: 0 16px 48px #E3E7EB;
+}
+</style>
+    <center>
+        {% if searched %}
+            <h1> You Searched For "{{searched }}"</h1>
+            <br/>
+            <div style="display: flex; margin:0 auto;">
+                <form class="d-flex" method="POST" action="{% url 'post:prof-results' %}" style="float:left;">
+                    {% csrf_token %}
+                    <input type='hidden' name='searched' value= "{{searched}}">  
+                    <button class="btn btn-outline-secondary">Profile</button>
+          
+                  </form>
+    
+                  <form class="d-flex" method="POST" action="{% url 'post:search-results' %}" style="float:right;">
+                    {% csrf_token %}
+                    <input type='hidden' name='searched' value= "{{searched}}">  
+                    <button class="btn btn-outline-secondary" >Posts</button>
+          
+                  </form>
+            </div>
+            <br/>
+            <br/>
+            {% for prof in profs %}
+                <div class="card mb-4" >
+                <div class="card-body">
+                    <h2 class="card-title">{{ prof.username }}</h2>
+                    <a href="/home/profile/{{prof.username}}"  class="btn btn-primary">Profile </a>
+
+                </div>
+                </div>
+
+            {% endfor %}
+
+        
+        {% else %}
+            <h1>Hey! You Forgot to Search</h1>
+        
+        {% endif %}
+
+    </center>
+{%endblock%}
