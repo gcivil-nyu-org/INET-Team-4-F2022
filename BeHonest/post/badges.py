@@ -2,6 +2,7 @@
 from django.db.models import Count
 from post.models import Post
 
+
 # Return a user's posts
 def get_posts(user):
     return Post.objects.filter(author=user)
