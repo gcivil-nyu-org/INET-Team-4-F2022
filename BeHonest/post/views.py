@@ -6,9 +6,38 @@ from .forms import CommentForm, PostForm, NewsForm
 from news.models import News
 from post.models import Post
 from django.db.models import Count
-from .badges import *
+from django.contrib.auth.decorators import login_required
+from .badges import total_likes_received
+from .badges import total_dislikes_received
+from .badges import user_likes_badges_tier
+from .badges import user_dislikes_badges_tier
+from .badges import user_friends_tier
+from .badges import post_tier
+from .badges import balance_badge
 
 from main.models import FriendRequest, Friend
+
+
+def search_results(request):
+    if request.method == "POST":
+        searched = request.POST.get("searched")
+        posts = Post.objects.filter(title__contains=searched)
+        return render(
+            request, "search_results.html", {"searched": searched, "posts": posts}
+        )
+    else:
+        return render(request, "search_results.html", {})
+
+
+def prof_results(request):
+    if request.method == "POST":
+        searched = request.POST.get("searched")
+        profs = User.objects.filter(username__contains=searched)
+        return render(
+            request, "prof_results.html", {"searched": searched, "profs": profs}
+        )
+    else:
+        return render(request, "prof_results.html", {})
 
 
 def like_post(request, pk):
@@ -36,8 +65,17 @@ def dislike_post(request, pk):
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
 
-def post_list(request):
+@login_required(login_url="/")  # redirect when user is not logged in
+def delete_post(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+    # security check so only current user can delete posts
+    if request.user == post.author:
+        post.delete()
+        return HttpResponseRedirect(reverse("post:base"))
 
+
+@login_required(login_url="/")  # redirect when user is not logged in
+def post_list(request):
     if request.user is not None:
         if request.method == "POST":
             if "link" in request.POST:
@@ -84,6 +122,7 @@ def post_list(request):
         )
 
 
+@login_required(login_url="/")  # redirect when user is not logged in
 def post_author(request):
 
     if request.user is not None:
@@ -136,6 +175,7 @@ def post_author(request):
         )
 
 
+@login_required(login_url="/")  # redirect when user is not logged in
 def post_detail(request, id):
     """
 
@@ -281,7 +321,7 @@ def profile(request, pk):
     # 6. Comments badge
     # comments_tier(badges, user)
 
-    # 
+    #
     context = {
         "user": user,
         "posts": logged_in_user_posts,
