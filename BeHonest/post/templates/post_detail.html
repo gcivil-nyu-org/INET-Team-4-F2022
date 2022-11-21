@@ -1,4 +1,21 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+
+{% block content %}
+<style>
+  .post_buttons {
+      width: 85%;
+      height: 15%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-around;
+  }
+  .like_dislike{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 45%;
+  }
+</style>
 
 <div class="container">
   <div class="row">
@@ -12,45 +29,49 @@
     
       <hr>
     <br/>
-    <form action="{% url 'post:like_post' post.pk %}" method="POST">
-      {% csrf_token %}
+    <div class = "post_buttons">
+      <div class = "like_dislike">
+        <form action="{% url 'post:like_post' post.pk %}" method="POST">
+        {% csrf_token %}
+        
       
-      {% if post.liked %}
-        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button> 
-        {% comment %} <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">
-          <i class="fa-solid fa-thumbs-up"></i>
-        </button> {% endcomment %}
+          {% if post.liked %}
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button> 
+            {% comment %} <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">
+              <i class="fa-solid fa-thumbs-up"></i>
+            </button> {% endcomment %}
 
-      {% else %}
-        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
-        {% comment %} <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">
-          <i class="fa-regular fa-thumbs-up"></i>
-        </button> {% endcomment %}
-      {% endif %}
-      - {{ post.total_likes }} Likes
-    </form>
-    
-    <br/>
-    
-    <form action="{% url 'post:dislike_post' post.pk %}" method="POST">
-      {% csrf_token %}
-      
-      {% if post.disliked %}
-        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undislike</button> 
+          {% else %}
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like</button>
+            {% comment %} <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">
+              <i class="fa-regular fa-thumbs-up"></i>
+            </button> {% endcomment %}
+          {% endif %}
+          - {{ post.total_likes }} Likes
+        </form>
+        
+        <br/>
+        
+        <form action="{% url 'post:dislike_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          
+          {% if post.disliked %}
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undislike</button> 
 
-      {% else %}
-        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Dislike</button>
+          {% else %}
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Dislike</button>
 
-      {% endif %}
-      - {{ post.total_dislikes }} Dislikes
-    </form>
-
-    <form action="{% url 'post:delete_post' post.pk %}" method="POST">
-      {% csrf_token %}
-      {% if request.user == post.author %}
-        <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Delete</button>
-      {% endif %}
-    </form>
+          {% endif %}
+          - {{ post.total_dislikes }} Dislikes
+        </form>
+      </div>
+      <form action="{% url 'post:delete_post' post.pk %}" method="POST">
+        {% csrf_token %}
+        {% if request.user == post.author %}
+          <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Delete</button>
+        {% endif %}
+      </form>
+    </div>
     </div>
 
 
