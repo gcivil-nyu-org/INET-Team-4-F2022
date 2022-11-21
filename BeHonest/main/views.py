@@ -71,8 +71,9 @@ def activateEmail(request, user, to_email):
 
 # Main views
 
+
 def homepage(request):
-    #now if you're already authenticated you can't access base path
+    # now if you're already authenticated you can't access base path
     if request.user.is_authenticated:
         return redirect("post:base")
     if request.method == "POST":

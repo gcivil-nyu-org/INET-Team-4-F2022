@@ -79,6 +79,19 @@
                 </div>
                 <br>
             {% endfor %}
+        </div>        
+    </div>
+    
+    <!-- Display badges -->
+    <div class = "container">
+        {% if badges %}
+            <p>Number of Badges: {{ badges|length }}</p>
+        {%endif%}
+        
+        <div class = "card">
+            {% for badge in badges %}
+            <p> {{badge}} </p>
+            {% endfor %}
         </div>
     </div>
     
