@@ -6,7 +6,7 @@ from .forms import CommentForm, PostForm, NewsForm
 from news.models import News
 from post.models import Post
 from django.db.models import Count
-from .badges import total_likes_received, user_likes_badges_tier
+from .badges import *
 
 from main.models import FriendRequest, Friend
 
@@ -256,11 +256,32 @@ def profile(request, pk):
         print("here")
         friends = []
 
-    # Calculate user badges
-    total_likes = total_likes_received(authenticated_user)
-    badges = user_likes_badges_tier(total_likes)
     print(alreadySent)
 
+    # Calculate user badges
+    badges = []
+
+    # 1. Likes related badges
+    total_likes = total_likes_received(authenticated_user)
+    user_likes_badges_tier(badges, total_likes)
+
+    # 2. Dislike related badges
+    total_dislikes = total_dislikes_received(authenticated_user)
+    user_dislikes_badges_tier(badges, total_dislikes)
+
+    # 3. Balance badge
+    balance_badge(badges, authenticated_user)
+
+    # 4. Friends badge
+    user_friends_tier(badges, friends)
+
+    # 5. Posts badge
+    post_tier(badges, user)
+
+    # 6. Comments badge
+    # comments_tier(badges, user)
+
+    # 
     context = {
         "user": user,
         "posts": logged_in_user_posts,
