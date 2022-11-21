@@ -2,7 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 import pytz
+
 utc = pytz.UTC
+
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -29,7 +31,7 @@ class Post(models.Model):
     def checknew(self):
         now = datetime.now()
         now = utc.localize(now)
-        if now-timedelta(hours=24) <= self.created_on:
+        if now - timedelta(hours=24) <= self.created_on:
             return True
         else:
             return False

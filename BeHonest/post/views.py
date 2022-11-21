@@ -7,8 +7,29 @@ from news.models import News
 from post.models import Post
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-
 from main.models import FriendRequest, Friend
+
+
+def search_results(request):
+    if request.method == "POST":
+        searched = request.POST.get("searched")
+        posts = Post.objects.filter(title__contains=searched)
+        return render(
+            request, "search_results.html", {"searched": searched, "posts": posts}
+        )
+    else:
+        return render(request, "search_results.html", {})
+
+
+def prof_results(request):
+    if request.method == "POST":
+        searched = request.POST.get("searched")
+        profs = User.objects.filter(username__contains=searched)
+        return render(
+            request, "prof_results.html", {"searched": searched, "profs": profs}
+        )
+    else:
+        return render(request, "prof_results.html", {})
 
 
 def like_post(request, pk):
@@ -35,17 +56,18 @@ def dislike_post(request, pk):
         post.dislikes.add(request.user)
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
-@login_required(login_url="/") #redirect when user is not logged in
+
+@login_required(login_url="/")  # redirect when user is not logged in
 def delete_post(request, pk):
     post = get_object_or_404(Post, id=request.POST.get("post_id"))
-    #security check so only current user can delete posts
+    # security check so only current user can delete posts
     if request.user == post.author:
         post.delete()
         return HttpResponseRedirect(reverse("post:base"))
 
-@login_required(login_url="/") #redirect when user is not logged in
-def post_list(request):
 
+@login_required(login_url="/")  # redirect when user is not logged in
+def post_list(request):
     if request.user is not None:
         if request.method == "POST":
             if "link" in request.POST:
@@ -91,7 +113,8 @@ def post_list(request):
             },
         )
 
-@login_required(login_url="/") #redirect when user is not logged in
+
+@login_required(login_url="/")  # redirect when user is not logged in
 def post_author(request):
 
     if request.user is not None:
@@ -101,7 +124,9 @@ def post_author(request):
                 new_post = None
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
-                refresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('-count')
+                refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+                    "-count"
+                )
                 return render(
                     request,
                     "sort.html",
@@ -127,7 +152,9 @@ def post_author(request):
         else:
             post_form = PostForm()
 
-        refresh_queryset = Post.objects.annotate(count=Count('likes')).order_by('-count')
+        refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+            "-count"
+        )
         return render(
             request,
             "sort.html",
@@ -139,7 +166,8 @@ def post_author(request):
             },
         )
 
-@login_required(login_url="/") #redirect when user is not logged in
+
+@login_required(login_url="/")  # redirect when user is not logged in
 def post_detail(request, id):
     """
 
