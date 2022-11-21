@@ -7,7 +7,13 @@ from news.models import News
 from post.models import Post
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from .badges import *
+from .badges import total_likes_received
+from .badges import total_dislikes_received
+from .badges import user_likes_badges_tier
+from .badges import user_dislikes_badges_tier
+from .badges import user_friends_tier
+from .badges import post_tier
+from .badges import balance_badge
 
 from main.models import FriendRequest, Friend
 
@@ -315,7 +321,7 @@ def profile(request, pk):
     # 6. Comments badge
     # comments_tier(badges, user)
 
-    # 
+    #
     context = {
         "user": user,
         "posts": logged_in_user_posts,
