@@ -99,7 +99,7 @@ class LoginTest(BaseTest):
         )
         self.assertEqual(response.status_code, 200)
         messages = list(response.context["messages"])
-        self.assertEqual(str(messages[0]), "Unsuccessful registration. Invalid information.")
+        self.assertEqual(str(messages[0]), "Invalid username or password.")
 
     def test_client_login(self):
         user = User.objects.create(username="testuser")
