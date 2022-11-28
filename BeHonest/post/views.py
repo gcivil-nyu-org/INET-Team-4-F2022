@@ -306,7 +306,7 @@ def profile(request, pk):
     try:
 
         friends = Friend.objects.filter(primary=user)
-        print("got firneds")
+        # print("got firneds")
     except Friend.DoesNotExist:
         print("here")
         friends = []
@@ -333,10 +333,9 @@ def profile(request, pk):
     # 5. Posts badge
     post_tier(badges, user)
 
-    # 6. Comments badge
-    # comments_tier(badges, user)
+    # Remaining Badges
+    remaining_badges = 19 - len(badges)
 
-    #
     context = {
         "user": user,
         "posts": logged_in_user_posts,
@@ -346,6 +345,9 @@ def profile(request, pk):
         "isFriend": isFriend,
         "alreadySent": alreadySent,
         "badges": badges,
+        "likes" : total_likes,
+        "dislikes" : total_dislikes,
+        "badges_remaining": remaining_badges,
     }
 
     return render(request, "profile.html", context)
