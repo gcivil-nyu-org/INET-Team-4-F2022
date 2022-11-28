@@ -96,6 +96,27 @@
             </div>
         </div>
     </section>
+    <!-- Badge Display -->
+    <section>
+        <div class = "container">
+            <h4 class = "display-5 text-center">Trophy Hall</h4>
+            <div class="row">
+                {% for badge in badges %}
+                <div class="col-sm">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="mt-3 mb-4 card-body text-center">
+                            <img src="https://media.istockphoto.com/id/1176397624/vector/vector-flat-golden-trophy.jpg?s=612x612&w=0&k=20&c=kjnN3SB3l1cAMMt5xUvnyJDfPzQKzZ_pZHt3jaFnmF0="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                        </div>
+                        <div class="card-body text-center">
+                            <p> {{badge}} </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
     <div>
         <div class = "container">
             {% if authenticated_user != user%}
