@@ -1,40 +1,86 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <!-- Three Card Header -->
     <section>
         {% comment %} fluid container will left align {% endcomment %}
         <div class="container py-3 h-100">
-            <!-- First Card -->
-            <div class="row d-flex justify-content-left align-items-center h-90">
+            <div class="row">
+                <!-- First Card, Profile -->
+                <div class="row d-flex justify-content-left align-items-center h-90">
+                    <div class="col-md-12 col-xl-4">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body text-center">
+                            <div class="mt-3 mb-4">
+                                <img src="https://media.istockphoto.com/id/1070887284/vector/cat-in-round-sunglasses-icon.jpg?s=612x612&w=0&k=20&c=DNMRexAgX06ygBX97tUFLUinMYJELguN8qb9ty9Uj9Q="
+                                class="rounded-circle img-fluid" style="width: 100px;" />
+                            </div>
+                            <h4 class="mb-2">{{ user.username }}</h4>
+                            <p class="text-muted mb-4">BeHonest<span class="mx-2">|</span>
+                                proud member</p>
+                            <div class="d-flex justify-content-between text-center mt-5 mb-2">
+                                <div>
+                                <p class="mb-2 h5">{{ posts|length }}</p>
+                                <p class="text-muted mb-0">Number of Posts</p>
+                                </div>
+                                <div class="px-3">
+                                <p class="mb-2 h5">{{ likes }}</p>
+                                <p class="text-muted mb-0">Number of Likes</p>
+                                </div>
+                                <div>
+                                <p class="mb-2 h5">{{ dislikes }}</p>
+                                <p class="text-muted mb-0">Number of Dislikes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                <!-- Second Card, Badges -->
+                    <div class="col-md-12 col-xl-4">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body text-center">
+                            <div class="mt-3 mb-4">
+                                <img src="https://media.istockphoto.com/id/964309038/vector/personnel-badge-linear-icon-concept-personnel-badge-line-vector-sign-symbol-illustration.jpg?s=612x612&w=0&k=20&c=4hVXZiRw7kOfepd9EmPC0NgKXSzjo3g-Tu4IgfD4vZ0="
+                                class="rounded-circle img-fluid" style="width: 100px;" />
+                            </div>
+                            <h4 class="mb-2">Badges</h4>
+                            <p class="text-muted mb-4">Earn badges by posting, commenting, and engaging</p>
+                            <div class="d-flex justify-content-between text-center mt-5 mb-2">
+                                <div>
+                                <p class="mb-2 h5">{{ badges|length }}</p>
+                                <p class="text-muted mb-0">Number of Badges</p>
+                                </div>
+                                <div class="px-3">
+                                <p class="mb-2 h5">{{badges_remaining}}</p>
+                                <p class="text-muted mb-0">Number of Remaining Badges</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Third Card, Friends -->
                 <div class="col-md-12 col-xl-4">
                     <div class="card" style="border-radius: 15px;">
                         <div class="card-body text-center">
                         <div class="mt-3 mb-4">
-                            <img src="https://media.istockphoto.com/id/1070887284/vector/cat-in-round-sunglasses-icon.jpg?s=612x612&w=0&k=20&c=DNMRexAgX06ygBX97tUFLUinMYJELguN8qb9ty9Uj9Q="
+                            <img src="https://media.istockphoto.com/id/973374928/vector/vector-of-handshake-icon-vector-iconic-design.jpg?s=612x612&w=0&k=20&c=ASQIa-xbFxu5jJKE32w4x63Ux45QxR4xhccP_k3PTwE="
                             class="rounded-circle img-fluid" style="width: 100px;" />
                         </div>
-                        <h4 class="mb-2">{{ user.username }}</h4>
-                        <p class="text-muted mb-4">BeHonest<span class="mx-2">|</span>
-                            proud member</p>
+                        <h4 class="mb-2">Friends</h4>
+                        <p class="text-muted mb-4">Friendship makes the world go round...</p>
                         <div class="d-flex justify-content-between text-center mt-5 mb-2">
                             <div>
                             <p class="mb-2 h5">{{friends|length}}</p>
                             <p class="text-muted mb-0">Number of Friends</p>
                             </div>
                             <div class="px-3">
-                            <p class="mb-2 h5">{{ posts|length }}</p>
-                            <p class="text-muted mb-0">Number of Posts</p>
-                            </div>
-                            <div>
-                            <p class="mb-2 h5">GOAT</p>
-                            <p class="text-muted mb-0">Status</p>
+                            <p class="mb-2 h5">{{friend_requests|length}}</p>
+                            <p class="text-muted mb-0">Number of Friend Requests</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-            </div>
-            <div>
+            <!-- <div>
                 <div class = "container">
                     {% if badges %}
                         <p>Number of Badges: {{ badges|length }}</p>
@@ -46,6 +92,7 @@
                         {% endfor %}
                     </div>
                 </div>
+            </div> -->
             </div>
         </div>
     </section>
