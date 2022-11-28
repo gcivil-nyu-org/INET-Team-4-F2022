@@ -291,7 +291,7 @@ def profile(request, pk):
     try:
 
         friends = Friend.objects.filter(primary=user)
-        print("got firneds")
+        # print("got firneds")
     except Friend.DoesNotExist:
         print("here")
         friends = []
@@ -318,10 +318,6 @@ def profile(request, pk):
     # 5. Posts badge
     post_tier(badges, user)
 
-    # 6. Comments badge
-    # comments_tier(badges, user)
-
-    #
     context = {
         "user": user,
         "posts": logged_in_user_posts,
