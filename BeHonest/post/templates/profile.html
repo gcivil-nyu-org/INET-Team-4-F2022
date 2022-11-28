@@ -117,131 +117,126 @@
             </div>
         </div>
     </section>
-    <div>
+    <!-- Friend Engagement -->
+    <section>
         <div class = "container">
-            {% if authenticated_user != user%}
-                {% if not isFriend and not alreadySent%}
-                    <form method="POST" action="/send_friend_request">
-                        {% csrf_token %}
-                        <input type = "hidden" name="receiver" value="{{user.username}}">
-
-                        <button type="submit">add friend</button>
-
-                
-                    </form>
-                {% elif alreadySent and not isFriend%}
-                        <h1>your friend request is pending</h1>
-                    
-                {% endif %}
-            {% endif %}
-
-            {% if authenticated_user == user %}
-                <div class = "container">
-                    <div class = "card">
-                        <p>friend reqs</p>
-                        {% for req in friend_requests %}
-                        <form method="POST" action="/accept_friend_request">
+            <h4 class = "display-5 text-center">Friendship</h4>
+        </div>
+        <div>
+            <div class = "container">
+                {% if authenticated_user != user%}
+                    {% if not isFriend and not alreadySent%}
+                        <form method="POST" action="/send_friend_request">
                             {% csrf_token %}
-                            <div class="card-header">
-                                <p>{{ req.sender }}</p>
-                                <input type="hidden" name="sender" value="{{req.sender}}">
-                                <button>accept?</button>
-                            </div>                                    
-                            <br>
-                        </form>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class = "container">
-                    <div class = "card">
-                        <p>friends</p>
-                        {% for friend in friends %}
-                                <p>{{ friend.secondary }}</p>
-                            <br>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-    </div>
-    {% comment %} {% if authenticated_user != user%}
-        {% if not isFriend and not alreadySent%}
-            <form method="POST" action="/send_friend_request">
-                {% csrf_token %}
-                <input type = "hidden" name="receiver" value="{{user.username}}">
-
-                <button type="submit">add friend</button>
-
-        
-            </form>
-        {% elif alreadySent and not isFriend%}
-                <h1>your friend request is pending</h1>
-            
-        {% endif %}
-    {% endif %}
-
-    {% if authenticated_user == user %}
-        <div class = "container">
-            <div class = "card">
-                <h1>friend reqs</h1>
-                {% for req in friend_requests %}
-                <form method="POST" action="/accept_friend_request">
-                    {% csrf_token %}
-                    <div class="card-header">
-                        <h4>{{ req.sender }}</p>
-                        <input type="hidden" name="sender" value="{{req.sender}}">
-                        <button>accept?</button>
-                    </div>
+                            <input type = "hidden" name="receiver" value="{{user.username}}">
+    
+                            <button type="submit">add friend</button>
+    
                     
-                    <br>
-                </form>
-                {% endfor %}
-            </div>
-        </div>
-        <div class = "container">
-            <div class = "card">
-                <h1>friends</h1>
-                {% for friend in friends %}
-                        <h4>{{ friend.secondary }}</p>
-                    <br>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %} {% endcomment %}
-    <br>
-    <div class = "container">
-        <h4 class = "display-5 text-center"> {{ user.username }}'s Post History</h4>
-        <div class = "card">
-            
-            {% for post in posts %}
-                <div class="card-header">
-                    <h4>{{ post.title }}</p>
-                </div>
-                <div class="card-body">
-                    <blockquote class = "blockquote mb-0">
-                        <p>{{ post.content }}</p>
+                        </form>
+                    {% elif alreadySent and not isFriend%}
+                            <h1>your friend request is pending</h1>
                         
-                        <footer class="blockquote-footer">{{post.created_on}}<cite title="Source Title">{{post.author.username}}</cite></footer>
-                    </blockquote>
-                </div>
-                <p>Likes: {{ post.total_likes }} Dislikes: {{ post.total_dislikes }}</p>
-                <br>
-            {% endfor %}
-        </div>        
-    </div>
+                    {% endif %}
+                {% endif %}
     
-    <!-- Display badges -->
-    {% comment %} <div class = "container">
-        {% if badges %}
-            <p>Number of Badges: {{ badges|length }}</p>
-        {%endif%}
-        
-        <div class = "card">
-            {% for badge in badges %}
-            <p> {{badge}} </p>
-            {% endfor %}
+                {% if authenticated_user == user %}
+                    <div class = "container">
+                        <div class = "card">
+                            <p>friend reqs</p>
+                            {% for req in friend_requests %}
+                            <form method="POST" action="/accept_friend_request">
+                                {% csrf_token %}
+                                <div class="card-header">
+                                    <p>{{ req.sender }}</p>
+                                    <input type="hidden" name="sender" value="{{req.sender}}">
+                                    <button>accept?</button>
+                                </div>                                    
+                                <br>
+                            </form>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class = "container">
+                        <div class = "card">
+                            <p>friends</p>
+                            {% for friend in friends %}
+                                    <p>{{ friend.secondary }}</p>
+                                <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    </div> {% endcomment %}
+        {% comment %} {% if authenticated_user != user%}
+            {% if not isFriend and not alreadySent%}
+                <form method="POST" action="/send_friend_request">
+                    {% csrf_token %}
+                    <input type = "hidden" name="receiver" value="{{user.username}}">
     
+                    <button type="submit">add friend</button>
     
+            
+                </form>
+            {% elif alreadySent and not isFriend%}
+                    <h1>your friend request is pending</h1>
+                
+            {% endif %}
+        {% endif %}
+    
+        {% if authenticated_user == user %}
+            <div class = "container">
+                <div class = "card">
+                    <h1>friend reqs</h1>
+                    {% for req in friend_requests %}
+                    <form method="POST" action="/accept_friend_request">
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h4>{{ req.sender }}</p>
+                            <input type="hidden" name="sender" value="{{req.sender}}">
+                            <button>accept?</button>
+                        </div>
+                        
+                        <br>
+                    </form>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class = "container">
+                <div class = "card">
+                    <h1>friends</h1>
+                    {% for friend in friends %}
+                            <h4>{{ friend.secondary }}</p>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %} {% endcomment %}
+        <br>
+    
+
+    </section>
+    <!-- Post History -->
+    <section>
+        <div class = "container">
+            <h4 class = "display-5 text-center">Post History</h4>
+            <div class = "card">
+                
+                {% for post in posts %}
+                    <div class="card-header text-center">
+                        <h5>{{ post.title }} </p>
+                    </div>
+                    <div class="card-body text-center">
+                        <blockquote class = "blockquote mb-0">
+                            <p>{{ post.content }}</p>
+                            
+                            <footer class="blockquote-footer">{{post.created_on}}, Likes: {{ post.total_likes }} Dislikes: {{ post.total_dislikes }}</footer>
+                        </blockquote>
+                    </div>                  
+                {% endfor %}
+            </div>        
+        </div>
+    
+    </section> 
 {% endblock %}
