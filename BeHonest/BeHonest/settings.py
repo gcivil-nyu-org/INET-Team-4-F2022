@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "post",
     "news",
+    "fontawesomefree",
 ]
 
 MIDDLEWARE = [
