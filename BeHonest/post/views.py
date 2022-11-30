@@ -1,14 +1,12 @@
-from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
 from .forms import CommentForm, PostForm, NewsForm
 from news.models import News
 from post.models import Post
 from django.db.models import Count
-from django.views import generic
 from django.contrib.auth.decorators import login_required
 from .badges import total_likes_received
 from .badges import total_dislikes_received
@@ -76,6 +74,7 @@ def delete_post(request, pk):
         post.delete()
         return HttpResponseRedirect(reverse("post:base"))
 
+
 @login_required(login_url="/")  # redirect when user is not logged in
 def delete_user(request, pk):
     print(request.user)
@@ -88,15 +87,16 @@ def delete_user(request, pk):
     #     u = get_object_or_404(User, username=request.POST.get("username"))
     #     u.delete()
     #     messages.success(request, "The user is deleted")
-    #     HttpResponseRedirect(reverse("main:homepage"))            
+    #     HttpResponseRedirect(reverse("main:homepage"))
     # except User.DoesNotExist:
-    #     messages.error(request, "User does not exist")    
+    #     messages.error(request, "User does not exist")
     #     redirect_str = "/home/profile/" + str(request.user)
     #     return redirect(redirect_str)
-    # except Exception as e: 
+    # except Exception as e:
     #     messages.error(request, {'err':e.message})
     #     redirect_str = "/home/profile/" + str(request.user)
     #     return redirect(redirect_str)
+
 
 @login_required(login_url="/")  # redirect when user is not logged in
 def post_list(request):
@@ -412,8 +412,8 @@ def profile(request, pk):
         "isFriend": isFriend,
         "alreadySent": alreadySent,
         "badges": badges,
-        "likes" : total_likes,
-        "dislikes" : total_dislikes,
+        "likes": total_likes,
+        "dislikes": total_dislikes,
         "badges_remaining": remaining_badges,
     }
 
