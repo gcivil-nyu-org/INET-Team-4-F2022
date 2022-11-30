@@ -108,8 +108,23 @@ def post_list(request):
                 new_post.save()
         else:
             post_form = PostForm()
+        user = get_object_or_404(User, username=str(request.user))
 
-        refresh_queryset = Post.objects.order_by("-created_on")
+        try:
+
+            friends_list = Friend.objects.filter(primary=user)
+
+        except Friend.DoesNotExist:
+
+            friends_list = []
+
+        usernames = []
+        for i in range(0, len(friends_list)):
+            usernames.append(friends_list[i].secondary)
+
+        refresh_queryset = Post.objects.filter(author__in=usernames).order_by(
+            "-created_on"
+        ) | Post.objects.filter(author=user).order_by("-created_on")
         return render(
             request,
             "index.html",
@@ -132,9 +147,30 @@ def post_author(request):
                 new_post = None
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
-                refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+                user = get_object_or_404(User, username=str(request.user))
+
+                try:
+
+                    friends_list = Friend.objects.filter(primary=user)
+
+                except Friend.DoesNotExist:
+
+                    friends_list = []
+
+                usernames = []
+                for i in range(0, len(friends_list)):
+                    usernames.append(friends_list[i].secondary)
+
+                refresh_queryset = Post.objects.filter(author__in=usernames).annotate(
+                    count=Count("likes")
+                ).order_by("-count") | Post.objects.filter(author=user).annotate(
+                    count=Count("likes")
+                ).order_by(
                     "-count"
                 )
+                # refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+                #     "-count"
+                # )
                 return render(
                     request,
                     "sort.html",
@@ -160,9 +196,31 @@ def post_author(request):
         else:
             post_form = PostForm()
 
-        refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+        user = get_object_or_404(User, username=str(request.user))
+
+        try:
+
+            friends_list = Friend.objects.filter(primary=user)
+
+        except Friend.DoesNotExist:
+
+            friends_list = []
+
+        usernames = []
+        for i in range(0, len(friends_list)):
+            usernames.append(friends_list[i].secondary)
+
+        refresh_queryset = Post.objects.filter(author__in=usernames).annotate(
+            count=Count("likes")
+        ).order_by("-count") | Post.objects.filter(author=user).annotate(
+            count=Count("likes")
+        ).order_by(
             "-count"
         )
+
+        # refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+        #    "-count"
+        # )
         return render(
             request,
             "sort.html",
