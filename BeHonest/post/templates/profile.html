@@ -2,6 +2,13 @@
 {% block content %}
 
 <!-- Three Card Header -->
+    {% if user == authenticated_user %}
+        <form action="{% url 'post:delete_user' user.username%}" method="POST">
+            {% csrf_token %}
+            <button type="submit", name="username", value="{{ user.username }}", class="btn btn-primary btn-sm">Delete</button>
+        </form>
+    {% endif %}
+    
     <section>
         {% comment %} fluid container will left align {% endcomment %}
         <div class="container py-3 h-100">
