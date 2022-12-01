@@ -7,7 +7,21 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ("content",)
+    def clean(self):
 
+        # data from the form is fetched using super function
+        super(CommentForm, self).clean()
+
+        # extract the username and text field from the data
+        content = self.cleaned_data.get('content')
+
+        # conditions to be met for the username length
+        if profanity.contains_profanity(content):
+            self._errors['content'] = self.error_class([
+                'please be polite'])
+
+        # return any errors if found
+        return self.cleaned_data
 
 class PostForm(forms.ModelForm):
     class Meta:
