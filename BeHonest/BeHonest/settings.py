@@ -42,6 +42,7 @@ ALLOWED_HOSTS = [
     "django-env.eba-37ttvtk2.us-west-2.elasticbeanstalk.com",
     "behonest-production-env.eba-9rwzyrmn.us-west-2.elasticbeanstalk.com",
     "127.0.0.1",
+    "BeHonestDev.eba-fe7det8h.us-west-2.elasticbeanstalk.com",
 ]
 
 
