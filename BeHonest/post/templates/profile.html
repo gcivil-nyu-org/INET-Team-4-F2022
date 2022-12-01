@@ -1,86 +1,266 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2 class = "display-4 text-center"> {{ user.username }}'s Post History</h2>
-    {% if authenticated_user != user%}
-        {% if not isFriend and not alreadySent%}
-        <form method="POST" action="/send_friend_request">
+
+<!-- Three Card Header -->
+    {% if user == authenticated_user %}
+        <form action="{% url 'post:delete_user' user.username%}" method="POST">
             {% csrf_token %}
-            <input type = "hidden" name="receiver" value="{{user.username}}">
-
-            <button type="submit">add friend</button>
-
-    
+            <button type="submit", name="username", value="{{ user.username }}", class="btn btn-primary btn-sm">Delete</button>
         </form>
-        {% elif alreadySent and not isFriend%}
-            <h1>your friend request is pending</h1>
-        
-        {% endif %}
-    {% endif %}
-
-    {% if authenticated_user == user %}
-    <div class = "container">
-        <div class = "card">
-            <h1>friend reqs</h1>
-            {% for req in friend_requests %}
-            <form method="POST" action="/accept_friend_request">
-                {% csrf_token %}
-                <div class="card-header">
-                    <h4>{{ req.sender }}</p>
-                    <input type="hidden" name="sender" value="{{req.sender}}">
-                    <button>accept?</button>
-                </div>
-                
-                <br>
-            </form>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class = "container">
-        <div class = "card">
-            <h1>friends</h1>
-            {% for friend in friends %}
-          
-                    <h4>{{ friend.secondary }}</p>
-                   
-                
-                <br>
-        
-            {% endfor %}
-        </div>
-    </div>
     {% endif %}
     
-    <div class = "container">
-        
-
-        {% if posts%}
-            <p>Number of Posts: {{ posts|length }}</p>
-            
-        {%endif%}
-      
-            <p>Number of Friends: {{friends|length}}</p>
- 
-
-        <div class = "card">
-            
-            {% for post in posts %}
-            <p>Likes: {{ post.total_likes }} Dislikes: {{ post.total_dislikes }}</p>
-            <!-- <p>DisLikes: {{ post.total_dislikes }}</p> -->
-                <div class="card-header">
-                    <h4>{{ post.title }}</p>
+    <section>
+        {% comment %} fluid container will left align {% endcomment %}
+        <div class="container py-3 h-100">
+            <div class="row">
+                <!-- First Card, Profile -->
+                <div class="row d-flex justify-content-left align-items-center h-90">
+                    <div class="col-md-12 col-xl-4">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body text-center">
+                            <div class="mt-3 mb-4">
+                                <img src="https://media.istockphoto.com/id/1070887284/vector/cat-in-round-sunglasses-icon.jpg?s=612x612&w=0&k=20&c=DNMRexAgX06ygBX97tUFLUinMYJELguN8qb9ty9Uj9Q="
+                                class="rounded-circle img-fluid" style="width: 100px;" />
+                            </div>
+                            <h4 class="mb-2">{{ user.username }}</h4>
+                            <p class="text-muted mb-4">BeHonest<span class="mx-2">|</span>
+                                proud member</p>
+                            <div class="d-flex justify-content-between text-center mt-5 mb-2">
+                                <div>
+                                <p class="mb-2 h5">{{ posts|length }}</p>
+                                <p class="text-muted mb-0">Number of Posts</p>
+                                </div>
+                                <div class="px-3">
+                                <p class="mb-2 h5">{{ likes }}</p>
+                                <p class="text-muted mb-0">Number of Likes</p>
+                                </div>
+                                <div>
+                                <p class="mb-2 h5">{{ dislikes }}</p>
+                                <p class="text-muted mb-0">Number of Dislikes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
                 </div>
-                <div class="card-body">
-                    <blockquote class = "blockquote mb-0">
-                        <p>{{ post.content }}</p>
+                <!-- Second Card, Badges -->
+                    <div class="col-md-12 col-xl-4">
+                        <div class="card" style="border-radius: 15px;">
+                            <div class="card-body text-center">
+                            <div class="mt-3 mb-4">
+                                <img src="https://media.istockphoto.com/id/964309038/vector/personnel-badge-linear-icon-concept-personnel-badge-line-vector-sign-symbol-illustration.jpg?s=612x612&w=0&k=20&c=4hVXZiRw7kOfepd9EmPC0NgKXSzjo3g-Tu4IgfD4vZ0="
+                                class="rounded-circle img-fluid" style="width: 100px;" />
+                            </div>
+                            <h4 class="mb-2">Badges</h4>
+                            <p class="text-muted mb-4">Earn badges by posting, commenting, and engaging</p>
+                            <div class="d-flex justify-content-between text-center mt-5 mb-2">
+                                <div>
+                                <p class="mb-2 h5">{{ badges|length }}</p>
+                                <p class="text-muted mb-0">Number of Badges</p>
+                                </div>
+                                <div class="px-3">
+                                <p class="mb-2 h5">{{badges_remaining}}</p>
+                                <p class="text-muted mb-0">Number of Remaining Badges</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Third Card, Friends -->
+                <div class="col-md-12 col-xl-4">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body text-center">
+                        <div class="mt-3 mb-4">
+                            <img src="https://media.istockphoto.com/id/973374928/vector/vector-of-handshake-icon-vector-iconic-design.jpg?s=612x612&w=0&k=20&c=ASQIa-xbFxu5jJKE32w4x63Ux45QxR4xhccP_k3PTwE="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                        </div>
+                        <h4 class="mb-2">Friends</h4>
+                        <p class="text-muted mb-4">Friendship makes the world go round...</p>
+                        <div class="d-flex justify-content-between text-center mt-5 mb-2">
+                            <div>
+                            <p class="mb-2 h5">{{friends|length}}</p>
+                            <p class="text-muted mb-0">Number of Friends</p>
+                            </div>
+                            <div class="px-3">
+                            <p class="mb-2 h5">{{friend_requests|length}}</p>
+                            <p class="text-muted mb-0">Number of Friend Requests</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- <div>
+                <div class = "container">
+                    {% if badges %}
+                        <p>Number of Badges: {{ badges|length }}</p>
+                    {%endif%}
+                
+                    <div class = "card">
+                        {% for badge in badges %}
+                        <p> {{badge}} </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div> -->
+            </div>
+        </div>
+    </section>
+    <!-- Badge Display -->
+    <section>
+        <div class = "container">
+            <h4 class = "display-5 text-center">Trophy Hall</h4>
+            <div class="row">
+                {% for badge in badges %}
+                <div class="col-sm">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="mt-3 mb-4 card-body text-center">
+                            <!-- Select trophy icon based on tier of badge -->
+                            {% if badge.0 == 0%}
+                            <img src="https://media.istockphoto.com/id/978978230/vector/award-ribbon-icon-on-white-stock-vector-illustration.jpg?s=612x612&w=0&k=20&c=rHzU2X-6DBTR2zB-yu4oXKQ1f1uEW6aEEM-_RT4pZSA="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 1%}
+                            <img src="https://media.istockphoto.com/id/1211348683/vector/golden-stamp-with-ribbons-isolated-on-white-background-luxury-seal-vector-design-element.jpg?s=612x612&w=0&k=20&c=rRHj-d95GYW8ReJ7aUOxkHtr5ooX83NU9haax-devn4="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 2%}
+                            <img src="https://media.istockphoto.com/id/508852451/photo/blank-wax-seal-with-red-ribbon.jpg?s=612x612&w=0&k=20&c=KZxQmrLwdAxaR-7YFKEsD35ON-EQLaFUM42GrEdhfOI="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 3%}
+                            <img src="https://media.istockphoto.com/id/1176397624/vector/vector-flat-golden-trophy.jpg?s=612x612&w=0&k=20&c=kjnN3SB3l1cAMMt5xUvnyJDfPzQKzZ_pZHt3jaFnmF0="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 4%}
+                            <img src="https://media.istockphoto.com/id/1362322784/vector/best-champions-cup-trophy-vector-design-champion-cup-winner-trophy-award.jpg?s=612x612&w=0&k=20&c=UhpCoxCg-eNEG57yfhnByFOy6wvZL-Hx5g3OPkE8XeI="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                        </div>
+                        <p class="text-muted mb-4 text-center">{{badge.2}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- Friend Engagement -->
+    <section>
+        <div class = "container">
+            <h4 class = "display-5 text-center">Friendship</h4>
+        </div>
+        <div>
+            <div class = "container">
+                {% if authenticated_user != user%}
+                    {% if not isFriend and not alreadySent%}
+                        <form method="POST" action="/send_friend_request">
+                            {% csrf_token %}
+                            <input type = "hidden" name="receiver" value="{{user.username}}">
+    
+                            <button type="submit">add friend</button>
+    
+                    
+                        </form>
+                    {% elif alreadySent and not isFriend%}
+                            <h1>your friend request is pending</h1>
                         
-                        <footer class="blockquote-footer">{{post.created_on}}<cite title="Source Title">{{post.author.username}}</cite></footer>
-                    </blockquote>
-                </div>
-                <br>
-            {% endfor %}
+                    {% endif %}
+                {% endif %}
+    
+                {% if authenticated_user == user %}
+                    <div class = "container">
+                        <div class = "card">
+                            <p>friend reqs</p>
+                            {% for req in friend_requests %}
+                            <form method="POST" action="/accept_friend_request">
+                                {% csrf_token %}
+                                <div class="card-header">
+                                    <p>{{ req.sender }}</p>
+                                    <input type="hidden" name="sender" value="{{req.sender}}">
+                                    <button>accept?</button>
+                                </div>                                    
+                                <br>
+                            </form>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class = "container">
+                        <div class = "card">
+                            <p>friends</p>
+                            {% for friend in friends %}
+                                    <p>{{ friend.secondary }}</p>
+                                <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    </div>
+        {% comment %} {% if authenticated_user != user%}
+            {% if not isFriend and not alreadySent%}
+                <form method="POST" action="/send_friend_request">
+                    {% csrf_token %}
+                    <input type = "hidden" name="receiver" value="{{user.username}}">
     
+                    <button type="submit">add friend</button>
     
+            
+                </form>
+            {% elif alreadySent and not isFriend%}
+                    <h1>your friend request is pending</h1>
+                
+            {% endif %}
+        {% endif %}
+    
+        {% if authenticated_user == user %}
+            <div class = "container">
+                <div class = "card">
+                    <h1>friend reqs</h1>
+                    {% for req in friend_requests %}
+                    <form method="POST" action="/accept_friend_request">
+                        {% csrf_token %}
+                        <div class="card-header">
+                            <h4>{{ req.sender }}</p>
+                            <input type="hidden" name="sender" value="{{req.sender}}">
+                            <button>accept?</button>
+                        </div>
+                        
+                        <br>
+                    </form>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class = "container">
+                <div class = "card">
+                    <h1>friends</h1>
+                    {% for friend in friends %}
+                            <h4>{{ friend.secondary }}</p>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %} {% endcomment %}
+        <br>
+    
+
+    </section>
+    <!-- Post History -->
+    <section>
+        <div class = "container">
+            <h4 class = "display-5 text-center">Post History</h4>
+            <div class = "card">
+                
+                {% for post in posts %}
+                    <div class="card-header text-center">
+                        <h5>{{ post.title }} </p>
+                    </div>
+                    <div class="card-body text-center">
+                        <blockquote class = "blockquote mb-0">
+                            <p>{{ post.content }}</p>
+                            
+                            <footer class="blockquote-footer">{{post.created_on}}, Likes: {{ post.total_likes }} Dislikes: {{ post.total_dislikes }}</footer>
+                        </blockquote>
+                    </div>                  
+                {% endfor %}
+            </div>        
+        </div>
+    
+    </section> 
 {% endblock %}

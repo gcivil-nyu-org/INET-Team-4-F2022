@@ -2,11 +2,20 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.contrib import messages
 from .forms import CommentForm, PostForm, NewsForm
 from news.models import News
 from post.models import Post
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from .badges import total_likes_received
+from .badges import total_dislikes_received
+from .badges import user_likes_badges_tier
+from .badges import user_dislikes_badges_tier
+from .badges import user_friends_tier
+from .badges import post_tier
+from .badges import balance_badge
+from random import shuffle
 from main.models import FriendRequest, Friend
 
 
@@ -67,6 +76,29 @@ def delete_post(request, pk):
 
 
 @login_required(login_url="/")  # redirect when user is not logged in
+def delete_user(request, pk):
+    print(request.user)
+    u = get_object_or_404(User, username=request.POST.get("username"))
+    if request.user.username == u.username:
+        u.delete()
+        messages.success(request, "The user is deleted")
+        return HttpResponseRedirect(reverse("main:homepage"))
+    # try:
+    #     u = get_object_or_404(User, username=request.POST.get("username"))
+    #     u.delete()
+    #     messages.success(request, "The user is deleted")
+    #     HttpResponseRedirect(reverse("main:homepage"))
+    # except User.DoesNotExist:
+    #     messages.error(request, "User does not exist")
+    #     redirect_str = "/home/profile/" + str(request.user)
+    #     return redirect(redirect_str)
+    # except Exception as e:
+    #     messages.error(request, {'err':e.message})
+    #     redirect_str = "/home/profile/" + str(request.user)
+    #     return redirect(redirect_str)
+
+
+@login_required(login_url="/")  # redirect when user is not logged in
 def post_list(request):
     if request.user is not None:
         if request.method == "POST":
@@ -100,8 +132,23 @@ def post_list(request):
                 new_post.save()
         else:
             post_form = PostForm()
+        user = get_object_or_404(User, username=str(request.user))
 
-        refresh_queryset = Post.objects.order_by("-created_on")
+        try:
+
+            friends_list = Friend.objects.filter(primary=user)
+
+        except Friend.DoesNotExist:
+
+            friends_list = []
+
+        usernames = []
+        for i in range(0, len(friends_list)):
+            usernames.append(friends_list[i].secondary)
+
+        refresh_queryset = Post.objects.filter(author__in=usernames).order_by(
+            "-created_on"
+        ) | Post.objects.filter(author=user).order_by("-created_on")
         return render(
             request,
             "index.html",
@@ -124,9 +171,30 @@ def post_author(request):
                 new_post = None
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
-                refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+                user = get_object_or_404(User, username=str(request.user))
+
+                try:
+
+                    friends_list = Friend.objects.filter(primary=user)
+
+                except Friend.DoesNotExist:
+
+                    friends_list = []
+
+                usernames = []
+                for i in range(0, len(friends_list)):
+                    usernames.append(friends_list[i].secondary)
+
+                refresh_queryset = Post.objects.filter(author__in=usernames).annotate(
+                    count=Count("likes")
+                ).order_by("-count") | Post.objects.filter(author=user).annotate(
+                    count=Count("likes")
+                ).order_by(
                     "-count"
                 )
+                # refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+                #     "-count"
+                # )
                 return render(
                     request,
                     "sort.html",
@@ -152,9 +220,31 @@ def post_author(request):
         else:
             post_form = PostForm()
 
-        refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+        user = get_object_or_404(User, username=str(request.user))
+
+        try:
+
+            friends_list = Friend.objects.filter(primary=user)
+
+        except Friend.DoesNotExist:
+
+            friends_list = []
+
+        usernames = []
+        for i in range(0, len(friends_list)):
+            usernames.append(friends_list[i].secondary)
+
+        refresh_queryset = Post.objects.filter(author__in=usernames).annotate(
+            count=Count("likes")
+        ).order_by("-count") | Post.objects.filter(author=user).annotate(
+            count=Count("likes")
+        ).order_by(
             "-count"
         )
+
+        # refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+        #    "-count"
+        # )
         return render(
             request,
             "sort.html",
@@ -283,13 +373,38 @@ def profile(request, pk):
     try:
 
         friends = Friend.objects.filter(primary=user)
-        print("got firneds")
+        # print("got firneds")
     except Friend.DoesNotExist:
         print("here")
         friends = []
 
     print(alreadySent)
 
+    # Calculate user badges
+    badges = []
+
+    # 1. Likes related badges
+    total_likes = total_likes_received(authenticated_user)
+    user_likes_badges_tier(badges, total_likes)
+
+    # 2. Dislike related badges
+    total_dislikes = total_dislikes_received(authenticated_user)
+    user_dislikes_badges_tier(badges, total_dislikes)
+
+    # 3. Balance badge
+    balance_badge(badges, authenticated_user)
+
+    # 4. Friends badge
+    user_friends_tier(badges, friends)
+
+    # 5. Posts badge
+    post_tier(badges, user)
+
+    # Caclulate Remaining Badges
+    remaining_badges = 19 - len(badges)
+
+    # Randomize display order of badges
+    shuffle(badges)
     context = {
         "user": user,
         "posts": logged_in_user_posts,
@@ -298,6 +413,10 @@ def profile(request, pk):
         "friends": friends,
         "isFriend": isFriend,
         "alreadySent": alreadySent,
+        "badges": badges,
+        "likes": total_likes,
+        "dislikes": total_dislikes,
+        "badges_remaining": remaining_badges,
     }
 
     return render(request, "profile.html", context)
