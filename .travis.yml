@@ -33,12 +33,12 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  access_key_id: $KP_ACCESSKEYIDDEV
-  secret_access_key: $KP_SECRETACESSKEYDEV
+  access_key_id: $ACCESSKEYID
+  secret_access_key: $SECRETACCESSKEY
   region: "us-west-2"  
   app: "BeHonest_Develop"
   env: "BeHonestDev"
-  bucket_name: "elasticbeanstalk-us-west-2-502730698175"
+  bucket_name: "elasticbeanstalk-us-west-2-587192892077"
   on:
     branch: develop
 
