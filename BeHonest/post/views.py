@@ -17,6 +17,7 @@ from .badges import post_tier
 from .badges import balance_badge
 from random import shuffle
 from main.models import FriendRequest, Friend
+from .user_statistics import most_liked_post, most_disliked_post
 
 
 def search_results(request):
@@ -405,6 +406,13 @@ def profile(request, pk):
 
     # Randomize display order of badges
     shuffle(badges)
+
+    # Identify most liked post
+    top_post = most_liked_post(authenticated_user)
+
+    # Identify most disliked post
+    bottom_post = most_disliked_post(authenticated_user)
+
     context = {
         "user": user,
         "posts": logged_in_user_posts,
@@ -417,6 +425,8 @@ def profile(request, pk):
         "likes": total_likes,
         "dislikes": total_dislikes,
         "badges_remaining": remaining_badges,
+        "top_post": top_post,
+        "bottom_post": bottom_post,
     }
 
     return render(request, "profile.html", context)
