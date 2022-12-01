@@ -105,12 +105,29 @@
                 <div class="col-sm">
                     <div class="card" style="border-radius: 15px;">
                         <div class="mt-3 mb-4 card-body text-center">
+                            <!-- Select trophy icon based on tier of badge -->
+                            {% if badge.0 == 0%}
+                            <img src="https://media.istockphoto.com/id/978978230/vector/award-ribbon-icon-on-white-stock-vector-illustration.jpg?s=612x612&w=0&k=20&c=rHzU2X-6DBTR2zB-yu4oXKQ1f1uEW6aEEM-_RT4pZSA="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 1%}
+                            <img src="https://media.istockphoto.com/id/1211348683/vector/golden-stamp-with-ribbons-isolated-on-white-background-luxury-seal-vector-design-element.jpg?s=612x612&w=0&k=20&c=rRHj-d95GYW8ReJ7aUOxkHtr5ooX83NU9haax-devn4="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 2%}
+                            <img src="https://media.istockphoto.com/id/508852451/photo/blank-wax-seal-with-red-ribbon.jpg?s=612x612&w=0&k=20&c=KZxQmrLwdAxaR-7YFKEsD35ON-EQLaFUM42GrEdhfOI="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 3%}
                             <img src="https://media.istockphoto.com/id/1176397624/vector/vector-flat-golden-trophy.jpg?s=612x612&w=0&k=20&c=kjnN3SB3l1cAMMt5xUvnyJDfPzQKzZ_pZHt3jaFnmF0="
                             class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 4%}
+                            <img src="https://media.istockphoto.com/id/1362322784/vector/best-champions-cup-trophy-vector-design-champion-cup-winner-trophy-award.jpg?s=612x612&w=0&k=20&c=UhpCoxCg-eNEG57yfhnByFOy6wvZL-Hx5g3OPkE8XeI="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
                         </div>
-                        <div class="card-body text-center">
-                            <p> {{badge}} </p>
-                        </div>
+                        <p class="text-muted mb-4 text-center">{{badge.2}}</p>
                     </div>
                 </div>
                 {% endfor %}

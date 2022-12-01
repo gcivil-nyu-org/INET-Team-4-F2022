@@ -14,7 +14,7 @@ from .badges import user_dislikes_badges_tier
 from .badges import user_friends_tier
 from .badges import post_tier
 from .badges import balance_badge
-
+from random import shuffle
 from main.models import FriendRequest, Friend
 
 
@@ -376,9 +376,11 @@ def profile(request, pk):
     # 5. Posts badge
     post_tier(badges, user)
 
-    # Remaining Badges
+    # Caclulate Remaining Badges
     remaining_badges = 19 - len(badges)
 
+    # Randomize display order of badges
+    shuffle(badges)
     context = {
         "user": user,
         "posts": logged_in_user_posts,
