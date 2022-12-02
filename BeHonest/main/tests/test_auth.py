@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
 from main.forms import NewUserForm, PasswordResetForm
-from main.views import password_reset_request
 
 # class for base tests to generate users, etc. for tests below
 # called once before each case is run good place to store testing data
@@ -135,8 +134,8 @@ class PasswordResetRequestTest(BaseTest):
         # form_data = self.user
         # form = PasswordResetForm(data=form_data)
         # print(form)
-        user = self.user
-        old_sha = self.user["password1"]
+        # user = self.user
+        # old_sha = self.user["password1"]
 
         form = PasswordResetForm(data=self.user)
         self.assertTrue(form.is_valid())
