@@ -2,8 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
-from main.forms import NewUserForm, PasswordResetForm
-from main.views import password_reset_request
+from main.forms import NewUserForm
 
 # class for base tests to generate users, etc. for tests below
 # called once before each case is run good place to store testing data
