@@ -94,7 +94,7 @@ def delete_user(request, pk):
     #     return redirect(redirect_str)
     # except Exception as e:
     #     messages.error(request, {'err':e.message})
-    #     redirect_str = "/home/profile/" + str(request.user)
+    #     redirect_str = "/home/profile/" +str(request.user)
     #     return redirect(redirect_str)
 
 
