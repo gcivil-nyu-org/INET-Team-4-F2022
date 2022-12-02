@@ -12,7 +12,8 @@
     <section>
         {% comment %} fluid container will left align {% endcomment %}
         <div class="container py-3 h-100">
-            <div class="row">
+            <h4 class = "display-5 text-center">Profile</h4>
+            <div class="row justify-content-center">
                 <!-- First Card, Profile -->
                 <div class="row d-flex justify-content-left align-items-center h-90">
                     <div class="col-md-12 col-xl-4">
@@ -51,7 +52,7 @@
                                 class="rounded-circle img-fluid" style="width: 100px;" />
                             </div>
                             <h4 class="mb-2">Badges</h4>
-                            <p class="text-muted mb-4">Earn badges by posting, commenting, and engaging</p>
+                            <p class="text-muted mb-4">Earn badges through engagement</p>
                             <div class="d-flex justify-content-between text-center mt-5 mb-2">
                                 <div>
                                 <p class="mb-2 h5">{{ badges|length }}</p>
@@ -87,19 +88,6 @@
                         </div>
                     </div>
                 </div>
-            <!-- <div>
-                <div class = "container">
-                    {% if badges %}
-                        <p>Number of Badges: {{ badges|length }}</p>
-                    {%endif%}
-                
-                    <div class = "card">
-                        {% for badge in badges %}
-                        <p> {{badge}} </p>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div> -->
             </div>
         </div>
     </section>
@@ -112,18 +100,82 @@
                 <div class="col-sm">
                     <div class="card" style="border-radius: 15px;">
                         <div class="mt-3 mb-4 card-body text-center">
+                            <!-- Select trophy icon based on tier of badge -->
+                            {% if badge.0 == 0%}
+                            <img src="https://media.istockphoto.com/id/978978230/vector/award-ribbon-icon-on-white-stock-vector-illustration.jpg?s=612x612&w=0&k=20&c=rHzU2X-6DBTR2zB-yu4oXKQ1f1uEW6aEEM-_RT4pZSA="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 1%}
+                            <img src="https://media.istockphoto.com/id/1211348683/vector/golden-stamp-with-ribbons-isolated-on-white-background-luxury-seal-vector-design-element.jpg?s=612x612&w=0&k=20&c=rRHj-d95GYW8ReJ7aUOxkHtr5ooX83NU9haax-devn4="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 2%}
+                            <img src="https://media.istockphoto.com/id/508852451/photo/blank-wax-seal-with-red-ribbon.jpg?s=612x612&w=0&k=20&c=KZxQmrLwdAxaR-7YFKEsD35ON-EQLaFUM42GrEdhfOI="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 3%}
                             <img src="https://media.istockphoto.com/id/1176397624/vector/vector-flat-golden-trophy.jpg?s=612x612&w=0&k=20&c=kjnN3SB3l1cAMMt5xUvnyJDfPzQKzZ_pZHt3jaFnmF0="
                             class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
+                            {% if badge.0 == 4%}
+                            <img src="https://media.istockphoto.com/id/1362322784/vector/best-champions-cup-trophy-vector-design-champion-cup-winner-trophy-award.jpg?s=612x612&w=0&k=20&c=UhpCoxCg-eNEG57yfhnByFOy6wvZL-Hx5g3OPkE8XeI="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                            {% endif %}
                         </div>
-                        <div class="card-body text-center">
-                            <p> {{badge}} </p>
-                        </div>
+                        <p class="text-muted mb-4 text-center">{{badge.2}}</p>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </section>
+    <!-- Highlighted Posts -->
+    {% if user == authenticated_user %}
+    <section>
+        <div class="container py-3 h-100">
+            <h4 class = "display-5 text-center">Highlighted Posts</h4>
+            <div class="row justify-content-center">   
+                <!-- Most Liked Post -->
+                <div class="col-md-12 col-xl-4">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body text-center">
+                            <div class="mt-3 mb-4">
+                                <img src="https://media.istockphoto.com/id/1161723349/vector/vector-icon-like-thumbs-up-with-heart-shape-social-media-red-icon-on-isolated-background.jpg?s=612x612&w=0&k=20&c=BolWiUtMl8mc0W2ogqANvFi-HmMBHLAtzRcj0Z6DbOg="
+                                class="rounded-circle img-fluid" style="width: 100px;" />
+                            </div>
+                            <h4 class="mb-2">Best Take</h4>
+                            <h5 class="mb-2">{{top_post.title}}</h5>
+                            <p class="text-muted mb-4">{{top_post.content}}</p>
+                            <div class="text-center mt-5 mb-2">
+                                <p class="mb-2 h5">{{top_post.total_likes}}</p>
+                                <p class="text-muted mb-0">Likes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Most Disliked Post -->
+                <div class="col-md-12 col-xl-4">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body text-center">
+                        <div class="mt-3 mb-4">
+                            <img src="https://media.istockphoto.com/id/1357993951/vector/notification-dislike-icon-social-network-app-icon-vector-illustration.jpg?s=612x612&w=0&k=20&c=_PT0VA85mtG3xUyoTdgWM2WBhOXdblz4rNMFsKPDMz8="
+                            class="rounded-circle img-fluid" style="width: 100px;" />
+                        </div>
+                        <h4 class="mb-2">Worst Take</h4>
+                        <h5 class="mb-2">{{bottom_post.title}}</h5>
+                        <p class="text-muted mb-4">{{bottom_post.content}}</p>
+                        <div class="text-center mt-5 mb-2">
+                            <div class="px-3">
+                            <p class="mb-2 h5">{{bottom_post.total_dislikes}}</p>
+                            <p class="text-muted mb-0">Dislikes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </section>
+    {% endif %}
     <!-- Friend Engagement -->
     <section>
         <div class = "container">
@@ -225,6 +277,7 @@
 
     </section>
     <!-- Post History -->
+    {% if user == authenticated_user %}
     <section>
         <div class = "container">
             <h4 class = "display-5 text-center">Post History</h4>
@@ -244,6 +297,6 @@
                 {% endfor %}
             </div>        
         </div>
-    
-    </section> 
+    </section>
+    {% endif %}
 {% endblock %}

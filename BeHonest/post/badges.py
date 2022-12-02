@@ -23,25 +23,25 @@ def total_dislikes_received(user):
 # Calculate like tier
 def user_likes_badges_tier(badges, user_likes):
     if user_likes >= 1:
-        badges.append("Likes Tier 1: Somebody likes me...")
+        badges.append([1, "Likes", "Somebody likes me..."])
     if user_likes >= 5:
-        badges.append("Likes Tier 2: GOOD TAKE ALERT")
+        badges.append([2, "Likes", "GOOD TAKE ALERT"])
     if user_likes >= 25:
-        badges.append("Likes Tier 3: Mr. Popular!")
+        badges.append([3, "Likes", "Mr. Popular!"])
     if user_likes >= 100:
-        badges.append("Likes Tier 4: LIKEFEST EMCEE")
+        badges.append([4, "Likes", "LIKEFEST EMCEE"])
 
 
 # Calculate dislike tier
 def user_dislikes_badges_tier(badges, user_dislikes):
     if user_dislikes >= 1:
-        badges.append("Dislikes Tier 1: Did I hurt your feelings?")
+        badges.append([1, "Dislikes", "Did I hurt your feelings?"])
     if user_dislikes >= 5:
-        badges.append("Dislikes Tier 2: SPICY TAKE ALERT")
+        badges.append([2, "Dislikes", "SPICY TAKE ALERT"])
     if user_dislikes >= 25:
-        badges.append("Dislikes Tier 3: You need to chill")
+        badges.append([3, "Dislikes", "You need to chill"])
     if user_dislikes >= 100:
-        badges.append("Dislikes Tier 4: CHILLL DAWG")
+        badges.append([4, "Dislikes", "CHILLL DAWG"])
 
 
 # Compare likes to dislikes
@@ -51,25 +51,25 @@ def balance_badge(badges, user):
         dislikes = post.dislikes.count()
         if (
             likes == dislikes
-            and "Balance Badge: I have brought balance to the force." not in badges
+            and [0, "Balance Badge", "I have brought balance to the force."] not in badges
         ):
-            badges.append("Balance Badge: I have brought balance to the force.")
-        if likes < dislikes and "Controvertial Take Badge: Too honest?" not in badges:
-            badges.append("Controvertial Take Badge: Too honest?")
-        if likes > dislikes and "Good Take Badge: Right?!" not in badges:
-            badges.append("Good Take Badge: Right?!")
+            badges.append([0, "Balance Badge", "I have brought balance to the force."])
+        if likes < dislikes and [0, "Controvertial Take Badge", "Too honest?"] not in badges:
+            badges.append([0, "Controvertial Take Badge", "Too honest?"])
+        if likes > dislikes and [0, "Good Take Badge", "Right?!"] not in badges:
+            badges.append([0, "Good Take Badge", "Right?!"])
 
 
 # Friends tier
 def user_friends_tier(badges, friends):
     if len(friends) >= 1:
-        badges.append("Friends Tier 1: Friendly")
+        badges.append([1, "Friends", "Friendly"])
     if len(friends) >= 5:
-        badges.append("Friends Tier 2: You can't sit with us.")
+        badges.append([2, "Friends", "You can't sit with us."])
     if len(friends) >= 25:
-        badges.append("Friends Tier 3: I get invited to ALL the parties.")
+        badges.append([3, "Friends", "I get invited to ALL the parties."])
     if len(friends) >= 100:
-        badges.append("Friends Tier 4: Prom Royalty")
+        badges.append([4, "Friends", "Prom Royalty"])
 
 
 # Posts count
@@ -80,17 +80,10 @@ def post_tier(badges, user):
         post_count += 1
 
     if post_count >= 1:
-        badges.append("Posts Tier 1: I'm awake")
+        badges.append([1, "Posts", "I'm awake."])
     if post_count >= 5:
-        badges.append("Posts Tier 2: I have opinions.")
+        badges.append([2, "Posts", "I have opinions."])
     if post_count >= 25:
-        badges.append("Posts Tier 3: Raged and Engaged")
+        badges.append([3, "Posts", "Raged and Engaged."])
     if post_count >= 100:
-        badges.append("Posts Tier 4: KNOW IT ALL")
-
-
-# Comments count
-# def comments_tier():
-# How to access comments by user?
-
-#
+        badges.append([4, "Posts", "KNOW IT ALL."])
