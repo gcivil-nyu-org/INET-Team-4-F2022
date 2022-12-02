@@ -1,4 +1,3 @@
-from django.db.models import Count
 from post.models import Post
 
 # Return most liked post
@@ -14,6 +13,7 @@ def most_liked_post(user):
             most_liked_post = post
     
     return most_liked_post
+
 
 # Return most disliked posts
 def most_disliked_post(user):
