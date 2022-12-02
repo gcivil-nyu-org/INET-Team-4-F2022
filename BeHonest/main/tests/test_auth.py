@@ -132,15 +132,33 @@ class LogoutTest(BaseTest):
         self.assertEqual(response.status_code, 302)
 
 
-# class PasswordResetRequestTest(BaseTest):
-    
-    # def test_successful_email_sent(self):
-    #     form_data = self.user
-    #     form = PasswordResetForm(data=form_data)
-    #     self.assertTrue(form.is_valid())
-    #     self.client.post(self.register_url, self.user, format="text/html")
-    #     user = User.objects.filter(username=self.user["email"]).first()
+class PasswordResetRequestTest(BaseTest):
 
 
-# class Frinend(BaseTest):
-#     def AddFriendTest(self):
+    def test_reset_password(self):
+        # form_data = self.user
+        # form = PasswordResetForm(data=form_data)
+        # print(form)
+        user = self.user
+        old_sha = self.user["password1"]
+
+        form = PasswordResetForm(data=self.user)
+        self.assertTrue(form.is_valid())
+
+        # form = PasswordResetForm(user=user, data={'password1': 'foo'})
+        # self.assertFalse(form.is_valid())
+        # # self.assertEqual(form.errors['password2'],
+        # #                  ['This field is required.'])
+
+        # form = PasswordResetForm(user=user, data={'password1': 'foo',
+        #                                           'password2': 'bar'})
+        # self.assertFalse(form.is_valid())
+        # self.assertEqual(form.errors['password2'],
+        #                  ["The two passwords didn't match."])
+
+        # form = PasswordResetForm(user=user, data={'password1': 'foo',
+        #                                           'password2': 'foo'})
+        # self.assertTrue(form.is_valid())
+        # self.assertEqual(user.password, old_sha)
+        # form.save()
+        # self.assertNotEqual(user.password, old_sha)
