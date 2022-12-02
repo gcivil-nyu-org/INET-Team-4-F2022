@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
-from main.forms import NewUserForm
+from main.forms import NewUserForm, PasswordResetForm
 from main.views import password_reset_request
 
 # class for base tests to generate users, etc. for tests below
@@ -33,6 +33,7 @@ class BaseTest(TestCase):
             "password1": "pwd",
             "password2": "pwd",
         }
+
 
         return super().setUp()
 
@@ -71,6 +72,19 @@ class RegisterTest(BaseTest):
         self.client.post(self.register_url, self.invalid_user, format="text/html")
         user = User.objects.filter(username=self.user["username"]).first()
         self.assertEqual(user, None)
+    
+    def test_invalid(self):
+        form = NewUserForm(
+            {
+            "username": "TestUser",
+            "email": "testemail@gmailcom",
+            "password1": "pwd",
+            "password2": "pwd",
+            }
+        )
+        self.assertFalse(form.is_valid())
+        self.assertEquals(form.errors["email"], ["Enter a valid email address."])
+
 
 
 # tests for login
@@ -116,3 +130,17 @@ class LogoutTest(BaseTest):
     def test_logout_url(self):
         response = self.client.get(self.logout_url)
         self.assertEqual(response.status_code, 302)
+
+
+# class PasswordResetRequestTest(BaseTest):
+    
+    # def test_successful_email_sent(self):
+    #     form_data = self.user
+    #     form = PasswordResetForm(data=form_data)
+    #     self.assertTrue(form.is_valid())
+    #     self.client.post(self.register_url, self.user, format="text/html")
+    #     user = User.objects.filter(username=self.user["email"]).first()
+
+
+# class Frinend(BaseTest):
+#     def AddFriendTest(self):
