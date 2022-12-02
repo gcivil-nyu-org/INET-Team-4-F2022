@@ -155,5 +155,7 @@ EMAIL_USE_TLS = True
 PASSWORD_RESET_TIMEOUT = 14400
 
 
-NOSE_ARGS = ['--nocapture',
-             '--nologcapture',]
+NOSE_ARGS = [
+    "--nocapture",
+    "--nologcapture",
+]

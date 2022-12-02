@@ -413,7 +413,7 @@ def profile(request, pk):
         bottom_post = most_disliked_post(user)
     else:
         top_post = ""
-        bottom_post = ""    
+        bottom_post = ""
 
     context = {
         "user": user,

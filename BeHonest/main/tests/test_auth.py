@@ -34,7 +34,6 @@ class BaseTest(TestCase):
             "password2": "pwd",
         }
 
-
         return super().setUp()
 
 
@@ -72,19 +71,18 @@ class RegisterTest(BaseTest):
         self.client.post(self.register_url, self.invalid_user, format="text/html")
         user = User.objects.filter(username=self.user["username"]).first()
         self.assertEqual(user, None)
-    
+
     def test_invalid(self):
         form = NewUserForm(
             {
-            "username": "TestUser",
-            "email": "testemail@gmailcom",
-            "password1": "pwd",
-            "password2": "pwd",
+                "username": "TestUser",
+                "email": "testemail@gmailcom",
+                "password1": "pwd",
+                "password2": "pwd",
             }
         )
         self.assertFalse(form.is_valid())
         self.assertEquals(form.errors["email"], ["Enter a valid email address."])
-
 
 
 # tests for login
@@ -133,8 +131,6 @@ class LogoutTest(BaseTest):
 
 
 class PasswordResetRequestTest(BaseTest):
-
-
     def test_password2(self):
         # form_data = self.user
         # form = PasswordResetForm(data=form_data)
@@ -145,11 +141,9 @@ class PasswordResetRequestTest(BaseTest):
         form = PasswordResetForm(data=self.user)
         self.assertTrue(form.is_valid())
 
-        form = PasswordResetForm(data={'password1': 'foo'})
+        form = PasswordResetForm(data={"password1": "foo"})
         self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors['email'],
-                         ['This field is required.'])
-                        
+        self.assertEqual(form.errors["email"], ["This field is required."])
 
     # def test_password_reset_match(self):
     #     user = self.user
@@ -164,16 +158,16 @@ class PasswordResetRequestTest(BaseTest):
     #     print(form.errors)
     #     self.assertEqual(form.errors,
     #                      ['This field is required.'])
-        # form = PasswordResetForm(data={'password1': 'foo',
-        #                                           'password2': 'bar'})
-        # self.assertFalse(form.is_valid())
-        # # print(form.errors)
-        # self.assertEqual(form.errors['email'],
-        #                  ['This field is required.'])
+    # form = PasswordResetForm(data={'password1': 'foo',
+    #                                           'password2': 'bar'})
+    # self.assertFalse(form.is_valid())
+    # # print(form.errors)
+    # self.assertEqual(form.errors['email'],
+    #                  ['This field is required.'])
 
-        # form = PasswordResetForm(data={'password1': 'foo',
-        #                                           'password2': 'foo'})
-        # self.assertTrue(form.is_valid())
-        # self.assertEqual(user.password, old_sha)
-        # form.save()
-        # self.assertNotEqual(user.password, old_sha)
+    # form = PasswordResetForm(data={'password1': 'foo',
+    #                                           'password2': 'foo'})
+    # self.assertTrue(form.is_valid())
+    # self.assertEqual(user.password, old_sha)
+    # form.save()
+    # self.assertNotEqual(user.password, old_sha)

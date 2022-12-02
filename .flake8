@@ -2,4 +2,4 @@
 # Ignore 100+ lines in certain files, Ignore bare except statement
 per-file-ignores =
     BeHonest/*: E501, E722
-max-line-length = 100
+max-line-length = 120

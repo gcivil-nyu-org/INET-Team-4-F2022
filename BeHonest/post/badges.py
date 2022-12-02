@@ -51,10 +51,14 @@ def balance_badge(badges, user):
         dislikes = post.dislikes.count()
         if (
             likes == dislikes
-            and [0, "Balance Badge", "I have brought balance to the force."] not in badges
+            and [0, "Balance Badge", "I have brought balance to the force."]
+            not in badges
         ):
             badges.append([0, "Balance Badge", "I have brought balance to the force."])
-        if likes < dislikes and [0, "Controvertial Take Badge", "Too honest?"] not in badges:
+        if (
+            likes < dislikes
+            and [0, "Controvertial Take Badge", "Too honest?"] not in badges
+        ):
             badges.append([0, "Controvertial Take Badge", "Too honest?"])
         if likes > dislikes and [0, "Good Take Badge", "Right?!"] not in badges:
             badges.append([0, "Good Take Badge", "Right?!"])
