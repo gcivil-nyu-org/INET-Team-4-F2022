@@ -385,15 +385,15 @@ def profile(request, pk):
     badges = []
 
     # 1. Likes related badges
-    total_likes = total_likes_received(authenticated_user)
+    total_likes = total_likes_received(user)
     user_likes_badges_tier(badges, total_likes)
 
     # 2. Dislike related badges
-    total_dislikes = total_dislikes_received(authenticated_user)
+    total_dislikes = total_dislikes_received(user)
     user_dislikes_badges_tier(badges, total_dislikes)
 
     # 3. Balance badge
-    balance_badge(badges, authenticated_user)
+    balance_badge(badges, user)
 
     # 4. Friends badge
     user_friends_tier(badges, friends)
@@ -407,11 +407,13 @@ def profile(request, pk):
     # Randomize display order of badges
     shuffle(badges)
 
-    # Identify most liked post
-    top_post = most_liked_post(authenticated_user)
-
-    # Identify most disliked post
-    bottom_post = most_disliked_post(authenticated_user)
+    # Identify best and worst posts
+    if authenticated_user == user:
+        top_post = most_liked_post(user)
+        bottom_post = most_disliked_post(user)
+    else:
+        top_post = ""
+        bottom_post = ""    
 
     context = {
         "user": user,

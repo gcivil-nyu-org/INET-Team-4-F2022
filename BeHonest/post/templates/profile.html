@@ -130,6 +130,7 @@
         </div>
     </section>
     <!-- Highlighted Posts -->
+    {% if user == authenticated_user %}
     <section>
         <div class="container py-3 h-100">
             <h4 class = "display-5 text-center">Highlighted Posts</h4>
@@ -174,6 +175,7 @@
             </div>
         </div>  
     </section>
+    {% endif %}
     <!-- Friend Engagement -->
     <section>
         <div class = "container">
@@ -275,6 +277,7 @@
 
     </section>
     <!-- Post History -->
+    {% if user == authenticated_user %}
     <section>
         <div class = "container">
             <h4 class = "display-5 text-center">Post History</h4>
@@ -294,6 +297,6 @@
                 {% endfor %}
             </div>        
         </div>
-    
-    </section> 
+    </section>
+    {% endif %}
 {% endblock %}
