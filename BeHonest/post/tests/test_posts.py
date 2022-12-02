@@ -18,6 +18,7 @@ from post.forms import PostForm, CommentForm
 # test that app config name matches and is found
 class ReportsConfigTest(TestCase):
     def test_apps(self):
+        print(BlogConfig.name)
         self.assertEqual(BlogConfig.name, "post")
         self.assertEqual(apps.get_app_config("post").name, "post")
 
