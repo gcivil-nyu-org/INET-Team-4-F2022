@@ -135,7 +135,7 @@ class LogoutTest(BaseTest):
 class PasswordResetRequestTest(BaseTest):
 
 
-    def test_reset_password(self):
+    def test_password2(self):
         # form_data = self.user
         # form = PasswordResetForm(data=form_data)
         # print(form)
@@ -145,18 +145,33 @@ class PasswordResetRequestTest(BaseTest):
         form = PasswordResetForm(data=self.user)
         self.assertTrue(form.is_valid())
 
-        # form = PasswordResetForm(user=user, data={'password1': 'foo'})
-        # self.assertFalse(form.is_valid())
-        # # self.assertEqual(form.errors['password2'],
-        # #                  ['This field is required.'])
+        form = PasswordResetForm(data={'password1': 'foo'})
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['email'],
+                         ['This field is required.'])
+                        
 
-        # form = PasswordResetForm(user=user, data={'password1': 'foo',
+    # def test_password_reset_match(self):
+    #     user = self.user
+    #     old_sha = self.user["password1"]
+
+    #     form = PasswordResetForm(data=self.user)
+    #     self.assertTrue(form.is_valid())
+
+    #     form = PasswordResetForm(data={'password1': 'foo',
+    #                                               'password2': 'bar'})
+    #     self.assertFalse(form.is_valid())
+    #     print(form.errors)
+    #     self.assertEqual(form.errors,
+    #                      ['This field is required.'])
+        # form = PasswordResetForm(data={'password1': 'foo',
         #                                           'password2': 'bar'})
         # self.assertFalse(form.is_valid())
-        # self.assertEqual(form.errors['password2'],
-        #                  ["The two passwords didn't match."])
+        # # print(form.errors)
+        # self.assertEqual(form.errors['email'],
+        #                  ['This field is required.'])
 
-        # form = PasswordResetForm(user=user, data={'password1': 'foo',
+        # form = PasswordResetForm(data={'password1': 'foo',
         #                                           'password2': 'foo'})
         # self.assertTrue(form.is_valid())
         # self.assertEqual(user.password, old_sha)
