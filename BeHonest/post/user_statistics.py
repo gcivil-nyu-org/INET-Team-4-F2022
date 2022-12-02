@@ -1,5 +1,6 @@
 from post.models import Post
 
+
 # Return most liked post
 def most_liked_post(user):
     posts = Post.objects.filter(author=user)
