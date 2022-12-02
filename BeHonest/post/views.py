@@ -90,7 +90,7 @@ def delete_user(request, pk):
     #     HttpResponseRedirect(reverse("main:homepage"))
     # except User.DoesNotExist:
     #     messages.error(request, "User does not exist")
-    #     redirect_str = "/home/profile/" + str(request.user)
+    #     redirect_str = "/home/profile/" +str(request.user)
     #     return redirect(redirect_str)
     # except Exception as e:
     #     messages.error(request, {'err':e.message})
