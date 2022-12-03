@@ -218,7 +218,6 @@ def post_author(request):
                 new_post.author = request.user
                 # Save the comment to the database
                 new_post.save()
-                return HttpResponseRedirect("post:base")
         else:
             post_form = PostForm()
 
@@ -290,7 +289,6 @@ def post_detail(request, id):
             new_comment.post = post
             # Save the comment to the database
             new_comment.save()
-            return HttpResponseRedirect(reverse("post:post_detail", args=[str(id)]))
     else:
         comment_form = CommentForm()
 
@@ -415,7 +413,7 @@ def profile(request, pk):
         bottom_post = most_disliked_post(user)
     else:
         top_post = ""
-        bottom_post = ""    
+        bottom_post = ""
 
     context = {
         "user": user,

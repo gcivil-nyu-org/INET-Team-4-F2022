@@ -12,7 +12,7 @@ def most_liked_post(user):
         if post.total_likes() > max_likes:
             max_likes = post.total_likes()
             most_liked_post = post
-    
+
     return most_liked_post
 
 
@@ -27,5 +27,5 @@ def most_disliked_post(user):
         if post.total_dislikes() > max_dislikes:
             max_dislikes = post.total_dislikes()
             most_disliked_post = post
-    
+
     return most_disliked_post
