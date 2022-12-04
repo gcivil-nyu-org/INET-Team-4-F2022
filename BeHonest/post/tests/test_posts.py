@@ -4,7 +4,7 @@ from post.apps import BlogConfig
 from post.models import Post, Comment
 from django.urls import reverse
 from django.contrib.auth.models import User
-from post.forms import PostForm, CommentForm
+from post.forms import PostForm, CommentForm, NewsForm
 
 
 # bandaid fix to re-use don't need anymore
@@ -84,3 +84,21 @@ class Comment_Tests(BaseTest):
         form_data = self.invalid_comment
         form = CommentForm(data=form_data)
         self.assertFalse(form.is_valid())
+
+class News_Tests(BaseTest):
+    def test_string_representation(self):
+        self.assertEqual(
+            str(self.comment),
+            "Comment {} by {}".format(self.comment.content, self.comment.author),
+        )
+
+    def test_comment_form_valid(self):
+        form_data = self.valid_comment
+        form = NewsForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_comment_form_invalid(self):
+        form_data = self.invalid_comment
+        form = NewsForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
