@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
-from main.forms import NewUserForm
+from main.forms import NewUserForm, PasswordResetForm
 
 # class for base tests to generate users, etc. for tests below
 # called once before each case is run good place to store testing data
@@ -32,7 +32,6 @@ class BaseTest(TestCase):
             "password1": "pwd",
             "password2": "pwd",
         }
-
 
         return super().setUp()
 
@@ -71,19 +70,18 @@ class RegisterTest(BaseTest):
         self.client.post(self.register_url, self.invalid_user, format="text/html")
         user = User.objects.filter(username=self.user["username"]).first()
         self.assertEqual(user, None)
-    
+
     def test_invalid(self):
         form = NewUserForm(
             {
-            "username": "TestUser",
-            "email": "testemail@gmailcom",
-            "password1": "pwd",
-            "password2": "pwd",
+                "username": "TestUser",
+                "email": "testemail@gmailcom",
+                "password1": "pwd",
+                "password2": "pwd",
             }
         )
         self.assertFalse(form.is_valid())
         self.assertEquals(form.errors["email"], ["Enter a valid email address."])
-
 
 
 # tests for login
@@ -131,15 +129,44 @@ class LogoutTest(BaseTest):
         self.assertEqual(response.status_code, 302)
 
 
-# class PasswordResetRequestTest(BaseTest):
-    
-    # def test_successful_email_sent(self):
-    #     form_data = self.user
-    #     form = PasswordResetForm(data=form_data)
+class PasswordResetRequestTest(BaseTest):
+    def test_password2(self):
+        # form_data = self.user
+        # form = PasswordResetForm(data=form_data)
+        # print(form)
+        # user = self.user
+        # old_sha = self.user["password1"]
+
+        form = PasswordResetForm(data=self.user)
+        self.assertTrue(form.is_valid())
+
+        form = PasswordResetForm(data={"password1": "foo"})
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors["email"], ["This field is required."])
+
+    # def test_password_reset_match(self):
+    #     user = self.user
+    #     old_sha = self.user["password1"]
+
+    #     form = PasswordResetForm(data=self.user)
     #     self.assertTrue(form.is_valid())
-    #     self.client.post(self.register_url, self.user, format="text/html")
-    #     user = User.objects.filter(username=self.user["email"]).first()
 
+    #     form = PasswordResetForm(data={'password1': 'foo',
+    #                                               'password2': 'bar'})
+    #     self.assertFalse(form.is_valid())
+    #     print(form.errors)
+    #     self.assertEqual(form.errors,
+    #                      ['This field is required.'])
+    # form = PasswordResetForm(data={'password1': 'foo',
+    #                                           'password2': 'bar'})
+    # self.assertFalse(form.is_valid())
+    # # print(form.errors)
+    # self.assertEqual(form.errors['email'],
+    #                  ['This field is required.'])
 
-# class Frinend(BaseTest):
-#     def AddFriendTest(self):
+    # form = PasswordResetForm(data={'password1': 'foo',
+    #                                           'password2': 'foo'})
+    # self.assertTrue(form.is_valid())
+    # self.assertEqual(user.password, old_sha)
+    # form.save()
+    # self.assertNotEqual(user.password, old_sha)
