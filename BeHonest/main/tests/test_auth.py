@@ -32,7 +32,7 @@ class BaseTest(TestCase):
             "password1": "pwd",
             "password2": "pwd",
         }
-
+        
         return super().setUp()
 
 
@@ -42,6 +42,47 @@ class HomePageTest(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "main/home.html")
 
+    def test_homepage_login_fail(self):
+        self.client.post(self.homepage_url, self.invalid_user, format="text/html")
+        user = User.objects.filter(username=self.invalid_user["username"]).first()
+        self.assertEqual(user, None)
+        response = self.client.post(
+            self.homepage_url, self.invalid_user, format="text/html"
+        )
+        self.assertEqual(response.status_code, 200)
+        messages = list(response.context["messages"])
+        self.assertEqual(str(messages[0]), "Invalid username or password.")
+
+    def test_client_login(self):
+        user = User.objects.create(username="testuser")
+        user.set_password("12345")
+        user.save()
+        c = Client()
+        logged_in = c.login(username="testuser", password="12345")
+        self.assertTrue(logged_in)
+
+    #testing for re-direct
+    def test_redirect_unauthenticated(self):
+        self.username = 'test1'
+        self.password = '12345qwe'
+        user = User.objects.create_user(username=self.username)
+        user.set_password(self.password)
+        user.save()
+        client = Client()
+        client.login(username=self.username, password=self.password)
+        response = client.get(self.homepage_url)
+        self.assertEqual(response.status_code, 302)
+    
+    def test_login_redirect(self):
+        self.username = 'test2'
+        self.password = 'somethin1234Long@'
+        user = User.objects.create_user(username=self.username)
+        user.set_password(self.password)
+        user.save()
+        client = Client()
+        client.login(username=self.username, password=self.password)
+        response = client.get(self.homepage_url)
+        self.assertEqual(response.status_code, 302)
 
 class RegisterTest(BaseTest):
     def test_register_url(self):
