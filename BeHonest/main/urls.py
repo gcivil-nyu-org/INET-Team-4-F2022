@@ -21,4 +21,5 @@ urlpatterns = [
     ),
     path("send_friend_request", views.AddFriend, name="add_friend"),
     path("accept_friend_request", views.AcceptFriend, name="accept_friend"),
+    path("delete_friend", views.DeleteFriend, name="delete_friend"),
 ]
