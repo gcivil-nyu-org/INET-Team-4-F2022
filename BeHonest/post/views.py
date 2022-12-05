@@ -91,11 +91,11 @@ def delete_user(request, pk):
     #     HttpResponseRedirect(reverse("main:homepage"))
     # except User.DoesNotExist:
     #     messages.error(request, "User does not exist")
-    #     redirect_str = "/home/profile/" + str(request.user)
+    #     redirect_str = "/home/profile/" +str(request.user)
     #     return redirect(redirect_str)
     # except Exception as e:
     #     messages.error(request, {'err':e.message})
-    #     redirect_str = "/home/profile/" + str(request.user)
+    #     redirect_str = "/home/profile/" +str(request.user)
     #     return redirect(redirect_str)
 
 
@@ -413,7 +413,7 @@ def profile(request, pk):
         bottom_post = most_disliked_post(user)
     else:
         top_post = ""
-        bottom_post = ""    
+        bottom_post = ""
 
     context = {
         "user": user,
