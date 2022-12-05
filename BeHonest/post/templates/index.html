@@ -31,11 +31,22 @@
     </div>
   </div>
 </header> {% endcomment %}
-<div class="offset-md-7 mt-3 left">
- <a class="btn btn-primary " href="{% url 'post:sort' %}">
-   byLike
-        </a>
+<br>
+<center>
+<div class="form-group col-md-4">
+  <form class="d-flex" method="POST" action="{% url 'post:base'%}" >
+    {% csrf_token %}
+    <select id="sorts" class="form-control" name="sorts">
+      <option selected>Sort By...</option>
+      {% for sort in sorts %}
+      <option value="{{ sort }}">{{ sort }}</option>
+      {% endfor %}
+      
+    </select>
+    <button class="btn btn-primary" type="submit">Sort</button>
+  </form>
 </div>
+</center>
 <div class="container">
   <div class="row">
     <!-- Blog Entries Column -->

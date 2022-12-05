@@ -153,3 +153,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # Password reset link valid for 4 hours
 PASSWORD_RESET_TIMEOUT = 14400
+
+
+NOSE_ARGS = [
+    "--nocapture",
+    "--nologcapture",
+]
