@@ -25,7 +25,6 @@ import pytz
 sorts = ["Like","Date","Hot"]
 utc = pytz.UTC
 
-
 def search_results(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
