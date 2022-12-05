@@ -25,4 +25,4 @@ typed-ast==1.5.4
 typing_extensions==4.4.0
 urllib3==1.26.12
 zipp==3.10.0
-better-profanity==0.1
+better-profanity==0.7.0
