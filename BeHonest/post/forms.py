@@ -1,7 +1,8 @@
 from .models import Comment, Post
 from django import forms
 from news.models import newsComment
-from better_profanity import profanity
+# from better_profanity import profanity
+from better-profanity import profanity
 
 
 class CommentForm(forms.ModelForm):
