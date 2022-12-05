@@ -18,6 +18,12 @@ from .badges import balance_badge
 from random import shuffle
 from main.models import FriendRequest, Friend
 from .user_statistics import most_liked_post, most_disliked_post
+from datetime import datetime, timedelta
+import pytz
+
+#For sorting 
+sorts = ["Like","Date","Hot"]
+utc = pytz.UTC
 
 
 def search_results(request):
@@ -101,6 +107,7 @@ def delete_user(request, pk):
 
 @login_required(login_url="/")  # redirect when user is not logged in
 def post_list(request):
+    s = request.POST.get('sorts')
     if request.user is not None:
         if request.method == "POST":
             if "link" in request.POST:
@@ -108,7 +115,14 @@ def post_list(request):
                 new_post = None
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
-                refresh_queryset = Post.objects.order_by("-created_on")
+                if s == 'Like':
+                    refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by("-count")
+                elif s == 'Hot':
+                    now = datetime.now()
+                    now = utc.localize(now)
+                    refresh_queryset = Post.objects.filter(created_on__date__gte = now - timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
+                else:
+                    refresh_queryset = Post.objects.order_by("-created_on")
                 return render(
                     request,
                     "index.html",
@@ -147,9 +161,16 @@ def post_list(request):
         for i in range(0, len(friends_list)):
             usernames.append(friends_list[i].secondary)
 
-        refresh_queryset = Post.objects.filter(author__in=usernames).order_by(
-            "-created_on"
-        ) | Post.objects.filter(author=user).order_by("-created_on")
+        if s == 'Like':
+            refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by("-count")
+        elif s == 'Hot':
+            now = datetime.now()
+            now = utc.localize(now)
+            refresh_queryset = Post.objects.filter(created_on__date__gte = now - timedelta(hours=6)).annotate(count=Count("likes")).order_by("-count")
+            r2 = Post.objects.filter(created_on__date__lt = now - timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
+            #refresh_queryset = r1 | r2
+        else:
+            refresh_queryset = Post.objects.order_by("-created_on")
         return render(
             request,
             "index.html",
@@ -158,6 +179,7 @@ def post_list(request):
                 "post": refresh_queryset,
                 "new_comment": new_post,
                 "comment_form": post_form,
+                "sorts": sorts,
             },
         )
 
