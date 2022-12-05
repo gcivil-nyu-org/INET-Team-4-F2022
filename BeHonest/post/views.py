@@ -21,8 +21,7 @@ from .user_statistics import most_liked_post, most_disliked_post
 from datetime import datetime, timedelta
 import pytz
 
-#For sorting 
-sorts = ["Like","Date","Hot"]
+sorts = ["Like", "Date", "Hot"]
 utc = pytz.UTC
 
 
@@ -120,7 +119,8 @@ def post_list(request):
                 elif s == 'Hot':
                     now = datetime.now()
                     now = utc.localize(now)
-                    refresh_queryset = Post.objects.filter(created_on__date__gte = now - timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
+                    refresh_queryset = Post.objects.filter(
+                        created_on__date__gte=now-timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
                 else:
                     refresh_queryset = Post.objects.order_by("-created_on")
                 return render(
@@ -166,9 +166,11 @@ def post_list(request):
         elif s == 'Hot':
             now = datetime.now()
             now = utc.localize(now)
-            refresh_queryset = Post.objects.filter(created_on__date__gte = now - timedelta(hours=6)).annotate(count=Count("likes")).order_by("-count")
-            r2 = Post.objects.filter(created_on__date__lt = now - timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
-            #refresh_queryset = r1 | r2
+            refresh_queryset = Post.objects.filter(
+                created_on__date__gte=now-timedelta(hours=6)).annotate(count=Count("likes")).order_by("-count")
+            # r2 = Post.objects.filter(
+            # created_on__date__lt = now - timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
+            # refresh_queryset = r1 | r2
         else:
             refresh_queryset = Post.objects.order_by("-created_on")
         return render(
