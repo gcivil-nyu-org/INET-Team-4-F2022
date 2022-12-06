@@ -42,6 +42,7 @@ ALLOWED_HOSTS = [
     "django-env.eba-37ttvtk2.us-west-2.elasticbeanstalk.com",
     "behonest-production-env.eba-9rwzyrmn.us-west-2.elasticbeanstalk.com",
     "127.0.0.1",
+    "BeHonestDev.eba-fe7det8h.us-west-2.elasticbeanstalk.com",
     "BeHonestProd.eba-u8cvqzte.us-west-2.elasticbeanstalk.com",
 ]
 
@@ -153,3 +154,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # Password reset link valid for 4 hours
 PASSWORD_RESET_TIMEOUT = 14400
+
+
+NOSE_ARGS = [
+    "--nocapture",
+    "--nologcapture",
+]

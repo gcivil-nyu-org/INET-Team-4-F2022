@@ -1,4 +1,4 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
 <style>
@@ -26,15 +26,15 @@
         <p class="card-text ">{{ post.content | safe }}</p>
       </div>
       <br/><br/>
-    
+
       <hr>
     <br/>
     <div class = "post_buttons">
       <div class = "like_dislike">
         <form action="{% url 'post:like_post' post.pk %}" method="POST">
         {% csrf_token %}
-        
-      
+
+
           {% if post.liked %}
             <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike</button>
             {% comment %} <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">
@@ -49,14 +49,14 @@
           {% endif %}
           - {{ post.total_likes }} Likes
         </form>
-        
+
         <br/>
-        
+
         <form action="{% url 'post:dislike_post' post.pk %}" method="POST">
           {% csrf_token %}
-          
+
           {% if post.disliked %}
-            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undislike</button> 
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undislike</button>
 
           {% else %}
             <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Dislike</button>
@@ -88,7 +88,7 @@
               {{ comment.created_on }}
             </span>
           </p>
-          {{ comment.body | linebreaks }}
+          {{ comment.content | linebreaks }}
         </div>
         {% endfor %}
       </div>
@@ -97,7 +97,7 @@
       <div class="card-body">
         {% if new_comment %}
         <div class="alert alert-success" role="alert">
-          Your comment is awaiting moderation
+          Commentted
         </div>
         {% else %}
         <h3>Leave a comment</h3>

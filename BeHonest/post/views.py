@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.contrib import messages
 from .forms import CommentForm, PostForm, NewsForm
 from news.models import News
 from post.models import Post
@@ -14,8 +15,14 @@ from .badges import user_dislikes_badges_tier
 from .badges import user_friends_tier
 from .badges import post_tier
 from .badges import balance_badge
-
+from random import shuffle
 from main.models import FriendRequest, Friend
+from .user_statistics import most_liked_post, most_disliked_post
+from datetime import datetime, timedelta
+import pytz
+
+sorts = ["Like", "Date", "Hot"]
+utc = pytz.UTC
 
 
 def search_results(request):
@@ -75,7 +82,31 @@ def delete_post(request, pk):
 
 
 @login_required(login_url="/")  # redirect when user is not logged in
+def delete_user(request, pk):
+    print(request.user)
+    u = get_object_or_404(User, username=request.POST.get("username"))
+    if request.user.username == u.username:
+        u.delete()
+        messages.success(request, "The user is deleted")
+        return HttpResponseRedirect(reverse("main:homepage"))
+    # try:
+    #     u = get_object_or_404(User, username=request.POST.get("username"))
+    #     u.delete()
+    #     messages.success(request, "The user is deleted")
+    #     HttpResponseRedirect(reverse("main:homepage"))
+    # except User.DoesNotExist:
+    #     messages.error(request, "User does not exist")
+    #     redirect_str = "/home/profile/" +str(request.user)
+    #     return redirect(redirect_str)
+    # except Exception as e:
+    #     messages.error(request, {'err':e.message})
+    #     redirect_str = "/home/profile/" +str(request.user)
+    #     return redirect(redirect_str)
+
+
+@login_required(login_url="/")  # redirect when user is not logged in
 def post_list(request):
+    s = request.POST.get('sorts')
     if request.user is not None:
         if request.method == "POST":
             if "link" in request.POST:
@@ -83,7 +114,15 @@ def post_list(request):
                 new_post = None
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
-                refresh_queryset = Post.objects.order_by("-created_on")
+                if s == 'Like':
+                    refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by("-count")
+                elif s == 'Hot':
+                    now = datetime.now()
+                    now = utc.localize(now)
+                    refresh_queryset = Post.objects.filter(
+                        created_on__date__gte=now-timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
+                else:
+                    refresh_queryset = Post.objects.order_by("-created_on")
                 return render(
                     request,
                     "index.html",
@@ -122,9 +161,18 @@ def post_list(request):
         for i in range(0, len(friends_list)):
             usernames.append(friends_list[i].secondary)
 
-        refresh_queryset = Post.objects.filter(author__in=usernames).order_by(
-            "-created_on"
-        )
+        if s == 'Like':
+            refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by("-count")
+        elif s == 'Hot':
+            now = datetime.now()
+            now = utc.localize(now)
+            refresh_queryset = Post.objects.filter(
+                created_on__date__gte=now-timedelta(hours=6)).annotate(count=Count("likes")).order_by("-count")
+            # r2 = Post.objects.filter(
+            # created_on__date__lt = now - timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
+            # refresh_queryset = r1 | r2
+        else:
+            refresh_queryset = Post.objects.order_by("-created_on")
         return render(
             request,
             "index.html",
@@ -133,59 +181,7 @@ def post_list(request):
                 "post": refresh_queryset,
                 "new_comment": new_post,
                 "comment_form": post_form,
-            },
-        )
-
-
-@login_required(login_url="/")  # redirect when user is not logged in
-def post_author(request):
-
-    if request.user is not None:
-        if request.method == "POST":
-            if "link" in request.POST:
-                post_form = PostForm()
-                new_post = None
-                new_post = post_form.save(False)
-                auto_populate = request.POST["link"]
-                refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
-                    "-count"
-                )
-                return render(
-                    request,
-                    "sort.html",
-                    {
-                        "post_author": refresh_queryset,
-                        "post": refresh_queryset,
-                        "new_comment": new_post,
-                        "comment_form": post_form,
-                        "auto_populate": auto_populate,
-                    },
-                )
-
-        new_post = None
-        # Comment posted
-        if request.method == "POST":
-            post_form = PostForm(data=request.POST)
-            if post_form.is_valid():
-                # Create Comment object but don't save to database yet
-                new_post = post_form.save(False)
-                new_post.author = request.user
-                # Save the comment to the database
-                new_post.save()
-        else:
-            post_form = PostForm()
-
-        refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
-            "-count"
-        )
-        return render(
-            request,
-            "sort.html",
-            {
-                "post_author": refresh_queryset,
-                "post": refresh_queryset,
-                "new_comment": new_post,
-                "comment_form": post_form,
+                "sorts": sorts,
             },
         )
 
@@ -306,7 +302,7 @@ def profile(request, pk):
     try:
 
         friends = Friend.objects.filter(primary=user)
-        print("got firneds")
+        # print("got firneds")
     except Friend.DoesNotExist:
         print("here")
         friends = []
@@ -317,15 +313,15 @@ def profile(request, pk):
     badges = []
 
     # 1. Likes related badges
-    total_likes = total_likes_received(authenticated_user)
+    total_likes = total_likes_received(user)
     user_likes_badges_tier(badges, total_likes)
 
     # 2. Dislike related badges
-    total_dislikes = total_dislikes_received(authenticated_user)
+    total_dislikes = total_dislikes_received(user)
     user_dislikes_badges_tier(badges, total_dislikes)
 
     # 3. Balance badge
-    balance_badge(badges, authenticated_user)
+    balance_badge(badges, user)
 
     # 4. Friends badge
     user_friends_tier(badges, friends)
@@ -333,10 +329,20 @@ def profile(request, pk):
     # 5. Posts badge
     post_tier(badges, user)
 
-    # 6. Comments badge
-    # comments_tier(badges, user)
+    # Caclulate Remaining Badges
+    remaining_badges = 19 - len(badges)
 
-    #
+    # Randomize display order of badges
+    shuffle(badges)
+
+    # Identify best and worst posts
+    if authenticated_user == user:
+        top_post = most_liked_post(user)
+        bottom_post = most_disliked_post(user)
+    else:
+        top_post = ""
+        bottom_post = ""
+
     context = {
         "user": user,
         "posts": logged_in_user_posts,
@@ -346,6 +352,11 @@ def profile(request, pk):
         "isFriend": isFriend,
         "alreadySent": alreadySent,
         "badges": badges,
+        "likes": total_likes,
+        "dislikes": total_dislikes,
+        "badges_remaining": remaining_badges,
+        "top_post": top_post,
+        "bottom_post": bottom_post,
     }
 
     return render(request, "profile.html", context)

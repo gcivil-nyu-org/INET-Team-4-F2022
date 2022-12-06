@@ -15,6 +15,8 @@ install:
   - pip install sqlparse==0.4.3
   - pip install coveralls
   - pip install newsapi-python
+  - pip install better_profanity==0.6.1
+
 
 before_script:
   - python BeHonest/manage.py makemigrations
@@ -24,7 +26,7 @@ script:
   - black  ./
   - flake8 ./
   - cd BeHonest
-  - coverage run --source=main,post manage.py test
+  - coverage run --source=main,post,news manage.py test
 
 after_success:
  coveralls
@@ -34,8 +36,8 @@ deploy:
   access_key_id: $WHACCESS
   secret_access_key: $WHSECRET
   region: "us-west-2"  
-  app: "BeHonest_Production"
-  env: "BeHonestProd"
+  app: "BeHonest_Develop"
+  env: "BeHonestDev"
   bucket_name: "elasticbeanstalk-us-west-2-587192892077"
   on:
     branch: main
