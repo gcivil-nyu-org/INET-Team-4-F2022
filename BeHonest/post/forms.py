@@ -18,7 +18,7 @@ class CommentForm(forms.ModelForm):
         # content = self.cleaned_data.get("content")
 
         # conditions to be met for the username length
-        # if profanity.contains_profanity(content):
+        # if profanity.contains_profanitycontent):
            # self._errors["content"] = self.error_class(["please be polite"])
 
         # return any errors if found
