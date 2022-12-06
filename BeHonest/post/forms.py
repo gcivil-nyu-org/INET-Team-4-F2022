@@ -22,7 +22,8 @@ class CommentForm(forms.ModelForm):
            # self._errors["content"] = self.error_class(["please be polite"])
 
         # return any errors if found
-       return self.cleaned_data
+        
+        return self.cleaned_data
 
 
 class PostForm(forms.ModelForm):
