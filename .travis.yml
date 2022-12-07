@@ -36,8 +36,8 @@ deploy:
   access_key_id: $WHACCESS
   secret_access_key: $WHSECRET
   region: "us-west-2"  
-  app: "BeHonest_Develop"
-  env: "BeHonestDev"
+  app: "BeHonest_Production"
+  env: "BeHonestProd"
   bucket_name: "elasticbeanstalk-us-west-2-587192892077"
   on:
     branch: main
