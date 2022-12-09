@@ -220,8 +220,15 @@
                         <div class = "card">
                             <p>friends</p>
                             {% for friend in friends %}
-                                    <p>{{ friend.secondary }}</p>
+                                <form method="POST" action="/delete_friend">
+                                    {% csrf_token %}
+                                    <div class="card-header">
+                                        <p>{{ friend.secondary }}</p>
+                                        <input type="hidden" name="friend" value="{{friend.secondary}}">
+                                        <button>delete?</button>
+                                    </div>
                                 <br>
+                                </form>
                             {% endfor %}
                         </div>
                     </div>
