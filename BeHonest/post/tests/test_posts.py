@@ -5,14 +5,12 @@ from post.models import Post, Comment
 from django.urls import reverse
 from django.contrib.auth.models import User
 from post.forms import PostForm, CommentForm, NewsForm
+from post.badges import *
+from django.contrib.auth.models import User
 
-
-# bandaid fix to re-use don't need anymore
-# class LogoutTest(TestCase):
-#     def test_logout_url(self):
-#         self.logout_url = reverse("post:logout")
-#         response = self.client.get(self.logout_url)
-#         self.assertEqual(response.status_code, 302)
+# Create user for testing purposes
+def create_user(username_string):
+    return User.objects.create(username=username_string)
 
 
 # test that app config name matches and is found
@@ -102,3 +100,11 @@ class News_Tests(BaseTest):
         form = NewsForm(data=form_data)
         self.assertFalse(form.is_valid())
 
+# Test set for badge logic contained in badges.py
+class Badges_Tests(BaseTest):
+
+    # Test to see if the first user 
+    def test_user_with_no_posts(self):
+        test_user = create_user("test_user_1")
+        # user = User.objects.get(username="test_user_1")
+        self.assertFalse(get_posts(test_user))
