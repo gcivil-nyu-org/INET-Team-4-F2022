@@ -108,6 +108,7 @@ def post_list(request):
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
                 refresh_queryset = Post.objects.order_by("-created_on")
+
                 return render(
                     request,
                     "index.html",

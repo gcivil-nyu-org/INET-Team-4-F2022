@@ -1,7 +1,13 @@
 from .models import Comment, Post
 from django import forms
 from news.models import newsComment
+<<<<<<< Updated upstream
 from better_profanity import profanity
+=======
+# from better_profanity import profanity
+from profanityfilter import ProfanityFilter
+pf = ProfanityFilter()
+>>>>>>> Stashed changes
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -16,9 +22,15 @@ class CommentForm(forms.ModelForm):
         content = self.cleaned_data.get('content')
 
         # conditions to be met for the username length
+<<<<<<< Updated upstream
         if profanity.contains_profanity(content):
             self._errors['content'] = self.error_class([
                 'please be polite'])
+=======
+        # if profanity.contains_profanity(content):
+        if pf.is_profane(content):
+            self._errors["content"] = self.error_class(["please be polite"])
+>>>>>>> Stashed changes
 
         # return any errors if found
         return self.cleaned_data
@@ -38,12 +50,23 @@ class PostForm(forms.ModelForm):
         content = self.cleaned_data.get('content')
 
         # conditions to be met for the username length
+<<<<<<< Updated upstream
         if profanity.contains_profanity(title):
             self._errors['title'] = self.error_class([
                 'please be polite'])
         if profanity.contains_profanity(content):
             self._errors['content'] = self.error_class([
                 'please be polite'])
+=======
+        if pf.is_profane(title):
+            self._errors["title"] = self.error_class(["please be polite"])
+        if pf.is_profane(content):
+            self._errors["content"] = self.error_class(["please be polite"])
+        #if profanity.contains_profanity(title):
+        #     self._errors["title"] = self.error_class(["please be polite"])
+        # if profanity.contains_profanity(content):
+        #     self._errors["content"] = self.error_class(["please be polite"])
+>>>>>>> Stashed changes
 
         # return any errors if found
         return self.cleaned_data
@@ -62,9 +85,16 @@ class NewsForm(forms.ModelForm):
         content = self.cleaned_data.get('content')
 
         # conditions to be met for the username length
+<<<<<<< Updated upstream
         if profanity.contains_profanity(content):
             self._errors['content'] = self.error_class([
                 'please be polite'])
 
+=======
+        # if profanity.contains_profanity(content):
+        #     self._errors["content"] = self.error_class(["please be polite"])
+        if pf.is_profane(content):
+            self._errors["content"] = self.error_class(["please be polite"])
+>>>>>>> Stashed changes
         # return any errors if found
         return self.cleaned_data
