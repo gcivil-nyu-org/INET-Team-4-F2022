@@ -16,6 +16,7 @@ from post.badges import (
     post_tier,
 )
 
+
 # Create user for testing purposes
 def create_user(username_string):
     return User.objects.create(username=username_string)
