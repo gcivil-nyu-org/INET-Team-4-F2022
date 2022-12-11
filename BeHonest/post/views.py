@@ -189,7 +189,18 @@ def post_list(request):
 def post_update(request, id):
     template_name = "post_update.html"
     post = get_object_or_404(Post, id=id)
-    
+    # if request.method == "POST":
+    return render(
+        request,
+        template_name,
+        {
+            "post": post,
+            "comments": comments,
+            "new_comment": new_comment,
+            "comment_form": comment_form,
+        },
+    )
+
 
 
 @login_required(login_url="/")  # redirect when user is not logged in
