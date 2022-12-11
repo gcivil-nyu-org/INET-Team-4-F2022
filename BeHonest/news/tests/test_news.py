@@ -2,6 +2,7 @@ from django.apps import apps
 from django.test import TestCase
 from news.apps import NewsConfig
 
+
 class ReportsConfigTest(TestCase):
     def test_apps(self):
         self.assertEqual(NewsConfig.name, "news")
