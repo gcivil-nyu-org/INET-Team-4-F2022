@@ -185,6 +185,12 @@ def post_list(request):
             },
         )
 
+@login_required(login_url="/")
+def post_update(request, id):
+    template_name = "post_update.html"
+    post = get_object_or_404(Post, id=id)
+    
+
 
 @login_required(login_url="/")  # redirect when user is not logged in
 def post_detail(request, id):
