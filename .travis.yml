@@ -16,7 +16,6 @@ install:
   - pip install coveralls
   - pip install newsapi-python
   - pip install better_profanity==0.6.1
-  - pip install profanityfilter
 
 
 before_script:
@@ -37,8 +36,8 @@ deploy:
   access_key_id: $WHACCESS
   secret_access_key: $WHSECRET
   region: "us-west-2"  
-  app: "BeHonest_Production"
-  env: "BeHonestProd"
+  app: "BeHonest_Develop"
+  env: "BeHonestDev"
   bucket_name: "elasticbeanstalk-us-west-2-587192892077"
   on:
     branch: main
