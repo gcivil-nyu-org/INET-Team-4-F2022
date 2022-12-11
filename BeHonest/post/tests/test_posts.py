@@ -5,16 +5,27 @@ from post.models import Post, Comment
 from django.urls import reverse
 from django.contrib.auth.models import User
 from post.forms import PostForm, CommentForm, NewsForm
-from post.badges import *
-from django.contrib.auth.models import User
+from post.badges import (
+    get_posts,
+    total_dislikes_received,
+    total_likes_received,
+    total_dislikes_received,
+    user_dislikes_badges_tier,
+    user_friends_tier,
+    user_likes_badges_tier,
+    balance_badge,
+    post_tier,
+)
 
 # Create user for testing purposes
 def create_user(username_string):
     return User.objects.create(username=username_string)
 
+
 # Create post for testing puproses
 def create_post(authour_string):
     return Post.objects.create(author=authour_string)
+
 
 # test that app config name matches and is found
 class ReportsConfigTest(TestCase):
@@ -86,6 +97,7 @@ class Comment_Tests(BaseTest):
         form = CommentForm(data=form_data)
         self.assertFalse(form.is_valid())
 
+
 class News_Tests(BaseTest):
     def test_string_representation(self):
         self.assertEqual(
@@ -103,6 +115,7 @@ class News_Tests(BaseTest):
         form = NewsForm(data=form_data)
         self.assertFalse(form.is_valid())
 
+
 # Test set for badge logic contained in badges.py
 class Badges_Tests(BaseTest):
 
@@ -110,22 +123,22 @@ class Badges_Tests(BaseTest):
     def test_user_with_no_posts_posts(self):
         test_user = create_user("test_user_1")
         self.assertFalse(get_posts(test_user))
-    
+
     # Test to see if a new user has no likes
     def test_user_with_no_posts_likes(self):
         test_user = create_user("test_user_1")
         self.assertFalse(total_likes_received(test_user))
-    
+
     # Test to see if a new user has no dislikes
     def test_user_with_no_posts_dislikes(self):
         test_user = create_user("test_user_1")
         self.assertFalse(total_dislikes_received(test_user))
-    
+
     # Test to see if the dislikes tier function works
     def test_dislikes_badge(self):
         badges = []
         self.assertFalse(user_dislikes_badges_tier(badges, 100))
-    
+
     # Test to see that the like tier function does not return a value
     def test_user_wth_no_posts_like_tier(self):
         badges = []
@@ -138,14 +151,15 @@ class Badges_Tests(BaseTest):
         test_post1 = create_post(test_user)
         # Unknown how to test likes
         balance_badge(badges, test_user)
+        self.assertTrue(test_post1)
 
     # Test friends tier
     def test_friends_tiers(self):
         badges = []
         friends = []
         for i in range(100):
-            friends.append(0)
-        
+            friends.append(i)
+
         user_friends_tier(badges, friends)
 
     # Test posts count tiers
@@ -155,6 +169,5 @@ class Badges_Tests(BaseTest):
 
         for i in range(100):
             create_post(test_user2)
-        
-        post_tier(badges, test_user2)
 
+        post_tier(badges, test_user2)

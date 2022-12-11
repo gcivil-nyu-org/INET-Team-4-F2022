@@ -32,7 +32,7 @@ class BaseTest(TestCase):
             "password1": "pwd",
             "password2": "pwd",
         }
-        
+
         return super().setUp()
 
 
@@ -61,10 +61,10 @@ class HomePageTest(BaseTest):
         logged_in = c.login(username="testuser", password="12345")
         self.assertTrue(logged_in)
 
-    #testing for re-direct
+    # testing for re-direct
     def test_redirect_unauthenticated(self):
-        self.username = 'test1'
-        self.password = '12345qwe'
+        self.username = "test1"
+        self.password = "12345qwe"
         user = User.objects.create_user(username=self.username)
         user.set_password(self.password)
         user.save()
@@ -72,10 +72,10 @@ class HomePageTest(BaseTest):
         client.login(username=self.username, password=self.password)
         response = client.get(self.homepage_url)
         self.assertEqual(response.status_code, 302)
-    
+
     def test_login_redirect(self):
-        self.username = 'test2'
-        self.password = 'somethin1234Long@'
+        self.username = "test2"
+        self.password = "somethin1234Long@"
         user = User.objects.create_user(username=self.username)
         user.set_password(self.password)
         user.save()
@@ -83,6 +83,7 @@ class HomePageTest(BaseTest):
         client.login(username=self.username, password=self.password)
         response = client.get(self.homepage_url)
         self.assertEqual(response.status_code, 302)
+
 
 class RegisterTest(BaseTest):
     def test_register_url(self):
