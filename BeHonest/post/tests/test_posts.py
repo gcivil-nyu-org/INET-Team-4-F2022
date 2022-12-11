@@ -12,6 +12,9 @@ from django.contrib.auth.models import User
 def create_user(username_string):
     return User.objects.create(username=username_string)
 
+# Create post for testing puproses
+def create_post(authour_string):
+    return Post.objects.create(author=authour_string)
 
 # test that app config name matches and is found
 class ReportsConfigTest(TestCase):
@@ -103,8 +106,55 @@ class News_Tests(BaseTest):
 # Test set for badge logic contained in badges.py
 class Badges_Tests(BaseTest):
 
-    # Test to see if the first user 
-    def test_user_with_no_posts(self):
+    # Test to see if a new user has no posts
+    def test_user_with_no_posts_posts(self):
         test_user = create_user("test_user_1")
-        # user = User.objects.get(username="test_user_1")
         self.assertFalse(get_posts(test_user))
+    
+    # Test to see if a new user has no likes
+    def test_user_with_no_posts_likes(self):
+        test_user = create_user("test_user_1")
+        self.assertFalse(total_likes_received(test_user))
+    
+    # Test to see if a new user has no dislikes
+    def test_user_with_no_posts_dislikes(self):
+        test_user = create_user("test_user_1")
+        self.assertFalse(total_dislikes_received(test_user))
+    
+    # Test to see if the dislikes tier function works
+    def test_dislikes_badge(self):
+        badges = []
+        self.assertFalse(user_dislikes_badges_tier(badges, 100))
+    
+    # Test to see that the like tier function does not return a value
+    def test_user_wth_no_posts_like_tier(self):
+        badges = []
+        self.assertFalse(user_likes_badges_tier(badges, 100))
+
+    # Test to see that the balance badge works
+    def test_user_wth_no_posts_dislike_tier(self):
+        badges = []
+        test_user = create_user("test_user_1")
+        test_post1 = create_post(test_user)
+        # Unknown how to test likes
+        balance_badge(badges, test_user)
+
+    # Test friends tier
+    def test_friends_tiers(self):
+        badges = []
+        friends = []
+        for i in range(100):
+            friends.append(0)
+        
+        user_friends_tier(badges, friends)
+
+    # Test posts count tiers
+    def test_posts_tier(self):
+        badges = []
+        test_user2 = create_user("test_user_2")
+
+        for i in range(100):
+            create_post(test_user2)
+        
+        post_tier(badges, test_user2)
+
