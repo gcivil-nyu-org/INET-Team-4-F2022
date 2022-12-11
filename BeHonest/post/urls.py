@@ -14,5 +14,5 @@ urlpatterns = [
     path("delete_user/<str:pk>/", views.delete_user, name="delete_user"),
     path("search_results", views.search_results, name="search-results"),
     path("prof_results", views.prof_results, name="prof-results"),
-    path("<int:id>/", views.post_update, name="post_update"),
+    path("edit/<int:pk>", views.post_update, name="post_update"),
 ]

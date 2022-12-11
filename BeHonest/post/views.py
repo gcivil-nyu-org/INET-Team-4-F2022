@@ -186,20 +186,13 @@ def post_list(request):
         )
 
 @login_required(login_url="/")
-def post_update(request, id):
+def post_update(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
     template_name = "post_update.html"
-    post = get_object_or_404(Post, id=id)
-    # if request.method == "POST":
-    return render(
-        request,
-        template_name,
-        {
-            "post": post,
-            "comments": comments,
-            "new_comment": new_comment,
-            "comment_form": comment_form,
-        },
-    )
+    # security check so only current user can delete posts
+    if request.user == post.author:
+        
+        return render(request,template_name)
 
 
 
