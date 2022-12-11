@@ -9,7 +9,6 @@ from post.badges import (
     get_posts,
     total_dislikes_received,
     total_likes_received,
-    total_dislikes_received,
     user_dislikes_badges_tier,
     user_friends_tier,
     user_likes_badges_tier,
