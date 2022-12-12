@@ -251,6 +251,17 @@ def AddFriend(request):
     return redirect(redirect_str)
 
 
+def DeleteFriend(request):
+    User = get_user_model()
+    deleted_friend = User.objects.get(username=request.POST["friend"])
+    deleter = User.objects.get(username=request.user)
+    FriendRequest.objects.filter(sender=deleted_friend, receiver=deleter).delete()
+    FriendRequest.objects.filter(sender=deleter, receiver=deleted_friend).delete()
+    Friend.objects.filter(primary=deleter, secondary=deleted_friend).delete()
+    Friend.objects.filter(primary=deleted_friend, secondary=deleter).delete()
+    return redirect(request.META.get("HTTP_REFERER"))
+
+
 def AcceptFriend(request):
     print(request.POST["sender"])
     print(request.user)

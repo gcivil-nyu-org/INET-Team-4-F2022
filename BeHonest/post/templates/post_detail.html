@@ -71,6 +71,13 @@
           <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Delete</button>
         {% endif %}
       </form>
+      
+      <form action="{% url 'post:post_update' post.pk %}" method="POST">
+        {% csrf_token %}
+        {% if request.user == post.author %}
+          <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Edit</button>
+        {% endif %}
+      </form>
     </div>
     </div>
 
@@ -106,6 +113,7 @@
           {% csrf_token %}
           <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
         </form>
+        
         {% endif %}
       </div>
     </div>

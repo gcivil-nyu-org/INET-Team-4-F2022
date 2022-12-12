@@ -4,7 +4,6 @@ from django.urls import path
 app_name = "post"
 urlpatterns = [
     path("", views.post_list, name="base"),
-    path("sorted/", views.post_author, name="sort"),
     path("<int:id>/", views.post_detail, name="post_detail"),
     path("news/<int:id>/", views.news_detail, name="news_detail"),
     # path("logout/", views.logout_request, name="logout"),
@@ -15,4 +14,5 @@ urlpatterns = [
     path("delete_user/<str:pk>/", views.delete_user, name="delete_user"),
     path("search_results", views.search_results, name="search-results"),
     path("prof_results", views.prof_results, name="prof-results"),
+    path("edit/<int:pk>", views.post_update, name="post_update"),
 ]
