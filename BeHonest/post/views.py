@@ -36,6 +36,7 @@ def search_results(request):
     else:
         return render(request, "search_results.html", {})
 
+
 @login_required(login_url="/")  # redirect when user is not logged in
 def prof_results(request):
     if request.method == "POST":
@@ -198,15 +199,15 @@ def post_list(request):
             },
         )
 
+
 @login_required(login_url="/")
 def post_update(request, pk):
     post = get_object_or_404(Post, id=request.POST.get("post_id"))
     template_name = "post_update.html"
     # security check so only current user can delete posts
     if request.user == post.author:
-        
-        return render(request,template_name)
 
+        return render(request, template_name)
 
 
 @login_required(login_url="/")  # redirect when user is not logged in
@@ -254,6 +255,7 @@ def post_detail(request, id):
         },
     )
 
+
 @login_required(login_url="/")  # redirect when user is not logged in
 def news_detail(request, id):
     """
@@ -291,6 +293,7 @@ def news_detail(request, id):
             "comment_form": comment_form,
         },
     )
+
 
 @login_required(login_url="/")  # redirect when user is not logged in
 def profile(request, pk):
