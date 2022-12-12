@@ -25,6 +25,7 @@ sorts = ["Like", "Date", "Hot"]
 utc = pytz.UTC
 
 
+@login_required(login_url="/")  # redirect when user is not logged in
 def search_results(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
@@ -36,6 +37,7 @@ def search_results(request):
         return render(request, "search_results.html", {})
 
 
+@login_required(login_url="/")  # redirect when user is not logged in
 def prof_results(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
@@ -106,7 +108,7 @@ def delete_user(request, pk):
 
 @login_required(login_url="/")  # redirect when user is not logged in
 def post_list(request):
-    s = request.POST.get('sorts')
+    s = request.POST.get("sorts")
     if request.user is not None:
         if request.method == "POST":
             if "link" in request.POST:
@@ -114,13 +116,20 @@ def post_list(request):
                 new_post = None
                 new_post = post_form.save(False)
                 auto_populate = request.POST["link"]
-                if s == 'Like':
-                    refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by("-count")
-                elif s == 'Hot':
+                if s == "Like":
+                    refresh_queryset = Post.objects.annotate(
+                        count=Count("likes")
+                    ).order_by("-count")
+                elif s == "Hot":
                     now = datetime.now()
                     now = utc.localize(now)
-                    refresh_queryset = Post.objects.filter(
-                        created_on__date__gte=now-timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
+                    refresh_queryset = (
+                        Post.objects.filter(
+                            created_on__date__gte=now - timedelta(hours=4)
+                        )
+                        .annotate(count=Count("likes"))
+                        .order_by("-count")
+                    )
                 else:
                     refresh_queryset = Post.objects.order_by("-created_on")
                 return render(
@@ -161,13 +170,18 @@ def post_list(request):
         for i in range(0, len(friends_list)):
             usernames.append(friends_list[i].secondary)
 
-        if s == 'Like':
-            refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by("-count")
-        elif s == 'Hot':
+        if s == "Like":
+            refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
+                "-count"
+            )
+        elif s == "Hot":
             now = datetime.now()
             now = utc.localize(now)
-            refresh_queryset = Post.objects.filter(
-                created_on__date__gte=now-timedelta(hours=6)).annotate(count=Count("likes")).order_by("-count")
+            refresh_queryset = (
+                Post.objects.filter(created_on__date__gte=now - timedelta(hours=6))
+                .annotate(count=Count("likes"))
+                .order_by("-count")
+            )
             # r2 = Post.objects.filter(
             # created_on__date__lt = now - timedelta(hours=4)).annotate(count=Count("likes")).order_by("-count")
             # refresh_queryset = r1 | r2
@@ -184,6 +198,16 @@ def post_list(request):
                 "sorts": sorts,
             },
         )
+
+
+@login_required(login_url="/")
+def post_update(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+    template_name = "post_update.html"
+    # security check so only current user can delete posts
+    if request.user == post.author:
+
+        return render(request, template_name)
 
 
 @login_required(login_url="/")  # redirect when user is not logged in
@@ -232,6 +256,7 @@ def post_detail(request, id):
     )
 
 
+@login_required(login_url="/")  # redirect when user is not logged in
 def news_detail(request, id):
     """
 
@@ -270,6 +295,7 @@ def news_detail(request, id):
     )
 
 
+@login_required(login_url="/")  # redirect when user is not logged in
 def profile(request, pk):
     user = User.objects.get(username=pk)
     authenticated_user = request.user

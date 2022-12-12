@@ -18,7 +18,6 @@ install:
   - pip install profanity
 
 
-
 before_script:
   - python BeHonest/manage.py makemigrations
   - python BeHonest/manage.py migrate
