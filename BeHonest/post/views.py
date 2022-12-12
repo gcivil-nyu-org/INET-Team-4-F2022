@@ -303,7 +303,7 @@ def post_detail(request, id):
         },
     )
 
-
+@login_required(login_url="/")  # redirect when user is not logged in
 def news_detail(request, id):
     """
 
@@ -341,7 +341,7 @@ def news_detail(request, id):
         },
     )
 
-
+@login_required(login_url="/")  # redirect when user is not logged in
 def profile(request, pk):
     user = User.objects.get(username=pk)
     authenticated_user = request.user
