@@ -1,5 +1,5 @@
 from django.apps import apps
-from django.test import TestCase
+from django.test import TestCase, Client
 from post.apps import BlogConfig
 from post.models import Post, Comment
 from django.urls import reverse
@@ -38,9 +38,16 @@ class BaseTest(TestCase):
     def setUp(self):
         self.post = Post(title="test")
         self.user = User.objects.create(username="test_user")
+        self.user.set_password("newpassword")
+        self.user.save()
         self.comment = Comment(content="testing", author=self.user)
 
         self.post_url = reverse("post:base")
+
+        self.client = Client()
+        self.search_url = reverse('post:search-results')
+        self.prof_url = reverse('post:prof-results')
+        self.detail_url = reverse('post:post_detail', args=[22])
 
         self.valid_post = {
             "title": "Testing",
@@ -78,7 +85,44 @@ class Post_Tests(BaseTest):
         form_data = self.invalid_post
         form = PostForm(data=form_data)
         self.assertFalse(form.is_valid())
+    
+    
+    def test_search_GET(self):
+        login = self.client.login(username="test_user", password="newpassword")
+        response = self.client.get(self.search_url)
+        # response2 = self.client.post(self.search_url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "search_results.html")
+        # self.assertTemplateUsed(response2, "search_results.html")
+    
+    def test_search_results_POST(self):
+        login = self.client.login(username="test_user", password="newpassword")
+        response = self.client.post(self.search_url,data={"searched": 'd'} )
+        self.assertEquals(response.status_code, 200)
 
+    def test_prof_search_GET(self):
+        login = self.client.login(username="test_user", password="newpassword")
+        response = self.client.get(self.prof_url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "prof_results.html")
+
+    def test_prof_results_POST(self):
+        login = self.client.login(username="test_user", password="newpassword")
+        response = self.client.post(self.prof_url,data={"searched": 'd'} )
+        self.assertEquals(response.status_code, 200)
+    
+
+    def test_post_list_POST(self):
+        login = self.client.login(username="test_user", password="newpassword")
+        response = self.client.post(self.post_url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "index.html")
+
+    def test_post_detail_GET(self):
+        login = self.client.login(username="test_user", password="newpassword")
+        response = self.client.post(self.detail_url, data={"id":22})
+        self.assertEquals(response.status_code, 404)
+        # self.assertTemplateUsed(response, 'post_detail.html')
 
 class Comment_Tests(BaseTest):
     def test_string_representation(self):
