@@ -36,7 +36,7 @@ def search_results(request):
     else:
         return render(request, "search_results.html", {})
 
-
+@login_required(login_url="/")  # redirect when user is not logged in
 def prof_results(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
