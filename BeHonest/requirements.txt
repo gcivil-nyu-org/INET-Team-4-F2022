@@ -8,3 +8,4 @@ importlib-metadata==5.0.0
 pytz==2022.4
 sqlparse==0.4.3
 newsapi-python==0.2.6
+profanity==1.1
