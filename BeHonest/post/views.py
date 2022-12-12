@@ -20,6 +20,7 @@ from main.models import FriendRequest, Friend
 from .user_statistics import most_liked_post, most_disliked_post
 
 
+@login_required(login_url="/")  # redirect when user is not logged in
 def search_results(request):
     if request.method == "POST":
         searched = request.POST.get("searched")
