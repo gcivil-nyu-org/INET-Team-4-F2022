@@ -86,7 +86,6 @@ class Post_Tests(BaseTest):
         form = PostForm(data=form_data)
         self.assertFalse(form.is_valid())
     
-    
     def test_search_GET(self):
         login = self.client.login(username="test_user", password="newpassword")
         response = self.client.get(self.search_url)
