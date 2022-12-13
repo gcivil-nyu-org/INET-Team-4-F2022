@@ -2,8 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from .tokens import account_activation_token
 from main.forms import NewUserForm, PasswordResetForm
 
@@ -192,11 +192,11 @@ class PasswordResetRequestTest(BaseTest):
         form = PasswordResetForm(data={"password1": "foo"})
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors["email"], ["This field is required."])
-    
+
     def reset_post(self):
         response = self.client.post(reverse("main:password_reset"))
         self.assertEquals(response.status_code, 200)
-    
+
     def test_reset_confirm_post(self):
         self.client.login(username="test_user", password="newpassword")
         response = self.client.post(
@@ -239,8 +239,9 @@ class Activate_Test(BaseTest):
             reverse("main:activate", kwargs={"uidb64": self.uid, "token": self.token})
         )
         self.assertEquals(response.status_code, 302)
-    
-class Add_Friend_TEsts(BaseTest):
+
+
+class Add_Friend_Tests(BaseTest):
     def test_add_POST(self):
         self.client.login(username="test_user", password="newpassword")
         response = self.client.post(
@@ -248,7 +249,7 @@ class Add_Friend_TEsts(BaseTest):
             data={"receiver": self.user1},
         )
         self.assertEquals(response.status_code, 302)
-    
+
     def test_accept_POST(self):
         self.client.login(username="test_user", password="newpassword")
         self.client.post(
@@ -260,5 +261,3 @@ class Add_Friend_TEsts(BaseTest):
             data={"sender": self.user1},
         )
         self.assertEquals(response.status_code, 302)
-    
-
