@@ -70,6 +70,6 @@ class NewsForm(forms.ModelForm):
         # if profanity.contains_profanity(content):
         #     self._errors["content"] = self.error_class(["please be polite"])
         if profanity.contains_profanity(content):
-        self._errors["content"] = self.error_class(["please be polite"])
-        # return any errors if found
+            self._errors["content"] = self.error_class(["please be polite"])
+            # return any errors if found
         return self.cleaned_data
