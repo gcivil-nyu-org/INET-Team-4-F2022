@@ -2,6 +2,9 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from .tokens import account_activation_token
 from main.forms import NewUserForm, PasswordResetForm
 
 # class for base tests to generate users, etc. for tests below
@@ -18,7 +21,11 @@ class BaseTest(TestCase):
         self.login_url = reverse("main:login")
         # url used to logout
         self.logout_url = reverse("main:logout")
-
+        self.user1 = User.objects.create(username="test_user")
+        self.user1.set_password("newpassword")
+        self.user1.save()
+        self.token = account_activation_token.make_token(self.user1)
+        self.uid = urlsafe_base64_encode(force_bytes(self.user1.pk))
         # some test users
         self.user = {
             "username": "Testuser_3",
@@ -185,6 +192,17 @@ class PasswordResetRequestTest(BaseTest):
         form = PasswordResetForm(data={"password1": "foo"})
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors["email"], ["This field is required."])
+    
+    def reset_post(self):
+        response = self.client.post(reverse("main:password_reset"))
+        self.assertEquals(response.status_code, 200)
+    
+    def test_reset_confirm_post(self):
+        self.client.login(username="test_user", password="newpassword")
+        response = self.client.post(
+            reverse("main:password_reset_confirm", kwargs={"uidb64": self.uid, "token": self.token})
+        )
+        self.assertEquals(response.status_code, 200)
 
     # def test_password_reset_match(self):
     #     user = self.user
@@ -212,3 +230,35 @@ class PasswordResetRequestTest(BaseTest):
     # self.assertEqual(user.password, old_sha)
     # form.save()
     # self.assertNotEqual(user.password, old_sha)
+
+
+class Activate_Test(BaseTest):
+    def test_acticate_post(self):
+        self.client.login(username="test_user", password="newpassword")
+        response = self.client.get(
+            reverse("main:activate", kwargs={"uidb64": self.uid, "token": self.token})
+        )
+        self.assertEquals(response.status_code, 302)
+    
+class Add_Friend_TEsts(BaseTest):
+    def test_add_POST(self):
+        self.client.login(username="test_user", password="newpassword")
+        response = self.client.post(
+            reverse("main:add_friend"),
+            data={"receiver": self.user1},
+        )
+        self.assertEquals(response.status_code, 302)
+    
+    def test_accept_POST(self):
+        self.client.login(username="test_user", password="newpassword")
+        self.client.post(
+            reverse("main:add_friend"),
+            data={"receiver": self.user1},
+        )
+        response = self.client.post(
+            reverse("main:accept_friend"),
+            data={"sender": self.user1},
+        )
+        self.assertEquals(response.status_code, 302)
+    
+
