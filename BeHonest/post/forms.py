@@ -58,7 +58,7 @@ class NewsForm(forms.ModelForm):
         model = newsComment
         fields = ("content",)
 
-   def clean(self):
+    def clean(self):
 
         # data from the form is fetched using super function
         super(NewsForm, self).clean()
@@ -70,6 +70,6 @@ class NewsForm(forms.ModelForm):
         # if profanity.contains_profanity(content):
         #     self._errors["content"] = self.error_class(["please be polite"])
         if profanity.contains_profanity(content):
-            self._errors["content"] = self.error_class(["please be polite"])
+        self._errors["content"] = self.error_class(["please be polite"])
         # return any errors if found
         return self.cleaned_data
