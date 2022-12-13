@@ -9,7 +9,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ("content",)
 
-     def clean(self):
+    def clean(self):
 
         # data from the form is fetched using super function
         super(CommentForm, self).clean()
@@ -31,7 +31,7 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ("title", "content")
 
-        def clean(self):
+    def clean(self):
 
         # data from the form is fetched using super function
         super(PostForm, self).clean()
@@ -58,7 +58,7 @@ class NewsForm(forms.ModelForm):
         model = newsComment
         fields = ("content",)
 
-       def clean(self):
+   def clean(self):
 
         # data from the form is fetched using super function
         super(NewsForm, self).clean()
