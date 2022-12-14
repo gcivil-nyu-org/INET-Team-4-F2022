@@ -72,7 +72,7 @@
         {% endif %}
       </form>
       
-      <form action="{% url 'post:post_update' post.pk %}" method="POST">
+      <form action="{% url 'post:post_update' post.pk %}" method="GET">
         {% csrf_token %}
         {% if request.user == post.author %}
           <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Edit</button>

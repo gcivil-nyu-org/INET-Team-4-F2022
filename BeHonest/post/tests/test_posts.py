@@ -116,7 +116,18 @@ class Post_Tests(BaseTest):
         self.post = Post.objects.create(title="test", content="", author=self.user)
         response = self.client.post(
             reverse("post:post_update", kwargs={"pk": self.post.pk}),
-            data={"post_id": self.post.id},
+            data={"pk": self.post.pk, "title": self.post.title, "content": self.post.content, 
+            "author": self.post.author},
+        )
+        self.assertEquals(response.status_code, 302)
+
+    def test_post_update_GET(self):
+        self.client.login(username="test_user", password="newpassword")
+        self.post = Post.objects.create(title="test", content="", author=self.user)
+        response = self.client.get(
+            reverse("post:post_update", kwargs={"pk": self.post.pk}),
+            data={"pk": self.post.pk, "title": self.post.title, "content": self.post.content, 
+            "author": self.post.author},
         )
         self.assertEquals(response.status_code, 200)
 

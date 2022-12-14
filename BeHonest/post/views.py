@@ -202,12 +202,36 @@ def post_list(request):
 
 @login_required(login_url="/")
 def post_update(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get("post_id"))
-    template_name = "post_update.html"
-    # security check so only current user can delete posts
-    if request.user == post.author:
 
-        return render(request, template_name)
+    if request.method == "GET":
+
+        post = get_object_or_404(Post, id=pk)
+        template_name = "post_update.html"
+        if request.user == post.author:
+
+            return render(
+                request,
+                template_name,
+                {
+                    "post": post,
+                    "title": post.title,
+                    "content": post.content,
+                },
+            )
+
+    else:
+
+        template_name = "post_detail.html"
+
+        post = Post.objects.get(id=int(request.POST["pk"]))
+
+        if request.user == post.author:
+
+            post.title = request.POST["title"]
+            post.content = request.POST["content"]
+            post.save("")
+
+            return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
 
 @login_required(login_url="/")  # redirect when user is not logged in

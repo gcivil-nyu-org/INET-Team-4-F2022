@@ -1,1 +1,11 @@
 <h1>THIS IS the update page</h1>
+
+<form action="/home/edit/{{post.pk}}" method="POST">
+    {% csrf_token %}
+    {% if request.user == post.author %}
+        <input type="text" id="title" name="title" value ="{{title}}">
+        <input type="text" id="content" name="content" value ="{{content}}">
+        <input type="text" id="pk" name="pk" value="{{post.pk}}" hidden>
+      <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Submit edit</button>
+    {% endif %}
+  </form>
