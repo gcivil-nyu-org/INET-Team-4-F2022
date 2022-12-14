@@ -116,7 +116,7 @@ class Post_Tests(BaseTest):
         self.post = Post.objects.create(title="test", content="", author=self.user)
         response = self.client.post(
             reverse("post:post_update", kwargs={"pk": self.post.pk}),
-            data={"post_id": self.post.id},
+            #data={"post_id": self.post.id},
         )
         self.assertEquals(response.status_code, 200)
 
