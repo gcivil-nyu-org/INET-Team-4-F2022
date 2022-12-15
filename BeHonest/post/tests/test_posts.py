@@ -88,36 +88,34 @@ class Post_Tests(BaseTest):
     #  form = PostForm(data=form_data)
     # self.assertFalse(form.is_valid())
 
-    # def test_post_list_POST(self):
-    #    login = self.client.login(username="test_user", password="newpassword")
-    #   self.post = Post.objects.create(
-    #      title = "Test",
-    #     content = "t",
-    #    author = self.user
-    # )
-    # response = self.client.post(self.post_url)
-    # self.assertEquals(response.status_code, 200)
-    # self.assertTemplateUsed(response, "index.html")
+    def test_post_list_GET(self):
+        self.client.login(username="test_user", password="newpassword")
+        self.post = Post.objects.create(title="Test", content="t", author=self.user)
+        response = self.client.get(self.post_url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "index.html")
 
-    # def test_post_detail_POST(self):
-    #   login = self.client.login(username="test_user", password="newpassword")
-    #   self.post = Post.objects.create(
-    #      title = "test",
-    #     content = "t",
-    #     author = self.user
-    # )
-    # self.post.likes.add(self.user)
-    # response = self.client.post(reverse("post:post_detail", kwargs={'id': self.post.id}))
-    # self.assertEquals(response.status_code, 200)
-    # self.assertTemplateUsed(response, 'post_detail.html')
+    def test_post_detail_GET(self):
+        self.client.login(username="test_user", password="newpassword")
+        self.post = Post.objects.create(title="test", content="t", author=self.user)
+        self.post.likes.add(self.user)
+        response = self.client.get(
+            reverse("post:post_detail", kwargs={"id": self.post.id})
+        )
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "post_detail.html")
 
     def test_post_update_POST(self):
         self.client.login(username="test_user", password="newpassword")
         self.post = Post.objects.create(title="test", content="", author=self.user)
         response = self.client.post(
             reverse("post:post_update", kwargs={"pk": self.post.pk}),
-            data={"pk": self.post.pk, "title": self.post.title, "content": self.post.content, 
-            "author": self.post.author},
+            data={
+                "pk": self.post.pk,
+                "title": self.post.title,
+                "content": self.post.content,
+                "author": self.post.author,
+            },
         )
         self.assertEquals(response.status_code, 302)
 
@@ -126,8 +124,12 @@ class Post_Tests(BaseTest):
         self.post = Post.objects.create(title="test", content="", author=self.user)
         response = self.client.get(
             reverse("post:post_update", kwargs={"pk": self.post.pk}),
-            data={"pk": self.post.pk, "title": self.post.title, "content": self.post.content, 
-            "author": self.post.author},
+            data={
+                "pk": self.post.pk,
+                "title": self.post.title,
+                "content": self.post.content,
+                "author": self.post.author,
+            },
         )
         self.assertEquals(response.status_code, 200)
 
@@ -287,14 +289,14 @@ class News_Tests(BaseTest):
     #   form = NewsForm(data=form_data)
     #  self.assertFalse(form.is_valid())
 
-    # def test_news_detail_POST(self):
-    #    login = self.client.login(username="test_user", password="newpassword")
-    #   self.news = News.objects.create(
-    #       title = "test"
-    #   )
-    #  response = self.client.post(reverse("post:news_detail", kwargs={'id': self.news.id}))
-    #  self.assertEquals(response.status_code, 200)
-    # self.assertTemplateUsed(response, 'news_detail.html')
+    def test_news_detail_(self):
+        self.client.login(username="test_user", password="newpassword")
+        self.news = News.objects.create(title="test")
+        response = self.client.get(
+            reverse("post:news_detail", kwargs={"id": self.news.id})
+        )
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, "news_detail.html")
 
     def test_news_detail_GET(self):
         self.client.login(username="test_user", password="newpassword")
