@@ -15,6 +15,10 @@ class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name="post_post")
     dislikes = models.ManyToManyField(User, related_name="blog_post")
+    beginner_react = models.ManyToManyField(User, related_name="beg_post")
+    medium_react = models.ManyToManyField(User, related_name="med_post")
+    expert_react = models.ManyToManyField(User, related_name="exp_post")
+    legend_react = models.ManyToManyField(User, related_name="leg_post")
 
     class Meta:
         ordering = ["-title"]
@@ -27,6 +31,18 @@ class Post(models.Model):
 
     def total_dislikes(self):
         return self.dislikes.count()
+
+    def total_beginner_reacts(self):
+        return self.beginner_react.count()
+
+    def total_medium_reacts(self):
+        return self.medium_react.count()
+
+    def total_expert_reacts(self):
+        return self.expert_react.count()
+
+    def total_legend_reacts(self):
+        return self.legend_react.count()
 
     def checknew(self):
         now = datetime.now()
