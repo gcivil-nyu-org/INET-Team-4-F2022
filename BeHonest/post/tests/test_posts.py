@@ -1,8 +1,7 @@
 from django.apps import apps
-from django.test import TestCase, Client
+from django.test import TestCase
 from post.apps import BlogConfig
 from post.models import Post, Comment
-from news.models import News
 from django.urls import reverse
 from django.contrib.auth.models import User
 from post.forms import PostForm, CommentForm, NewsForm
@@ -39,8 +38,6 @@ class BaseTest(TestCase):
     def setUp(self):
         self.post = Post(title="test")
         self.user = User.objects.create(username="test_user")
-        self.user.set_password("newpassword")
-        self.user.save()
         self.comment = Comment(content="testing", author=self.user)
 
         self.post_url = reverse("post:base")
