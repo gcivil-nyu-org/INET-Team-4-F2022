@@ -6,7 +6,7 @@ def most_liked_post(user):
     posts = Post.objects.filter(author=user)
 
     max_likes = 0
-    most_liked_post = posts[0]
+    most_liked_post = ""
 
     for post in posts:
         if post.total_likes() > max_likes:
@@ -21,7 +21,7 @@ def most_disliked_post(user):
     posts = Post.objects.filter(author=user)
 
     max_dislikes = 0
-    most_disliked_post = posts[0]
+    most_disliked_post = ""
 
     for post in posts:
         if post.total_dislikes() > max_dislikes:
