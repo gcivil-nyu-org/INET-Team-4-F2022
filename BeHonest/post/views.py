@@ -28,11 +28,26 @@ utc = pytz.UTC
 @login_required(login_url="/")  # redirect when user is not logged in
 def search_results(request):
     if request.method == "POST":
-        searched = request.POST.get("searched")
-        posts = Post.objects.filter(title__contains=searched)
-        return render(
-            request, "search_results.html", {"searched": searched, "posts": posts}
-        )
+        if request.user is not None:
+            user = get_object_or_404(User, username=str(request.user))
+
+            try:
+
+                friends_list = Friend.objects.filter(primary=user)
+
+            except Friend.DoesNotExist:
+
+                friends_list = []
+
+            usernames = []
+            for i in range(0, len(friends_list)):
+                usernames.append(friends_list[i].secondary)
+            searched = request.POST.get("searched")
+            posts = Post.objects.filter(title__contains=searched)
+            posts = posts.filter(author__in=usernames) | posts.filter(author=user)
+            return render(
+                request, "search_results.html", {"searched": searched, "posts": posts}
+            )
     else:
         return render(request, "search_results.html", {})
 
