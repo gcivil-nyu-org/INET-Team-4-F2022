@@ -3,12 +3,20 @@
 
 <!-- Three Card Header -->
     {% if user == authenticated_user %}
-        <form action="{% url 'post:delete_user' user.username%}" method="POST">
-            {% csrf_token %}
-            <button type="submit", name="username", value="{{ user.username }}", class="btn btn-primary btn-sm">Delete</button>
-        </form>
+    <div class="col-md-12 col-xl-4">
+        <div class="card" style="border-radius: 15px;">
+            <div class="card-body text-center">
+                If you're considering to leave BeHonest, simply press delete below
+                {% if user == authenticated_user %}
+                    <form action="{% url 'post:delete_user' user.username%}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit", name="username", value="{{ user.username }}", class="btn btn-primary btn-sm">Delete User</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
     {% endif %}
-    
     <section>
         {% comment %} fluid container will left align {% endcomment %}
         <div class="container py-3 h-100">
@@ -144,12 +152,17 @@
                                 class="rounded-circle img-fluid" style="width: 100px;" />
                             </div>
                             <h4 class="mb-2">Best Take</h4>
+                            {% if top_post %}
                             <h5 class="mb-2">{{top_post.title}}</h5>
                             <p class="text-muted mb-4">{{top_post.content}}</p>
                             <div class="text-center mt-5 mb-2">
                                 <p class="mb-2 h5">{{top_post.total_likes}}</p>
                                 <p class="text-muted mb-0">Likes</p>
                             </div>
+                            {% endif %}
+                            {% if not top_post %}
+                            <h5 class="mb-2">Make a post!</h5>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -162,6 +175,7 @@
                             class="rounded-circle img-fluid" style="width: 100px;" />
                         </div>
                         <h4 class="mb-2">Worst Take</h4>
+                        {% if bottom_post %}
                         <h5 class="mb-2">{{bottom_post.title}}</h5>
                         <p class="text-muted mb-4">{{bottom_post.content}}</p>
                         <div class="text-center mt-5 mb-2">
@@ -169,6 +183,10 @@
                             <p class="mb-2 h5">{{bottom_post.total_dislikes}}</p>
                             <p class="text-muted mb-0">Dislikes</p>
                             </div>
+                        {% endif %}
+                        {% if not bottom_post %}
+                        <h5 class="mb-2">Make a post!</h5>
+                        {% endif %}
                         </div>
                     </div>
                 </div>
@@ -306,4 +324,5 @@
         </div>
     </section>
     {% endif %}
+        
 {% endblock %}

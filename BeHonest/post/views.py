@@ -74,6 +74,41 @@ def dislike_post(request, pk):
     return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
 
+def react_post(request, pk):
+
+    post = get_object_or_404(Post, id=request.POST.get("post_id"))
+
+    if request.POST["function"] == "subtract":
+        if request.POST["react_type"] == "beginner":
+
+            post.beginner_react.remove(request.user)
+        elif request.POST["react_type"] == "medium":
+
+            post.medium_react.remove(request.user)
+        elif request.POST["react_type"] == "expert":
+
+            post.expert_react.remove(request.user)
+        elif request.POST["react_type"] == "legend":
+
+            post.legend_react.remove(request.user)
+    elif request.POST["function"] == "add":
+
+        if request.POST["react_type"] == "beginner":
+
+            post.beginner_react.add(request.user)
+        elif request.POST["react_type"] == "medium":
+
+            post.medium_react.add(request.user)
+        elif request.POST["react_type"] == "expert":
+
+            post.expert_react.add(request.user)
+        elif request.POST["react_type"] == "legend":
+
+            post.legend_react.add(request.user)
+
+    return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
+
+
 @login_required(login_url="/")  # redirect when user is not logged in
 def delete_post(request, pk):
     post = get_object_or_404(Post, id=request.POST.get("post_id"))
@@ -85,7 +120,6 @@ def delete_post(request, pk):
 
 @login_required(login_url="/")  # redirect when user is not logged in
 def delete_user(request, pk):
-    print(request.user)
     u = get_object_or_404(User, username=request.POST.get("username"))
     if request.user.username == u.username:
         u.delete()
@@ -202,12 +236,36 @@ def post_list(request):
 
 @login_required(login_url="/")
 def post_update(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get("post_id"))
-    template_name = "post_update.html"
-    # security check so only current user can delete posts
-    if request.user == post.author:
 
-        return render(request, template_name)
+    if request.method == "GET":
+
+        post = get_object_or_404(Post, id=pk)
+        template_name = "post_update.html"
+        if request.user == post.author:
+
+            return render(
+                request,
+                template_name,
+                {
+                    "post": post,
+                    "title": post.title,
+                    "content": post.content,
+                },
+            )
+
+    else:
+
+        template_name = "post_detail.html"
+
+        post = Post.objects.get(id=int(request.POST["pk"]))
+
+        if request.user == post.author:
+
+            post.title = request.POST["title"]
+            post.content = request.POST["content"]
+            post.save("")
+
+            return HttpResponseRedirect(reverse("post:post_detail", args=[str(pk)]))
 
 
 @login_required(login_url="/")  # redirect when user is not logged in
@@ -221,16 +279,57 @@ def post_detail(request, id):
     :return:
     :rtype:
     """
+
+    user = request.user
+    try:
+
+        friends = Friend.objects.filter(primary=user)
+
+    except Friend.DoesNotExist:
+        friends = []
+
+    # Calculate user badges
+    badges = []
+
+    # 1. Likes related badges
+    total_likes = total_likes_received(user)
+    user_likes_badges_tier(badges, total_likes)
+
+    # 2. Dislike related badges
+    total_dislikes = total_dislikes_received(user)
+    user_dislikes_badges_tier(badges, total_dislikes)
+
+    # 3. Balance badge
+    balance_badge(badges, user)
+
+    # 4. Friends badge
+    user_friends_tier(badges, friends)
+
+    # 5. Posts badge
+    post_tier(badges, user)
+
     template_name = "post_detail.html"
     post = get_object_or_404(Post, id=id)
     comments = post.comments.filter(active=True).order_by("-created_on")
     new_comment = None
     post.liked = False
     post.disliked = False
+    post.beg_react = False
+    post.med_react = False
+    post.exp_react = False
+    post.leg_react = False
     if post.likes.filter(id=request.user.id).exists():
         post.liked = True
     if post.dislikes.filter(id=request.user.id).exists():
         post.disliked = True
+    if post.beginner_react.filter(id=request.user.id).exists():
+        post.beg_react = True
+    if post.medium_react.filter(id=request.user.id).exists():
+        post.med_react = True
+    if post.expert_react.filter(id=request.user.id).exists():
+        post.exp_react = True
+    if post.legend_react.filter(id=request.user.id).exists():
+        post.leg_react = True
     # Comment posted
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
@@ -243,7 +342,7 @@ def post_detail(request, id):
             new_comment.save()
     else:
         comment_form = CommentForm()
-
+    num_badges = len(badges)
     return render(
         request,
         template_name,
@@ -252,6 +351,7 @@ def post_detail(request, id):
             "comments": comments,
             "new_comment": new_comment,
             "comment_form": comment_form,
+            "num_badges": num_badges,
         },
     )
 
@@ -318,7 +418,6 @@ def profile(request, pk):
     already_sent = FriendRequest.objects.filter(
         sender=authenticated_user, receiver=user, status="pending"
     )
-    print(friend_requests)
     if already_sent:
         alreadySent = True
 
@@ -328,12 +427,10 @@ def profile(request, pk):
     try:
 
         friends = Friend.objects.filter(primary=user)
-        # print("got firneds")
-    except Friend.DoesNotExist:
-        print("here")
-        friends = []
 
-    print(alreadySent)
+    except Friend.DoesNotExist:
+
+        friends = []
 
     # Calculate user badges
     badges = []

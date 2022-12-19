@@ -45,7 +45,6 @@ class PostForm(forms.ModelForm):
             self._errors["title"] = self.error_class(["please be polite"])
         if profanity.contains_profanity(content):
             self._errors["content"] = self.error_class(["please be polite"])
-        #if profanity.contains_profanity(title):
         #     self._errors["title"] = self.error_class(["please be polite"])
         # if profanity.contains_profanity(content):
         #     self._errors["content"] = self.error_class(["please be polite"])
