@@ -28,11 +28,26 @@ utc = pytz.UTC
 @login_required(login_url="/")  # redirect when user is not logged in
 def search_results(request):
     if request.method == "POST":
-        searched = request.POST.get("searched")
-        posts = Post.objects.filter(title__contains=searched)
-        return render(
-            request, "search_results.html", {"searched": searched, "posts": posts}
-        )
+        if request.user is not None:
+            user = get_object_or_404(User, username=str(request.user))
+
+            try:
+
+                friends_list = Friend.objects.filter(primary=user)
+
+            except Friend.DoesNotExist:
+
+                friends_list = []
+
+            usernames = []
+            for i in range(0, len(friends_list)):
+                usernames.append(friends_list[i].secondary)
+            searched = request.POST.get("searched")
+            posts = Post.objects.filter(title__contains=searched)
+            posts = posts.filter(author__in=usernames) | posts.filter(author=user)
+            return render(
+                request, "search_results.html", {"searched": searched, "posts": posts}
+            )
     else:
         return render(request, "search_results.html", {})
 
@@ -144,6 +159,20 @@ def delete_user(request, pk):
 def post_list(request):
     s = request.POST.get("sorts")
     if request.user is not None:
+        user = get_object_or_404(User, username=str(request.user))
+
+        try:
+
+            friends_list = Friend.objects.filter(primary=user)
+
+        except Friend.DoesNotExist:
+
+            friends_list = []
+
+        usernames = []
+        for i in range(0, len(friends_list)):
+            usernames.append(friends_list[i].secondary)
+
         if request.method == "POST":
             if "link" in request.POST:
                 post_form = PostForm()
@@ -166,6 +195,10 @@ def post_list(request):
                     )
                 else:
                     refresh_queryset = Post.objects.order_by("-created_on")
+                refresh_queryset = refresh_queryset.filter(
+                    author__in=usernames
+                ) | refresh_queryset.filter(author=user)
+
                 return render(
                     request,
                     "index.html",
@@ -190,19 +223,6 @@ def post_list(request):
                 new_post.save()
         else:
             post_form = PostForm()
-        user = get_object_or_404(User, username=str(request.user))
-
-        try:
-
-            friends_list = Friend.objects.filter(primary=user)
-
-        except Friend.DoesNotExist:
-
-            friends_list = []
-
-        usernames = []
-        for i in range(0, len(friends_list)):
-            usernames.append(friends_list[i].secondary)
 
         if s == "Like":
             refresh_queryset = Post.objects.annotate(count=Count("likes")).order_by(
@@ -221,6 +241,10 @@ def post_list(request):
             # refresh_queryset = r1 | r2
         else:
             refresh_queryset = Post.objects.order_by("-created_on")
+        refresh_queryset = refresh_queryset.filter(
+            author__in=usernames
+        ) | refresh_queryset.filter(author=user)
+
         return render(
             request,
             "index.html",
