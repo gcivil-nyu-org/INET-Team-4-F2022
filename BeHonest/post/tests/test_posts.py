@@ -1,8 +1,7 @@
 from django.apps import apps
-from django.test import TestCase, Client
+from django.test import TestCase
 from post.apps import BlogConfig
 from post.models import Post, Comment
-from news.models import News
 from django.urls import reverse
 from django.contrib.auth.models import User
 from post.forms import PostForm, CommentForm, NewsForm
@@ -39,18 +38,14 @@ class BaseTest(TestCase):
     def setUp(self):
         self.post = Post(title="test")
         self.user = User.objects.create(username="test_user")
-        self.user.set_password("newpassword")
-        self.user.save()
         self.comment = Comment(content="testing", author=self.user)
 
         self.post_url = reverse("post:base")
-
         self.client = Client()
         self.search_url = reverse("post:search-results")
         self.prof_url = reverse("post:prof-results")
         # self.detail_url = reverse('post:post_detail', args=[22])
         # self.like_url = reverse('post:like_post',kwargs={'pk': 22})
-
         self.valid_post = {
             "title": "Testing",
             "content": "Test content",
@@ -265,12 +260,6 @@ class Comment_Tests(BaseTest):
         form_data = self.valid_comment
         form = CommentForm(data=form_data)
         self.assertTrue(form.is_valid())
-
-    # def test_comment_form_invalid(self):
-    #  form_data = self.invalid_comment
-    # form = CommentForm(data=form_data)
-    # self.assertFalse(form.is_valid())
-
 
 class News_Tests(BaseTest):
     def test_string_representation(self):
