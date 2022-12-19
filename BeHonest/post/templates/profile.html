@@ -2,6 +2,7 @@
 {% block content %}
 
 <!-- Three Card Header -->
+    {% if user == authenticated_user %}
     <div class="col-md-12 col-xl-4">
         <div class="card" style="border-radius: 15px;">
             <div class="card-body text-center">
@@ -15,6 +16,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
     <section>
         {% comment %} fluid container will left align {% endcomment %}
         <div class="container py-3 h-100">
