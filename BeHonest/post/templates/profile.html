@@ -5,7 +5,7 @@
     <div class="col-md-12 col-xl-4">
         <div class="card" style="border-radius: 15px;">
             <div class="card-body text-center">
-                If you're consider to leave BeHonest, simply press delete below
+                If you're considering to leave BeHonest, simply press delete below
                 {% if user == authenticated_user %}
                     <form action="{% url 'post:delete_user' user.username%}" method="POST">
                         {% csrf_token %}
