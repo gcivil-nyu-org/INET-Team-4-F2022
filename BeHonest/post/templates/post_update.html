@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="margin-left:700px; margin-top: 20px;">Edit Post</h1>
+
+<form action="/home/edit/{{post.pk}}" method="POST" style="float: center; border: 1px solid; padding-top: 75px; padding-bottom: 75px; width: 500px; position: relative; margin: -50px 0 0 -50px; top: 20%; left: 35%; right:35%; margin-top: 20px;">
+    {% csrf_token %}
+    {% if request.user == post.author %}
+        <p style="margin-left:100px;">Title <input type="text" id="title" name="title" value ="{{title}}" style="margin-left:12%;"></p><br>
+        <p style="margin-left:100px;">Content <input type="text" id="content" name="content" value ="{{content}}" style="margin-left:5%;"></p> <br>
+        <input type="text" id="pk" name="pk" value="{{post.pk}}" hidden>
+      <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm"style="margin-left:200px;">Submit</button>
+    {% endif %}
+  </form>
+
+{% endblock content %}

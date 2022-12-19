@@ -22,7 +22,7 @@
     <div class="col-md-8 card mb-4  mt-3 left  top">
       <div class="card-body">
         <h1>{% block title %} {{ post.title }} {% endblock title %}</h1>
-        <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
+        {% comment %} <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p> {% endcomment %}
         <p class="card-text ">{{ post.content | safe }}</p>
       </div>
       <br/><br/>
@@ -64,6 +64,14 @@
           {% endif %}
           - {{ post.total_dislikes }} Dislikes
         </form>
+
+
+
+        
+
+
+
+
       </div>
       <form action="{% url 'post:delete_post' post.pk %}" method="POST">
         {% csrf_token %}
@@ -71,9 +79,303 @@
           <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Delete</button>
         {% endif %}
       </form>
+      
+      <form action="{% url 'post:post_update' post.pk %}" method="GET">
+        {% csrf_token %}
+        {% if request.user == post.author %}
+          <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Edit</button>
+        {% endif %}
+      </form>
     </div>
-    </div>
+    <div class = 'row'>
+      <div class = 'col-12'>
 
+       
+        {%if num_badges == 0%}
+
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="beginner" hidden>
+          {% if post.beg_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo ;)</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">;)</button>
+
+          {% endif %}
+          - {{ post.total_beginner_reacts }} ;)
+        </form>
+
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="medium" hidden>
+          {% if post.med_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm" disabled>Undo =]</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm" disabled>=]</button>
+
+          {% endif %}
+          - {{ post.total_medium_reacts }} =]
+        </form>
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="expert" hidden>
+          {% if post.exp_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm" disabled>Undo uwu</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm" disabled>uwu</button>
+
+          {% endif %}
+          - {{ post.total_expert_reacts }} uwu
+        </form>
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="legend" hidden>
+          {% if post.leg_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm" disabled>Undo O_o</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm" disabled>O_o</button>
+
+          {% endif %}
+          - {{ post.total_legend_reacts }} O_o
+        </form>
+
+        {%elif 1 <= num_badges and num_badges <= 2%}
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="beginner" hidden>
+          {% if post.beg_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo ;)</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">;)</button>
+
+          {% endif %}
+          - {{ post.total_beginner_reacts }} ;)
+        </form>
+
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="medium" hidden>
+          {% if post.med_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo =]</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">=]</button>
+
+          {% endif %}
+          - {{ post.total_medium_reacts }} =]
+        </form>
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="expert" hidden>
+          {% if post.exp_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm" disabled>Undo uwu</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm" disabled>uwu</button>
+
+          {% endif %}
+          - {{ post.total_expert_reacts }} uwu
+        </form>
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="legend" hidden>
+          {% if post.leg_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm" disabled>Undo O_o</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm" disabled>O_o</button>
+
+          {% endif %}
+          - {{ post.total_legend_reacts }} O_o
+        </form>
+
+        {%elif 3 <= num_badges and num_badges <= 5%}
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="beginner" hidden>
+          {% if post.beg_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo ;)</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">;)</button>
+
+          {% endif %}
+          - {{ post.total_beginner_reacts }} ;)
+        </form>
+
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="medium" hidden>
+          {% if post.med_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo =]</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">=]</button>
+
+          {% endif %}
+          - {{ post.total_medium_reacts }} =]
+        </form>
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="expert" hidden>
+          {% if post.exp_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo uwu</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">uwu</button>
+
+          {% endif %}
+          - {{ post.total_expert_reacts }} uwu
+        </form>
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="legend" hidden>
+          {% if post.leg_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm" disabled>Undo O_o</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm" disabled>O_o</button>
+
+          {% endif %}
+          - {{ post.total_legend_reacts }} O_o
+        </form>
+
+
+        {%elif 6 <= num_badges%}
+
+
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="beginner" hidden>
+          {% if post.beg_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo ;)</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">;)</button>
+
+          {% endif %}
+          - {{ post.total_beginner_reacts }} ;)
+        </form>
+
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="medium" hidden>
+          {% if post.med_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo =]</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">=]</button>
+
+          {% endif %}
+          - {{ post.total_medium_reacts }} =]
+        </form>
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="expert" hidden>
+          {% if post.exp_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo uwu</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">uwu</button>
+
+          {% endif %}
+          - {{ post.total_expert_reacts }} uwu
+        </form>
+
+        <form action="{% url 'post:react_post' post.pk %}" method="POST">
+          {% csrf_token %}
+          <input name="react_type" value="legend" hidden>
+          {% if post.leg_react %}
+            
+            <input name="function" value="subtract" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Undo O_o</button>
+
+          {% else %}
+            <input name="function" value="add" hidden>
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">O_o</button>
+
+          {% endif %}
+          - {{ post.total_legend_reacts }} O_o
+        </form>
+
+        {%endif%}
+
+
+
+
+
+
+      </div>
+
+
+    </div>
+    </div>
+    
 
     <div class="col-md-8 card mb-4  mt-3 ">
       <div class="card-body">
@@ -106,6 +408,7 @@
           {% csrf_token %}
           <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
         </form>
+        
         {% endif %}
       </div>
     </div>
