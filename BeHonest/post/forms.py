@@ -40,17 +40,19 @@ class PostForm(forms.ModelForm):
         title = self.cleaned_data.get("title")
         content = self.cleaned_data.get("content")
 
-        # conditions to be met for the username length
-        if profanity.contains_profanity(title):
-            self._errors["title"] = self.error_class(["please be polite"])
-        if profanity.contains_profanity(content):
-            self._errors["content"] = self.error_class(["please be polite"])
-        #     self._errors["title"] = self.error_class(["please be polite"])
-        # if profanity.contains_profanity(content):
-        #     self._errors["content"] = self.error_class(["please be polite"])
+         if (isinstance(title, str)):
+            # conditions to be met for the username length
+            if profanity.contains_profanity(title):
+                self._errors["title"] = self.error_class(["please be polite"])
+            if profanity.contains_profanity(content):
+                self._errors["content"] = self.error_class(["please be polite"])
+            #if profanity.contains_profanity(title):
+            #     self._errors["title"] = self.error_class(["please be polite"])
+            # if profanity.contains_profanity(content):
+            #     self._errors["content"] = self.error_class(["please be polite"])
 
-        # return any errors if found
-        return self.cleaned_data
+            # return any errors if found
+            return self.cleaned_data
 
 class NewsForm(forms.ModelForm):
     class Meta:
