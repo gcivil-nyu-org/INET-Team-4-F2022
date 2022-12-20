@@ -40,7 +40,7 @@ class PostForm(forms.ModelForm):
         title = self.cleaned_data.get("title")
         content = self.cleaned_data.get("content")
 
-         if (isinstance(title, str)):
+        if (isinstance(title, str)):
             # conditions to be met for the username length
             if profanity.contains_profanity(title):
                 self._errors["title"] = self.error_class(["please be polite"])
